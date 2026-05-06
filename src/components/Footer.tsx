@@ -1,112 +1,208 @@
-import { CONTACT, NAV_ITEMS } from "@/lib/content";
+import Link from "next/link";
+import Marquee from "./Marquee";
 
-const HERITAGE_LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: "#heritage", label: "Timeline 2015-2026" },
-  { href: "#realisations", label: "Cas XR historiques" },
-  { href: "#process", label: "Notre méthode" },
-];
+interface FooterProps {
+  contactEmail?: string;
+  linkedinUrl?: string;
+  calendlyUrl?: string;
+}
 
-const LEGAL_LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: "/mentions-legales", label: "Mentions légales" },
-  { href: "/rgpd", label: "RGPD" },
-  { href: "/cookies", label: "Cookies" },
-];
-
-export default function Footer() {
+export default function Footer({
+  contactEmail = "contact@studioxr.one",
+  linkedinUrl = "#",
+  calendlyUrl = "#",
+}: FooterProps) {
   return (
     <footer
-      className="border-t border-[var(--color-border)] bg-[var(--color-bg)]"
-      aria-labelledby="footer-title"
+      style={{
+        background: "var(--abysse)",
+        color: "rgba(248,251,252,0.65)",
+        paddingTop: 64,
+      }}
     >
-      <h2 id="footer-title" className="sr-only">
-        Pied de page
-      </h2>
-
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div className="lg:col-span-1">
-          <div className="font-serif text-lg flex items-center gap-2">
-            <span className="text-[var(--color-fg)]">Studio XR</span>
-            <span className="text-[var(--color-fg-subtle)]">×</span>
-            <span className="text-[var(--color-accent)]">Jenial</span>
-          </div>
-          <p className="mt-4 text-sm text-[var(--color-fg-muted)] leading-relaxed max-w-xs">
-            Agence IA audiovisuelle. De la frontière XR à la frontière IA,
-            depuis 2015.
-          </p>
-        </div>
-
-        <div>
-          <h3 className="text-xs font-medium tracking-wider uppercase text-[var(--color-fg-subtle)]">
-            Offres
-          </h3>
-          <ul className="mt-4 space-y-3 text-sm">
-            {NAV_ITEMS.slice(0, 3).map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  className="text-[var(--color-fg-muted)] hover:text-[var(--color-fg)] transition-colors"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-xs font-medium tracking-wider uppercase text-[var(--color-fg-subtle)]">
-            Heritage
-          </h3>
-          <ul className="mt-4 space-y-3 text-sm">
-            {HERITAGE_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="text-[var(--color-fg-muted)] hover:text-[var(--color-fg)] transition-colors"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-xs font-medium tracking-wider uppercase text-[var(--color-fg-subtle)]">
-            Contact
-          </h3>
-          <address className="mt-4 not-italic text-sm text-[var(--color-fg-muted)] space-y-2">
-            <p>{CONTACT.address}</p>
-            <p>{CONTACT.location}</p>
-            <p>
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="text-[var(--color-accent)] hover:text-[var(--color-accent-soft)] transition-colors"
-              >
-                {CONTACT.email}
-              </a>
+      <div className="container-x">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr 1fr 1fr",
+            gap: 48,
+            marginBottom: 48,
+          }}
+          className="footer-grid"
+        >
+          <div>
+            <div
+              className="display"
+              style={{
+                fontSize: 32,
+                color: "var(--air)",
+                letterSpacing: "0.04em",
+              }}
+            >
+              XR<span style={{ color: "var(--anse)" }}>·</span>ONE
+            </div>
+            <p style={{ marginTop: 16, fontSize: 14, maxWidth: 320 }}>
+              Pionnier français du tournage hybride et de la production
+              augmentée par IA. Né à CréaCannes, 2014.
             </p>
-          </address>
+          </div>
+          <div>
+            <h5
+              className="display"
+              style={{
+                fontSize: 14,
+                color: "var(--air)",
+                marginBottom: 20,
+                letterSpacing: "0.1em",
+              }}
+            >
+              Studio
+            </h5>
+            <Link
+              href="/manifeste"
+              className="footer-link"
+              style={footerLinkStyle}
+            >
+              Manifeste
+            </Link>
+            <Link href="#" className="footer-link" style={footerLinkStyle}>
+              Équipe
+            </Link>
+            <Link href="#" className="footer-link" style={footerLinkStyle}>
+              Heritage XR
+            </Link>
+            <Link href="#" className="footer-link" style={footerLinkStyle}>
+              Journal
+            </Link>
+          </div>
+          <div>
+            <h5
+              className="display"
+              style={{
+                fontSize: 14,
+                color: "var(--air)",
+                marginBottom: 20,
+                letterSpacing: "0.1em",
+              }}
+            >
+              Produits
+            </h5>
+            <a
+              href="https://jenial.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={footerLinkStyle}
+            >
+              Jenial
+            </a>
+            <a
+              href="https://jenial.app/cinemia"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={footerLinkStyle}
+            >
+              Cinemia
+            </a>
+            <a
+              href="https://mizik.tech"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={footerLinkStyle}
+            >
+              MIZIK
+            </a>
+          </div>
+          <div>
+            <h5
+              className="display"
+              style={{
+                fontSize: 14,
+                color: "var(--air)",
+                marginBottom: 20,
+                letterSpacing: "0.1em",
+              }}
+            >
+              Contact
+            </h5>
+            <a href={`mailto:${contactEmail}`} style={footerLinkStyle}>
+              {contactEmail}
+            </a>
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={footerLinkStyle}
+            >
+              LinkedIn
+            </a>
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={footerLinkStyle}
+            >
+              Calendly
+            </a>
+          </div>
+        </div>
+
+        <div
+          style={{
+            padding: "24px 0",
+            borderTop: "1px solid var(--line-dark)",
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 16,
+            fontSize: 12,
+          }}
+        >
+          <span
+            className="display"
+            style={{
+              fontSize: 14,
+              color: "var(--air)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            © 2026 · STUDIO XR-ONE · DEPUIS 2014
+          </span>
+          <div style={{ display: "flex", gap: 24 }}>
+            <a href="#" style={footerSmallStyle}>Mentions</a>
+            <a href="#" style={footerSmallStyle}>RGPD</a>
+            <a href="#" style={footerSmallStyle}>CGU</a>
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-[var(--color-border)]">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[var(--color-fg-subtle)]">
-          <p>© 2026 Studio XR-ONE · Jenial. Pionnier XR depuis 2015.</p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {LEGAL_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="hover:text-[var(--color-fg-muted)] transition-colors"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div style={{ marginTop: 48 }}>
+        <Marquee
+          items={[
+            "Pionniers depuis 2014",
+            "L'IA n'écrit pas l'histoire",
+            "Le plateau reste roi",
+            "Plus juste. Plus humain.",
+          ]}
+        />
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+        }
+      `}</style>
     </footer>
   );
 }
+
+const footerLinkStyle: React.CSSProperties = {
+  display: "block",
+  color: "rgba(248,251,252,0.6)",
+  fontSize: 14,
+  padding: "6px 0",
+  transition: "color .2s",
+};
+
+const footerSmallStyle: React.CSSProperties = {
+  color: "rgba(248,251,252,0.6)",
+};

@@ -1,27 +1,164 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Heritage from "@/components/Heritage";
-import Offres from "@/components/Offres";
-import Realisations from "@/components/Realisations";
-import Process from "@/components/Process";
-import Partenaires from "@/components/Partenaires";
+import Marquee from "@/components/Marquee";
+import CasesStrip from "@/components/CasesStrip";
+import ManifesteTeaser from "@/components/ManifesteTeaser";
+import Capacities from "@/components/Capacities";
+import Pillars from "@/components/Pillars";
+import CaseStudies from "@/components/CaseStudies";
+import Logiciels from "@/components/Logiciels";
 import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
 
-export default function HomePage() {
+import { fetchSanity } from "@/sanity/lib/fetch";
+import {
+  ALL_CAPACITIES_QUERY,
+  ALL_CASE_STUDIES_QUERY,
+  ALL_PARTNERS_QUERY,
+  SETTINGS_QUERY,
+} from "@/sanity/lib/queries";
+
+import {
+  FALLBACK_CAPACITIES,
+  FALLBACK_CASE_STUDIES,
+  FALLBACK_PARTNERS,
+  FALLBACK_SETTINGS,
+  type CapacityFallback,
+  type CaseStudyFallback,
+  type PartnerFallback,
+  type SettingsFallback,
+} from "@/lib/content-fallback";
+
+export const revalidate = 60;
+
+interface SanityCapacity {
+  _id: string;
+  title: string;
+  slug?: string;
+  phase: CapacityFallback["phase"];
+  order?: number;
+  shortDescription?: string;
+}
+
+interface SanityCaseStudy {
+  _id: string;
+  title: string;
+  slug?: string;
+  client?: string;
+  production?: string;
+  tag?: string;
+  category?: string;
+  order?: number;
+  shortDescription?: string;
+}
+
+interface SanityPartner {
+  _id: string;
+  name: string;
+  order?: number;
+}
+
+interface SanitySettings {
+  siteTitle?: string;
+  tagline?: string;
+  contactEmail?: string;
+  calendlyUrl?: string;
+  linkedinUrl?: string;
+}
+
+export default async function HomePage() {
+  const [capacitiesRes, caseStudiesRes, partnersRes, settingsRes] =
+    await Promise.all([
+      fetchSanity<SanityCapacity[]>({
+        query: ALL_CAPACITIES_QUERY,
+        tags: ["capacity"],
+      }),
+      fetchSanity<SanityCaseStudy[]>({
+        query: ALL_CASE_STUDIES_QUERY,
+        tags: ["caseStudy"],
+      }),
+      fetchSanity<SanityPartner[]>({
+        query: ALL_PARTNERS_QUERY,
+        tags: ["partner"],
+      }),
+      fetchSanity<SanitySettings>({
+        query: SETTINGS_QUERY,
+        tags: ["settings"],
+      }),
+    ]);
+
+  // Bascule sur fallback si Sanity vide
+  const capacities: CapacityFallback[] =
+    capacitiesRes && capacitiesRes.length > 0
+      ? capacitiesRes.map((c, i) => ({
+          _id: c._id,
+          title: c.title,
+          slug: c.slug || c._id,
+          phase: c.phase,
+          order: c.order ?? i,
+          shortDescription: c.shortDescription || "",
+        }))
+      : FALLBACK_CAPACITIES;
+
+  const caseStudies: CaseStudyFallback[] =
+    caseStudiesRes && caseStudiesRes.length > 0
+      ? caseStudiesRes.map((cs, i) => ({
+          _id: cs._id,
+          title: cs.title,
+          slug: cs.slug || cs._id,
+          client: cs.client,
+          production: cs.production,
+          tag: cs.tag || "",
+          category: cs.category || "tournage-hybride",
+          order: cs.order ?? i,
+          shortDescription: cs.shortDescription || "",
+          bgVariant: ((i % 3) + 1) as 1 | 2 | 3,
+        }))
+      : FALLBACK_CASE_STUDIES;
+
+  const partners: PartnerFallback[] =
+    partnersRes && partnersRes.length > 0
+      ? partnersRes.map((p, i) => ({
+          _id: p._id,
+          name: p.name,
+          order: p.order ?? i,
+        }))
+      : FALLBACK_PARTNERS;
+
+  const settings: SettingsFallback = settingsRes
+    ? {
+        siteTitle: settingsRes.siteTitle || FALLBACK_SETTINGS.siteTitle,
+        tagline: settingsRes.tagline || FALLBACK_SETTINGS.tagline,
+        contactEmail:
+          settingsRes.contactEmail || FALLBACK_SETTINGS.contactEmail,
+        calendlyUrl: settingsRes.calendlyUrl,
+        linkedinUrl: settingsRes.linkedinUrl,
+        engagements: FALLBACK_SETTINGS.engagements,
+      }
+    : FALLBACK_SETTINGS;
+
   return (
     <>
+      <a href="#content" className="skip-link">
+        Aller au contenu
+      </a>
       <Header />
-      <main id="main">
+      <main id="content" tabIndex={-1}>
         <Hero />
-        <Heritage />
-        <Offres />
-        <Realisations />
-        <Process />
-        <Partenaires />
-        <CTAFinal />
+        <Marquee />
+        <CasesStrip partners={partners} />
+        <ManifesteTeaser />
+        <Capacities capacities={capacities} />
+        <Pillars />
+        <CaseStudies caseStudies={caseStudies} />
+        <Logiciels />
+        <CTAFinal contactEmail={settings.contactEmail} />
       </main>
-      <Footer />
+      <Footer
+        contactEmail={settings.contactEmail}
+        linkedinUrl={settings.linkedinUrl}
+        calendlyUrl={settings.calendlyUrl}
+      />
     </>
   );
 }

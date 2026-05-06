@@ -1,81 +1,82 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-anton",
+});
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
   variable: "--font-inter",
 });
 
-const fraunces = Fraunces({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
-  variable: "--font-fraunces",
-  axes: ["opsz", "SOFT"],
+  variable: "--font-jetbrains",
 });
 
-const SITE_URL = "https://studioxr.one";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://studioxr.one";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Jenial · Studio XR-ONE — Agence IA audiovisuelle",
-    template: "%s · Jenial",
+    template: "%s · Studio XR·ONE",
+    default: "Studio XR·ONE — Du plateau au pixel. Depuis 2014.",
   },
   description:
-    "De la frontière XR à la frontière IA. Studio XR-ONE pivote vers l'IA générative audiovisuelle : films IA, prévisualisation, moodboards et conseil workflow. Pionnier français depuis 2015.",
+    "Pionnier français du tournage hybride et de la production augmentée par IA. Né à CréaCannes en 2014. Prépa prod, tournage hybride, post prod & étalonnage HDR.",
   keywords: [
-    "IA audiovisuelle",
-    "film IA",
-    "prévisualisation",
-    "moodboard",
-    "Studio XR-ONE",
-    "Jenial",
-    "réalité virtuelle",
-    "réalité augmentée",
-    "agence créative",
-    "Paris",
+    "tournage hybride",
+    "IA cinéma",
+    "production augmentée",
+    "studio audiovisuel",
+    "prépa prod",
+    "post prod",
+    "étalonnage HDR",
+    "VR",
+    "AR",
+    "CréaCannes",
   ],
-  authors: [{ name: "Studio XR-ONE" }],
-  creator: "Studio XR-ONE",
-  publisher: "Studio XR-ONE",
-  alternates: {
-    canonical: "/",
-  },
+  authors: [{ name: "Studio XR·ONE" }],
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: SITE_URL,
-    siteName: "Jenial · Studio XR-ONE",
-    title: "Jenial · De la frontière XR à la frontière IA",
+    siteName: "Studio XR·ONE",
+    title: "Studio XR·ONE — Du plateau au pixel.",
     description:
-      "Agence IA audiovisuelle née de Studio XR-ONE. Films IA, prévisualisation, moodboards et conseil workflow.",
+      "Pionnier du tournage hybride. Onze ans à manipuler les outils. L'IA ne remplace pas le plateau. Elle l'agrandit.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jenial · Studio XR-ONE",
+    title: "Studio XR·ONE",
     description:
-      "Agence IA audiovisuelle née de Studio XR-ONE. Pionnier XR depuis 2015.",
+      "Du plateau au pixel. Tournage hybride et production augmentée par IA depuis 2014.",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="fr" className={`${inter.variable} ${fraunces.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html
+      lang="fr"
+      className={`${anton.variable} ${inter.variable} ${jetbrains.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,40 +1,71 @@
-import { CONTACT } from "@/lib/content";
+interface CTAFinalProps {
+  contactEmail?: string;
+  variant?: "light" | "dark";
+}
 
-export default function CTAFinal() {
+export default function CTAFinal({
+  contactEmail = "contact@studioxr.one",
+  variant = "light",
+}: CTAFinalProps) {
+  const dark = variant === "dark";
   return (
     <section
-      id="contact"
-      className="relative py-28 lg:py-40 border-t border-[var(--color-border)] mesh-gradient grain overflow-hidden"
-      aria-labelledby="cta-title"
+      id="cta-final"
+      style={{
+        padding: "200px 0",
+        textAlign: "center",
+        background: dark
+          ? "var(--abysse)"
+          : "linear-gradient(180deg, #fff, var(--air))",
+        color: dark ? "var(--air)" : "var(--fg)",
+      }}
     >
-      <div className="relative mx-auto max-w-4xl px-6 lg:px-10 text-center">
-        <p className="eyebrow">Contact</p>
-        <h2
-          id="cta-title"
-          className="font-serif mt-4 text-4xl sm:text-5xl lg:text-6xl tracking-tight"
+      <div className="container-x">
+        <span
+          className="mono"
+          style={{
+            color: dark ? "var(--anse)" : "var(--lagon)",
+            display: "inline-block",
+            marginBottom: 24,
+          }}
         >
-          Un projet ? Une idée ?<br />
-          <span className="text-[var(--color-accent)]">Un brief à challenger ?</span>
+          ↳ ON COMMENCE QUAND ?
+        </span>
+        <h2
+          className="display"
+          style={{
+            fontSize: "clamp(56px, 10vw, 160px)",
+            marginBottom: 32,
+            lineHeight: 0.9,
+            color: dark ? "var(--air)" : "var(--fg)",
+          }}
+        >
+          UN PROJET ?
+          <br />
+          UN{" "}
+          <em
+            style={{ fontStyle: "normal", color: "var(--corail)" }}
+          >
+            BRIEF.
+          </em>
         </h2>
-        <p className="mt-6 max-w-xl mx-auto text-[var(--color-fg-muted)]">
-          On répond en 48 h ouvrées. Premier échange offert pour cadrer
-          ensemble la faisabilité, le ton et le budget.
+        <p
+          style={{
+            color: dark ? "rgba(248,251,252,0.65)" : "var(--muted)",
+            fontSize: 19,
+            maxWidth: 560,
+            margin: "0 auto 40px",
+          }}
+        >
+          30 minutes pour cadrer ensemble. Sans engagement. On vous dit ce
+          qu&apos;on peut faire — et ce qu&apos;on refuse.
         </p>
-
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={`mailto:${CONTACT.email}?subject=Brief%20Jenial`}
-            className="btn-primary"
-          >
-            Démarrer la conversation
-          </a>
-          <a
-            href={`mailto:${CONTACT.email}`}
-            className="text-[var(--color-fg-muted)] hover:text-[var(--color-fg)] transition-colors"
-          >
-            {CONTACT.email}
-          </a>
-        </div>
+        <a
+          href={`mailto:${contactEmail}?subject=Brief%20Studio%20XR-ONE`}
+          className="cta-btn cta-btn-lg"
+        >
+          Discuter avec l&apos;équipe
+        </a>
       </div>
     </section>
   );

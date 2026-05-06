@@ -1,67 +1,125 @@
+import Link from "next/link";
+
+const CYCLE_WORDS = ["BRIEF", "SCRIPT", "PLATEAU", "TEASER", "STORYBOARD"];
+
 export default function Hero() {
   return (
     <section
-      className="relative overflow-hidden mesh-gradient grain"
-      aria-labelledby="hero-title"
+      style={{
+        position: "relative",
+        minHeight: "90vh",
+        display: "flex",
+        alignItems: "flex-end",
+        padding: "140px 0 60px",
+        overflow: "hidden",
+        background:
+          "linear-gradient(180deg, var(--air) 0%, #fff 100%)",
+      }}
     >
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-24 pb-32 lg:pt-32 lg:pb-44">
-        <p className="eyebrow animate-fade-up">
-          Studio XR-ONE · Depuis 2015
-        </p>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          background:
+            "radial-gradient(900px circle at 15% 30%, rgba(94,200,214,0.18), transparent 65%), radial-gradient(700px circle at 85% 75%, rgba(14,124,155,0.14), transparent 65%)",
+          animation: "drift 20s ease-in-out infinite alternate",
+        }}
+      />
+
+      <div
+        className="container-x"
+        style={{ position: "relative", zIndex: 1, width: "100%" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 32,
+            flexWrap: "wrap",
+            gap: 16,
+          }}
+        >
+          <span className="mono" style={{ color: "var(--lagon-text)" }}>
+            <span aria-hidden="true">↳ </span>STUDIO XR-ONE · DEPUIS 2014
+          </span>
+          <span className="mono" style={{ color: "var(--muted)" }}>
+            CRÉACANNES <span aria-hidden="true">→</span>
+            <span className="sr-only"> à </span> PARIS · 11 ANS DE TOURNAGE HYBRIDE
+          </span>
+        </div>
 
         <h1
-          id="hero-title"
-          className="font-serif mt-6 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] tracking-tight max-w-5xl animate-fade-up"
-          style={{ animationDelay: "0.1s" }}
+          className="display"
+          style={{
+            fontSize: "clamp(64px, 12vw, 180px)",
+            color: "var(--fg)",
+          }}
         >
-          De la frontière XR à la frontière{" "}
-          <span className="text-[var(--color-accent)]">IA</span>.
+          DU{" "}
+          <span className="sr-only">
+            brief, du script, du plateau, du teaser ou du storyboard,
+          </span>
+          <span className="word-cycle" aria-hidden="true">
+            {CYCLE_WORDS.map((word) => (
+              <span key={word}>{word}</span>
+            ))}
+          </span>
+          <br />
+          <span style={{ color: "var(--lagon)" }}>AU PIXEL.</span>
         </h1>
 
-        <p
-          className="mt-8 max-w-2xl text-lg lg:text-xl text-[var(--color-fg-muted)] leading-relaxed animate-fade-up"
-          style={{ animationDelay: "0.2s" }}
-        >
-          Pionnier français de la réalité virtuelle et augmentée, nous pivotons
-          vers l'IA générative audiovisuelle.
-          <br />
-          Films IA, prévisualisation, moodboards et conseil workflow — pour les
-          marques, les studios et les créateurs qui ne veulent pas rater la
-          marche.
-        </p>
-
         <div
-          className="mt-10 flex flex-wrap gap-3 animate-fade-up"
-          style={{ animationDelay: "0.3s" }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 32,
+            marginTop: 48,
+            alignItems: "end",
+          }}
+          className="hero-sub-grid"
         >
-          <a href="#realisations" className="btn-primary">
-            Voir nos films IA
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </a>
-          <a href="#contact" className="btn-ghost">
-            Démarrer un projet
-          </a>
-        </div>
-
-        <div
-          className="mt-16 flex items-center gap-3 text-xs text-[var(--color-fg-subtle)] animate-fade-up"
-          style={{ animationDelay: "0.4s" }}
-        >
-          <span className="inline-block w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse-soft" />
-          <span>Studio actif · Paris 13e · ENSAM Incubateur</span>
+          <p
+            style={{
+              fontSize: 19,
+              color: "var(--muted)",
+              maxWidth: 520,
+              lineHeight: 1.5,
+            }}
+          >
+            Studio audiovisuel pionnier. On accompagne réalisateurs,
+            producteurs et régies de l&apos;écriture au pixel final — brief,
+            script, prépa, tournage hybride, post-prod augmentée par IA.
+            Sans buzzword. Avec méthode.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: 16,
+            }}
+            className="hero-actions"
+          >
+            <span className="mono" style={{ color: "var(--muted)" }}>
+              <span aria-hidden="true">↓ </span>ÉCRIRE PROCHAIN PROJET
+            </span>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="#cta-final" className="cta-btn">
+                Démarrer un brief
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-sub-grid { grid-template-columns: 1fr !important; }
+          .hero-actions { align-items: flex-start !important; }
+        }
+      `}</style>
     </section>
   );
 }

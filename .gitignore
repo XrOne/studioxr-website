@@ -21,7 +21,6 @@
 # misc
 .DS_Store
 *.pem
-Thumbs.db
 
 # debug
 npm-debug.log*
@@ -29,9 +28,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (keep .env.example committed)
+# env files
 .env
 .env*.local
+.env.local
 
 # vercel
 .vercel
@@ -40,9 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# editor
-.idea/
-.vscode/
-*.swp
-
-.vercel
+# Sanity
+.sanity/
+dist/
