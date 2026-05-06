@@ -222,13 +222,16 @@ export const FALLBACK_LEGACY_PROJECTS: LegacyProjectFallback[] = [
   },
 ];
 
-// === Partenaires — 5 entries ===
+// === Partenaires — 6 entries ===
+// "Fictions VR" retiré (terme générique, pas une société).
+// "Inevitable" retiré de la liste partenaires (reste mentionné comme producteur de Declics 2 dans caseStudies).
 export const FALLBACK_PARTNERS: PartnerFallback[] = [
-  { _id: "p-1", name: "Inevitable", order: 1 },
+  { _id: "p-1", name: "Arte", order: 1 },
   { _id: "p-2", name: "BNP Paribas", order: 2 },
   { _id: "p-3", name: "ELLE Décor", order: 3 },
   { _id: "p-4", name: "INRA · CIRAD", order: 4 },
-  { _id: "p-5", name: "Fictions VR", order: 5 },
+  { _id: "p-5", name: "DoTheFilm", order: 5 },
+  { _id: "p-6", name: "Unifrance", order: 6 },
 ];
 
 // === Engagements (lignes rouges) — 6 entries ===
