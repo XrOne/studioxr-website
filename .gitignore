@@ -43,3 +43,7 @@ next-env.d.ts
 # Sanity
 .sanity/
 dist/
+
+# Documentation projet (hors code)
+/a classer/
+/docs-projet/
