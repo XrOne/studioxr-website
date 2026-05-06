@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio XR·ONE — Du plateau au pixel. Depuis 2014.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lagon:#0E7C9B; --anse:#5EC8D6; --abysse:#0A1F2C;
+    --sable:#F2E6CF; --corail:#FF8A65;
+    --air:#F8FBFC; --fg:#0A1F2C; --muted:#3D5A6C;
+    --line:rgba(10,31,44,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;color:var(--fg);background:var(--air);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased}
+  .display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:0.005em;line-height:0.92;text-transform:uppercase}
+  h1,h2,h3{margin:0}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1320px;margin:0 auto;padding:0 32px}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em}
+
+  header{position:sticky;top:0;background:rgba(248,251,252,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);z-index:50}
+  nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:0.04em;text-transform:uppercase}
+  .logo span{color:var(--lagon)}
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em}
+  .nav-links a{color:var(--muted);transition:color .2s}
+  .nav-links a:hover{color:var(--fg)}
+  .cta-btn{padding:12px 22px;background:var(--corail);color:var(--abysse);border-radius:0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;transition:background .2s}
+  .cta-btn:hover{background:var(--abysse);color:var(--corail)}
+
+  /* Hero — gros titres pleins */
+  .hero{position:relative;min-height:90vh;display:flex;align-items:flex-end;padding:140px 0 60px;overflow:hidden;background:linear-gradient(180deg,var(--air) 0%,#fff 100%)}
+  .hero::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(900px circle at 15% 30%,rgba(94,200,214,.18),transparent 65%),
+    radial-gradient(700px circle at 85% 75%,rgba(14,124,155,.14),transparent 65%);
+    z-index:0;animation:drift 20s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+  .hero-content{position:relative;z-index:1;width:100%}
+  .hero-meta{display:flex;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+  .hero-meta .mono{color:var(--muted)}
+  .hero-meta .mono.accent{color:var(--lagon)}
+  .hero h1.display{font-size:clamp(64px,12vw,180px);color:var(--fg)}
+  .hero h1 .em{color:var(--lagon)}
+
+  /* Mot rotatif H1 */
+  .word-cycle{display:inline-block;position:relative;color:var(--corail);min-width:8ch;text-align:left;vertical-align:top}
+  .word-cycle span{display:inline-block;position:absolute;left:0;top:0;opacity:0;white-space:nowrap;animation:wcycle 15s cubic-bezier(.7,.05,.3,.95) infinite}
+  .word-cycle span:nth-child(1){animation-delay:0s}
+  .word-cycle span:nth-child(2){animation-delay:3s}
+  .word-cycle span:nth-child(3){animation-delay:6s}
+  .word-cycle span:nth-child(4){animation-delay:9s}
+  .word-cycle span:nth-child(5){animation-delay:12s}
+  @keyframes wcycle{
+    0%, 2% {opacity:0; transform:translateY(40%) skewY(2deg); filter:blur(6px)}
+    4%, 18% {opacity:1; transform:translateY(0) skewY(0); filter:blur(0)}
+    20%, 100% {opacity:0; transform:translateY(-40%) skewY(-2deg); filter:blur(6px)}
+  }
+  /* Spacer invisible pour réserver la largeur du mot le plus long */
+  .word-cycle::after{content:"STORYBOARD";display:inline-block;visibility:hidden}
+  .hero-sub{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;align-items:end}
+  .hero-sub-left{font-size:19px;color:var(--muted);max-width:520px;line-height:1.5}
+  .hero-sub-right{display:flex;flex-direction:column;align-items:flex-end;gap:16px}
+  .hero-sub-right .mono{color:var(--muted)}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+
+  /* Bandeau scrolling signature */
+  .marquee{background:var(--abysse);color:var(--air);padding:24px 0;overflow:hidden;border-block:1px solid var(--abysse)}
+  .marquee-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'Anton',sans-serif;font-size:clamp(28px,4vw,48px);text-transform:uppercase;letter-spacing:0.02em}
+  .marquee-track span{display:inline-flex;align-items:center;gap:48px}
+  .marquee-track span::after{content:'⬡';color:var(--corail);font-size:0.6em}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* Cas clients */
+  .cases-strip{padding:48px 0;background:#fff}
+  .cases-label{text-align:center;margin-bottom:32px;color:var(--muted)}
+  .logos-row{display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:48px;opacity:.65}
+  .logo-placeholder{font-family:'Anton',sans-serif;font-size:24px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em}
+
+  /* Manifeste teaser sur home */
+  .manifeste-teaser{padding:160px 0;background:var(--abysse);color:var(--air);position:relative;overflow:hidden;text-align:center}
+  .manifeste-teaser::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(800px circle at 30% 50%,rgba(14,124,155,.4),transparent 60%),
+    radial-gradient(600px circle at 70% 50%,rgba(94,200,214,.2),transparent 60%)}
+  .manifeste-teaser-content{position:relative;z-index:1}
+  .manifeste-teaser .mono{color:var(--anse);margin-bottom:24px;display:inline-block}
+  .manifeste-teaser h2.display{font-size:clamp(48px,9vw,140px);color:var(--air);margin-bottom:24px}
+  .manifeste-teaser h2 em{font-style:normal;color:var(--corail)}
+  .manifeste-teaser p{font-size:21px;color:rgba(248,251,252,.75);max-width:680px;margin:0 auto 40px}
+  .manifeste-teaser a{display:inline-block;padding:18px 36px;background:var(--corail);color:var(--abysse);font-family:'Anton',sans-serif;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;transition:transform .2s}
+  .manifeste-teaser a:hover{transform:translateY(-2px)}
+
+  /* Section commune titres */
+  .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+  .section-eyebrow .mono{color:var(--lagon)}
+  .section-eyebrow::before{content:'';width:32px;height:1px;background:var(--lagon)}
+  .section-title{font-size:clamp(40px,7vw,88px);margin-bottom:32px;max-width:920px}
+  .section-sub{font-size:18px;color:var(--muted);max-width:560px;margin-bottom:64px}
+
+  /* Capacités IA */
+  .capacities{padding:160px 0;background:var(--air)}
+  .featured-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--corail);color:var(--abysse);font-family:'Anton',sans-serif;font-size:12px;letter-spacing:0.1em;margin-bottom:24px}
+  .ba-comparator{position:relative;height:560px;cursor:ew-resize;user-select:none;background:#000;margin-bottom:16px;overflow:hidden}
+  .ba-after,.ba-before{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:32px;color:rgba(255,255,255,.85);text-align:center;padding:0 32px;letter-spacing:0.04em}
+  .ba-after{background:
+    radial-gradient(ellipse 700px 500px at 50% 60%,rgba(255,138,101,.25),transparent 70%),
+    linear-gradient(135deg,#8B5A2B 0%,#3D2818 100%);
+    color:rgba(248,251,252,.95)}
+  .ba-after::after{content:'PLAN CINÉMA';position:absolute;top:24px;right:24px;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:0.12em;background:rgba(255,138,101,.95);color:var(--abysse);padding:8px 14px}
+  .ba-before{background:
+    radial-gradient(ellipse 600px 400px at 60% 70%,rgba(180,170,140,.4),transparent 70%),
+    linear-gradient(135deg,#A89E80 0%,#5C5340 100%);
+    clip-path:inset(0 50% 0 0)}
+  .ba-before::after{content:'BRUT REPÉRÉ';position:absolute;top:24px;left:24px;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:0.12em;background:rgba(248,251,252,.92);color:var(--abysse);padding:8px 14px}
+  .ba-handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);box-shadow:0 0 32px rgba(255,255,255,.5);pointer-events:none}
+  .ba-handle::before{content:'⇄';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:#fff;color:var(--abysse);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600}
+
+  .capacities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);margin-top:80px;border:1px solid var(--line)}
+  .cap-card{padding:32px 28px;background:#fff;transition:background .2s}
+  .cap-card:hover{background:var(--air)}
+  .cap-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lagon);margin-bottom:16px;letter-spacing:0.08em;text-transform:uppercase}
+  .cap-card h4{font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:12px;color:var(--fg)}
+  .cap-card p{color:var(--muted);font-size:14.5px;line-height:1.55}
+
+  /* 3 piliers */
+  .pillars-section{padding:160px 0;background:#fff}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+  .pillar-card{position:relative;padding:48px 40px;background:#fff;transition:background .3s}
+  .pillar-card:hover{background:var(--air)}
+  .pillar-num{font-family:'Anton',sans-serif;font-size:96px;color:var(--anse);line-height:0.8;margin-bottom:24px}
+  .pillar-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;display:block}
+  .pillar-card h3{font-family:'Anton',sans-serif;font-size:32px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:16px}
+  .pillar-card p{color:var(--muted);font-size:15.5px;margin-bottom:24px;line-height:1.6}
+  .pillar-list{list-style:none;margin-bottom:24px}
+  .pillar-list li{padding:8px 0;font-size:14px;color:var(--fg);border-top:1px solid var(--line);position:relative;padding-left:20px}
+  .pillar-list li::before{content:'+';position:absolute;left:0;color:var(--corail);font-weight:bold}
+
+  /* Études de cas */
+  .cases{padding:160px 0;background:var(--air)}
+  .cases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:64px}
+  .case-card{position:relative;aspect-ratio:4/5;cursor:pointer;transition:transform .3s;overflow:hidden}
+  .case-card:hover{transform:translateY(-6px)}
+  .case-bg{position:absolute;inset:0;transition:transform .6s}
+  .case-card:hover .case-bg{transform:scale(1.05)}
+  .case-bg-1{background:linear-gradient(180deg,rgba(10,31,44,0) 30%,rgba(10,31,44,.92) 100%),linear-gradient(135deg,#0E7C9B 0%,#0A1F2C 100%)}
+  .case-bg-2{background:linear-gradient(180deg,rgba(10,31,44,0) 30%,rgba(10,31,44,.92) 100%),linear-gradient(135deg,#3D5A6C 0%,#0A1F2C 100%)}
+  .case-bg-3{background:linear-gradient(180deg,rgba(10,31,44,0) 30%,rgba(10,31,44,.92) 100%),linear-gradient(135deg,#5EC8D6 0%,#0E7C9B 100%)}
+  .case-content{position:absolute;bottom:0;left:0;right:0;padding:32px;color:var(--air)}
+  .case-tag{display:inline-block;padding:6px 12px;background:rgba(248,251,252,.18);backdrop-filter:blur(8px);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px}
+  .case-card h3{font-family:'Anton',sans-serif;font-size:36px;text-transform:uppercase;letter-spacing:0.02em;color:var(--air);margin-bottom:8px}
+  .case-card p{color:rgba(248,251,252,.75);font-size:14px}
+
+  /* Logiciels — bandeau sombre */
+  .logiciels{padding:160px 0;background:var(--abysse);color:var(--air)}
+  .logiciels h2{color:var(--air)}
+  .logiciels .section-sub{color:rgba(248,251,252,.65)}
+  .software-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(94,200,214,.18);margin-top:64px;border:1px solid rgba(94,200,214,.18)}
+  .soft-card{padding:48px 40px;background:var(--abysse);transition:background .3s}
+  .soft-card:hover{background:#0d2638}
+  .soft-tag{display:inline-block;padding:4px 12px;background:rgba(94,200,214,.16);color:var(--anse);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px}
+  .soft-card h3{font-family:'Anton',sans-serif;font-size:42px;text-transform:uppercase;letter-spacing:0.02em;color:var(--air);margin-bottom:12px}
+  .soft-card p{color:rgba(248,251,252,.7);font-size:14.5px;margin-bottom:24px;line-height:1.5}
+  .soft-card a{color:var(--anse);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.08em}
+
+  /* CTA Final */
+  .cta-final{padding:200px 0;text-align:center;background:linear-gradient(180deg,#fff,var(--air))}
+  .cta-final h2.display{font-size:clamp(56px,10vw,160px);margin-bottom:32px;line-height:0.9}
+  .cta-final p{color:var(--muted);font-size:19px;max-width:560px;margin:0 auto 40px}
+
+  /* Footer */
+  footer{padding:64px 0 0;background:var(--abysse);color:rgba(248,251,252,.65)}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+  .footer-brand .logo{font-size:32px;color:var(--air)}
+  .footer-brand p{margin-top:16px;font-size:14px;max-width:320px}
+  .footer-col h5{font-family:'Anton',sans-serif;font-size:14px;text-transform:uppercase;letter-spacing:0.1em;color:var(--air);margin-bottom:20px}
+  .footer-col a{display:block;color:rgba(248,251,252,.6);font-size:14px;padding:6px 0;transition:color .2s}
+  .footer-col a:hover{color:var(--anse)}
+  .footer-bottom{padding:24px 0;border-top:1px solid rgba(94,200,214,.18);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px}
+  .footer-bottom .display{font-size:14px;color:var(--air);letter-spacing:0.06em}
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .hero{padding:80px 0 40px;min-height:auto}
+    .hero-sub{grid-template-columns:1fr}
+    .hero-sub-right{align-items:flex-start}
+    .ba-comparator{height:380px}
+    .ba-after,.ba-before{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">XR<span>·</span>ONE</a>
+      <div class="nav-links">
+        <a href="#">Studio</a>
+        <a href="#">Capacités</a>
+        <a href="#">Études</a>
+        <a href="#">Logiciels</a>
+        <a href="#">Manifeste</a>
+      </div>
+      <a href="#" class="cta-btn">Brief</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-meta">
+      <span class="mono accent">↳ STUDIO XR-ONE · DEPUIS 2014</span>
+      <span class="mono">CRÉACANNES → PARIS · 11 ANS DE TOURNAGE HYBRIDE</span>
+    </div>
+    <h1 class="display">DU <span class="word-cycle"><span>BRIEF</span><span>SCRIPT</span><span>PLATEAU</span><span>TEASER</span><span>STORYBOARD</span></span><br><span class="em">AU PIXEL.</span></h1>
+    <div class="hero-sub">
+      <p class="hero-sub-left">Studio audiovisuel pionnier. On accompagne réalisateurs, producteurs et régies de l'écriture au pixel final — brief, script, prépa, tournage hybride, post-prod augmentée par IA. Sans buzzword. Avec méthode.</p>
+      <div class="hero-sub-right">
+        <span class="mono">↓ ÉCRIRE PROCHAIN PROJET</span>
+        <div class="hero-actions">
+          <a href="#" class="cta-btn">Démarrer un brief</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Pionniers depuis 2014</span>
+    <span>Du brief au pixel</span>
+    <span>Tournage hybride</span>
+    <span>IA au service du plateau</span>
+    <span>Pionniers depuis 2014</span>
+    <span>Du brief au pixel</span>
+    <span>Tournage hybride</span>
+    <span>IA au service du plateau</span>
+  </div>
+</div>
+
+<section class="cases-strip">
+  <div class="container">
+    <div class="cases-label mono">↳ ILS NOUS ONT FAIT CONFIANCE</div>
+    <div class="logos-row">
+      <div class="logo-placeholder">Inevitable</div>
+      <div class="logo-placeholder">BNP Paribas</div>
+      <div class="logo-placeholder">ELLE Décor</div>
+      <div class="logo-placeholder">INRA · CIRAD</div>
+      <div class="logo-placeholder">Fictions VR</div>
+    </div>
+  </div>
+</section>
+
+<section class="manifeste-teaser">
+  <div class="container manifeste-teaser-content">
+    <span class="mono">↳ NOTRE POSITION</span>
+    <h2 class="display">L'IA NE REMPLACE<br>PAS LE <em>PLATEAU.</em><br>ELLE L'AGRANDIT.</h2>
+    <p>Onze ans à manipuler les outils. À en connaître les forces, les angles morts, les bons et mauvais usages. Pour ne jamais laisser la machine décider à la place du réalisateur.</p>
+    <a href="#">Lire notre manifeste →</a>
+  </div>
+</section>
+
+<section class="capacities">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="mono">CAPACITÉS · 01</span>
+    </div>
+    <h2 class="display section-title">UNE BOÎTE<br>À OUTILS<br>POUR LA PROD.</h2>
+    <p class="section-sub">Une capacité IA par corps de métier. Pas un de plus. Pas un de moins.</p>
+
+    <div class="featured-tag">FEATURED · PRÉPA PROD</div>
+    <h3 class="display" style="font-size:clamp(36px,5vw,64px);margin-bottom:24px">DÉCORS — AVANT / APRÈS.</h3>
+    <p style="color:var(--muted);max-width:680px;margin-bottom:32px;font-size:17px">Photo du décor brut. Projection IA finalisée. L'équipe valide la mise en scène avant de poser un seul rideau.</p>
+
+    <div class="ba-comparator" id="comparator">
+      <div class="ba-after">DÉCOR SCÉNARISÉ</div>
+      <div class="ba-before" id="before">DÉCOR BRUT</div>
+      <div class="ba-handle" id="handle"></div>
+    </div>
+    <div class="mono" style="color:var(--muted);margin-bottom:48px">↳ glissez le séparateur · placeholder · Declics 2 (production Inevitable)</div>
+
+    <div class="capacities-grid">
+      <div class="cap-card">
+        <div class="cap-num">01 · prépa prod</div>
+        <h4>Décors avant / après</h4>
+        <p>Lieu repéré → projection IA finale.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">02 · prépa prod</div>
+        <h4>Storyboards auto</h4>
+        <p>Du scénario aux planches cohérentes.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">03 · prépa prod</div>
+        <h4>Animatics</h4>
+        <p>Prévisualisation séquences pré-tournage.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">04 · post prod</div>
+        <h4>HDR 8 → 32 bits</h4>
+        <p>Uprez colorimétrique IA · masters EXR float.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">05 · transverse</div>
+        <h4>Apps métier</h4>
+        <p>Outils dédiés — déco, costume, lumière, cadre.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">06 · prépa prod</div>
+        <h4>Continuité</h4>
+        <p>Détection d'incohérences scénario.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">07 · tournage hybride</div>
+        <h4>Plans IA insérés</h4>
+        <p>Génération qui s'intègre aux rushes.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">08 · prépa prod</div>
+        <h4>Moodboards & DA</h4>
+        <p>Direction artistique alignée brief.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pillars-section">
+  <div class="container">
+    <div class="section-eyebrow"><span class="mono">MÉTHODE · 02</span></div>
+    <h2 class="display section-title">TROIS MÉTIERS.<br>UNE SEULE<br>MÉTHODE.</h2>
+    <div class="grid-3">
+      <div class="pillar-card">
+        <div class="pillar-num">01</div>
+        <span class="pillar-tag">PRÉPA PROD</span>
+        <h3>Voir avant.</h3>
+        <p>Décors. Storyboards. Animatics. Continuité. Le tournage commence ici.</p>
+        <ul class="pillar-list">
+          <li>Décors IA avant / après</li>
+          <li>Storyboards & animatics</li>
+          <li>Découpage technique</li>
+          <li>Moodboards alignés brief</li>
+        </ul>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon"></div>
+        <div class="pillar-num">02</div>
+        <span class="pillar-tag">TOURNAGE HYBRIDE</span>
+        <h3>Augmenter sans perturber.</h3>
+        <p>Plans IA dans vos rushes. Outils par corps de métier. Le plateau reste roi.</p>
+        <ul class="pillar-list">
+          <li>Plans IA insertion rushes</li>
+          <li>Apps par corps de métier</li>
+          <li>Assistant scripte / cadre</li>
+          <li>VR · AR · expériences immersives</li>
+        </ul>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">03</div>
+        <span class="pillar-tag">POST PROD & CONSEIL</span>
+        <h3>Étalonner. Transmettre.</h3>
+        <p>Pipeline HDR. Audits workflow. Formations équipes. Le plateau, ensuite.</p>
+        <ul class="pillar-list">
+          <li>Profondeur 8 → 32 bits float</li>
+          <li>Pipeline HDR & EXR</li>
+          <li>Audit workflow IA</li>
+          <li>Formations équipes prod</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cases">
+  <div class="container">
+    <div class="section-eyebrow"><span class="mono">ÉTUDES DE CAS · 03</span></div>
+    <h2 class="display section-title">LA PREUVE,<br>PAR L'USAGE.</h2>
+    <div class="cases-grid">
+      <div class="case-card">
+        <div class="case-bg case-bg-1"></div>
+        <div class="case-content">
+          <span class="case-tag">Tournage hybride · prod Inevitable · 2025</span>
+          <h3>Declics 2</h3>
+          <p>Décors IA avant/après · prévisualisation séquences · plans IA insérés.</p>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-bg case-bg-3"></div>
+        <div class="case-content">
+          <span class="case-tag">Projet XR-ONE · VR pionnier</span>
+          <h3>MIZIK</h3>
+          <p>Karaoké VR hybride. Premier contest VR à Laval Virtual 2021.</p>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-bg case-bg-2"></div>
+        <div class="case-content">
+          <span class="case-tag">Corporate immersif · à préciser</span>
+          <h3>BNP Paribas</h3>
+          <p>〈à compléter — quelle prestation tu veux mettre en avant ?〉</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logiciels">
+  <div class="container">
+    <div class="section-eyebrow"><span class="mono" style="color:var(--anse)">LOGICIELS · 04</span></div>
+    <h2 class="display section-title">NOTRE BRIQUE<br>IA PROPRIÉTAIRE.</h2>
+    <p class="section-sub">Trois outils. Un même cœur. Construits sur le terrain.</p>
+    <div class="software-grid">
+      <div class="soft-card">
+        <span class="soft-tag">Phare</span>
+        <h3>Jenial</h3>
+        <p>Éditeur de séquences IA. Multi-providers, timeline pro, dogma manager.</p>
+        <a href="https://jenial.app">jenial.app →</a>
+      </div>
+      <div class="soft-card">
+        <span class="soft-tag">Module</span>
+        <h3>Cinemia</h3>
+        <p>L'IA pour le cinéma. Découpage, continuité, prévisualisation.</p>
+        <a href="https://jenial.app/cinemia">/cinemia →</a>
+      </div>
+      <div class="soft-card">
+        <span class="soft-tag">Projet XR-ONE</span>
+        <h3>MIZIK</h3>
+        <p>Karaoké VR hybride. Live, contests, événements pionniers.</p>
+        <a href="https://mizik.tech">mizik.tech →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="container">
+    <span class="mono" style="color:var(--lagon);display:inline-block;margin-bottom:24px">↳ ON COMMENCE QUAND ?</span>
+    <h2 class="display">UN PROJET ?<br>UN <span style="color:var(--corail)">BRIEF.</span></h2>
+    <p>30 minutes pour cadrer. Sans engagement. On vous dit ce qu'on peut faire — et ce qu'on refuse.</p>
+    <a href="#" class="cta-btn">Discuter avec l'équipe</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">XR<span style="color:var(--anse)">·</span>ONE</div>
+        <p>Pionnier français du tournage hybride et de la production augmentée par IA. Né à CréaCannes, 2014.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="#">Manifeste</a>
+        <a href="#">Équipe</a>
+        <a href="#">Heritage XR</a>
+        <a href="#">Journal</a>
+      </div>
+      <div class="footer-col">
+        <h5>Produits</h5>
+        <a href="https://jenial.app">Jenial</a>
+        <a href="https://jenial.app/cinemia">Cinemia</a>
+        <a href="https://mizik.tech">MIZIK</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@studioxr.one">contact@studioxr.one</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Calendly</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="display">© 2026 · STUDIO XR-ONE · DEPUIS 2014</span>
+      <div style="display:flex;gap:24px"><a href="#">Mentions</a><a href="#">RGPD</a><a href="#">CGU</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    const c = document.getElementById('comparator');
+    if(!c) return;
+    const before = document.getElementById('before');
+    const handle = document.getElementById('handle');
+    let dragging = false;
+    function setPos(clientX){
+      const rect = c.getBoundingClientRect();
+      let pct = ((clientX - rect.left) / rect.width) * 100;
+      pct = Math.max(0, Math.min(100, pct));
+      before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left = pct + '%';
+    }
+    c.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if(dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => dragging = false);
+    c.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); });
+    window.addEventListener('touchmove', e => { if(dragging) setPos(e.touches[0].clientX); });
+    window.addEventListener('touchend', () => dragging = false);
+  })();
+</script>
+
+</body>
+</html>

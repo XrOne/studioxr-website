@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------
+   Jenial · Studio XR-ONE — Design tokens
+   ---------------------------------------------------------- */
+@theme inline {
+  --color-bg: #0a0908;
+  --color-bg-elev: #15120f;
+  --color-bg-elev-2: #1f1a15;
+  --color-fg: #f5f1ea;
+  --color-fg-muted: #a39a8d;
+  --color-fg-subtle: #6b6358;
+  --color-accent: #f5a56a;
+  --color-accent-soft: #e89b5c;
+  --color-accent-deep: #b46a35;
+  --color-border: #2a2520;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+/* ----------------------------------------------------------
+   Base reset & globals
+   ---------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ----------------------------------------------------------
+   Typography helpers
+   ---------------------------------------------------------- */
+.font-serif {
+  font-family: var(--font-serif);
+  font-feature-settings: "ss01", "ss02";
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ----------------------------------------------------------
+   Mesh gradient + grain (Hero background)
+   ---------------------------------------------------------- */
+.mesh-gradient {
+  background:
+    radial-gradient(60% 50% at 15% 20%, rgba(245, 165, 106, 0.18) 0%, transparent 60%),
+    radial-gradient(50% 45% at 85% 30%, rgba(180, 106, 53, 0.22) 0%, transparent 65%),
+    radial-gradient(70% 60% at 50% 95%, rgba(232, 155, 92, 0.10) 0%, transparent 70%),
+    var(--color-bg);
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ----------------------------------------------------------
+   Animation utilities
+   ---------------------------------------------------------- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2.4s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------
+   Component primitives
+   ---------------------------------------------------------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-accent-soft);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-fg);
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--color-accent);
+  background-color: rgba(245, 165, 106, 0.05);
+}
+
+.card {
+  background-color: var(--color-bg-elev);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.card:hover {
+  border-color: var(--color-accent-deep);
+  transform: translateY(-2px);
+}
+
+/* Hide scrollbar utility for horizontal timeline */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }

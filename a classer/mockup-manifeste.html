@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manifeste — Studio XR·ONE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lagon:#0E7C9B; --anse:#5EC8D6; --abysse:#0A1F2C;
+    --sable:#F2E6CF; --corail:#FF8A65;
+    --air:#F8FBFC; --fg:#0A1F2C; --muted:#3D5A6C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;color:var(--fg);background:var(--abysse);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased}
+  .display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:0.005em;line-height:0.92;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1320px;margin:0 auto;padding:0 32px}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em;text-transform:uppercase}
+
+  header{position:fixed;top:0;left:0;right:0;background:transparent;z-index:50;padding:32px 0}
+  nav{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:0.04em;text-transform:uppercase;color:var(--air)}
+  .logo span{color:var(--anse)}
+  .nav-back{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(248,251,252,.6);letter-spacing:0.06em;text-transform:uppercase;transition:color .2s}
+  .nav-back:hover{color:var(--air)}
+
+  /* Hero pleine page — image full-screen */
+  .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 80px;color:var(--air);overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:
+    radial-gradient(1200px circle at 30% 40%,rgba(14,124,155,.5),transparent 60%),
+    radial-gradient(900px circle at 75% 65%,rgba(94,200,214,.3),transparent 60%),
+    linear-gradient(135deg,#061421 0%,#0A1F2C 50%,#0E2A3D 100%);
+    z-index:0}
+  .hero-bg::after{content:'';position:absolute;inset:0;background-image:
+    radial-gradient(circle at 1px 1px,rgba(94,200,214,.15) 1px,transparent 0);
+    background-size:48px 48px;opacity:.4}
+  .hero-content{position:relative;z-index:1;width:100%}
+  .hero-meta{display:flex;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px}
+  .hero-meta .mono{color:rgba(248,251,252,.5)}
+  .hero-meta .mono.accent{color:var(--anse)}
+  .hero h1.display{font-size:clamp(72px,16vw,260px);color:var(--air);margin-bottom:64px}
+  .hero-sub{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
+  .hero-sub-left{font-family:'Anton',sans-serif;font-size:clamp(20px,2.5vw,32px);text-transform:uppercase;letter-spacing:0.02em;line-height:1.1;color:var(--anse)}
+  .hero-sub-right{font-size:18px;color:rgba(248,251,252,.7);max-width:480px;justify-self:end;line-height:1.5}
+
+  .scroll-down{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(248,251,252,.5);letter-spacing:0.12em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+  /* Sections texte */
+  .section{padding:160px 0;color:var(--air)}
+  .section.alt{background:var(--air);color:var(--fg)}
+  .section-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+  .section-eyebrow::before{content:'';width:32px;height:1px;background:var(--anse)}
+  .section.alt .section-eyebrow::before{background:var(--lagon)}
+  .section-eyebrow .mono{color:var(--anse)}
+  .section.alt .section-eyebrow .mono{color:var(--lagon)}
+
+  /* Big statement */
+  .statement{padding:200px 0;text-align:center;border-block:1px solid rgba(94,200,214,.18)}
+  .statement h2.display{font-size:clamp(48px,9vw,140px);color:var(--air);margin-bottom:48px;line-height:0.95}
+  .statement h2 em{font-style:normal;color:var(--corail)}
+  .statement p{font-size:21px;color:rgba(248,251,252,.7);max-width:720px;margin:0 auto;line-height:1.5}
+
+  /* Manifeste body */
+  .manifeste-body{padding:160px 0;background:var(--air);color:var(--fg)}
+  .manifeste-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:96px;align-items:start}
+  .manifeste-grid h2.display{font-size:clamp(48px,7vw,96px);color:var(--fg);position:sticky;top:120px}
+  .manifeste-text p{font-size:20px;line-height:1.55;margin-bottom:32px;color:var(--fg)}
+  .manifeste-text p strong{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:0.02em;text-transform:uppercase;color:var(--lagon);font-size:1.1em}
+  .manifeste-text .quote{font-family:'Anton',sans-serif;font-size:36px;text-transform:uppercase;letter-spacing:0.02em;color:var(--lagon);line-height:1.1;margin:48px 0;padding-left:24px;border-left:3px solid var(--corail)}
+
+  /* Position en deux colonnes */
+  .position{padding:160px 0;background:var(--abysse);color:var(--air)}
+  .position-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(94,200,214,.18);margin-top:64px;border:1px solid rgba(94,200,214,.18)}
+  .pos-col{padding:48px 40px;background:var(--abysse)}
+  .pos-col h3{font-family:'Anton',sans-serif;font-size:32px;text-transform:uppercase;letter-spacing:0.02em;color:var(--air);margin-bottom:32px}
+  .pos-col h3 .accent{color:var(--corail)}
+  .pos-col h3 .accent-2{color:var(--anse)}
+  .pos-list{list-style:none}
+  .pos-list li{padding:20px 0;border-top:1px solid rgba(94,200,214,.12);font-size:16px;line-height:1.5;display:flex;gap:16px}
+  .pos-list li::before{content:counter(li,decimal-leading-zero);counter-increment:li;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--anse);min-width:36px;padding-top:2px}
+  .pos-list{counter-reset:li}
+
+  /* Engagements */
+  .engagements{padding:160px 0;background:var(--air);color:var(--fg)}
+  .engagement-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(10,31,44,.08);border:1px solid rgba(10,31,44,.08);margin-top:64px}
+  .eng-card{padding:48px 40px;background:#fff}
+  .eng-num{font-family:'Anton',sans-serif;font-size:80px;color:var(--anse);line-height:0.8;margin-bottom:24px}
+  .eng-card h4{font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:16px}
+  .eng-card p{color:var(--muted);font-size:15px;line-height:1.55}
+
+  /* CTA Final */
+  .cta-final{padding:200px 0;text-align:center;background:var(--abysse);color:var(--air)}
+  .cta-final h2.display{font-size:clamp(56px,11vw,180px);color:var(--air);margin-bottom:32px;line-height:0.92}
+  .cta-final h2 em{font-style:normal;color:var(--corail)}
+  .cta-final p{color:rgba(248,251,252,.65);font-size:19px;max-width:560px;margin:0 auto 40px}
+  .cta-btn{display:inline-block;padding:18px 36px;background:var(--corail);color:var(--abysse);font-family:'Anton',sans-serif;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;transition:transform .2s}
+  .cta-btn:hover{transform:translateY(-2px)}
+
+  /* Marquee bas */
+  .marquee{background:var(--abysse);color:var(--air);padding:24px 0;overflow:hidden;border-top:1px solid rgba(94,200,214,.18)}
+  .marquee-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'Anton',sans-serif;font-size:clamp(28px,4vw,48px);text-transform:uppercase;letter-spacing:0.02em}
+  .marquee-track span{display:inline-flex;align-items:center;gap:48px}
+  .marquee-track span::after{content:'⬡';color:var(--corail);font-size:0.6em}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  @media(max-width:768px){
+    .hero h1.display{margin-bottom:40px}
+    .hero-sub{grid-template-columns:1fr;gap:24px}
+    .hero-sub-right{justify-self:start}
+    .manifeste-grid{grid-template-columns:1fr;gap:32px}
+    .manifeste-grid h2.display{position:static}
+    .position-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">XR<span>·</span>ONE</a>
+      <a href="#" class="nav-back">← Retour à l'accueil</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-content">
+    <div class="hero-meta">
+      <span class="mono accent">↳ STUDIO XR-ONE · MANIFESTE</span>
+      <span class="mono">PRODUIRE À L'ÈRE DE L'IA · 2026</span>
+    </div>
+    <h1 class="display">MANIFESTE.</h1>
+    <div class="hero-sub">
+      <div class="hero-sub-left">Tourner à l'ère de l'intelligence artificielle.<br>Sans la subir. Sans la fétichiser.</div>
+      <div class="hero-sub-right">Onze ans à manipuler les outils. Onze ans à savoir <em style="color:var(--anse);font-style:normal">quand les utiliser. Et quand ne pas les utiliser.</em></div>
+    </div>
+  </div>
+  <div class="scroll-down">↓ Lire</div>
+</section>
+
+<section class="statement">
+  <div class="container">
+    <h2 class="display">L'IA NE REMPLACE<br>PAS LE <em>RÉALISATEUR.</em><br>ELLE ÉLARGIT<br>SON CHAMP.</h2>
+    <p>Ce qui change, ce n'est pas la machine. C'est ce qu'on lui demande de faire.</p>
+  </div>
+</section>
+
+<section class="manifeste-body">
+  <div class="container">
+    <div class="manifeste-grid">
+      <h2 class="display">CE QUE NOUS<br>CROYONS.</h2>
+      <div class="manifeste-text">
+        <p>Depuis <strong>2014, à CréaCannes</strong>, nous fabriquons des images là où la frontière du réel devient floue. VR. AR. Plateaux virtuels. Plans IA. Tournage hybride.</p>
+
+        <p>L'IA générative n'est pas une révolution. C'est <strong>un outil de plus</strong> sur le plateau — un outil rapide, exigeant, parfois trompeur.</p>
+
+        <p class="quote">L'IA ne crée pas du sens. Elle amplifie ce qu'on lui confie.</p>
+
+        <p>Notre métier n'a pas changé. <strong>Nous racontons des histoires.</strong> Nous éclairons des décors. Nous cadrons des regards. Nous étalonnons des images. La technologie sert. Elle ne décide pas.</p>
+
+        <p>Mais l'IA change <strong>les règles du temps</strong>. Avant de poser un rideau, on peut voir le décor finalisé. Avant de tourner une séquence, on peut la prévisualiser. Avant la post-prod, on peut tester l'étalonnage. C'est ça, le tournage hybride.</p>
+
+        <p class="quote">Plus vite. Plus juste. Plus humain.</p>
+
+        <p>Nous travaillons pour les productions qui veulent <strong>élever le standard</strong>. Pas pour celles qui cherchent un raccourci. Notre IA n'est pas un gain de productivité — c'est un gain de précision.</p>
+
+        <p>Et nous le disons clairement : <strong>il y a des choses que l'IA ne fera jamais à votre place.</strong> Diriger des comédiens. Sentir une lumière. Trouver le bon raccord. Ces choses-là restent à vous. Nous, on s'occupe du reste.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="position">
+  <div class="container">
+    <div class="section-eyebrow"><span class="mono">↳ NOTRE POSITION</span></div>
+    <h2 class="display" style="font-size:clamp(40px,6vw,80px);max-width:920px">CE QUI CHANGE.<br>CE QU'ON ENGAGE.</h2>
+
+    <div class="position-grid">
+      <div class="pos-col">
+        <h3>Ce que <span class="accent-2">l'IA change</span> vraiment.</h3>
+        <ul class="pos-list">
+          <li>Les décors deviennent visualisables avant tournage. Plus de mauvaises surprises sur site.</li>
+          <li>Le découpage technique se construit en heures, plus en jours.</li>
+          <li>Les plans IA s'intègrent aux rushes — quand le scénario les justifie.</li>
+          <li>L'étalonnage HDR / 32-bit float devient accessible à des projets moyens.</li>
+          <li>Chaque corps de métier peut tester avant que l'équipe technique ne soit mobilisée.</li>
+          <li>Le standard cinéma monte. Le médiocre devient instantanément visible.</li>
+        </ul>
+      </div>
+      <div class="pos-col">
+        <h3>Ce que <span class="accent">nous</span> engageons.</h3>
+        <ul class="pos-list">
+          <li>Pionniers depuis 2014, dès avant la mode. Onze ans de pratique réelle.</li>
+          <li>Maîtrise full-pipeline : prépa, tournage hybride, post-prod, formation.</li>
+          <li>Direction artistique avant outil. La machine ne propose jamais en premier.</li>
+          <li>Vos données restent vôtres. Pas de modèles entraînés sur vos rushes.</li>
+          <li>Transparence sur ce que l'IA fait — et sur ce qu'elle ne fait pas.</li>
+          <li>Conseil indépendant : on vous dit ce qu'il vaut mieux ne pas automatiser.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="engagements">
+  <div class="container">
+    <div class="section-eyebrow"><span class="mono">↳ LIGNES ROUGES</span></div>
+    <h2 class="display" style="font-size:clamp(40px,6vw,80px);max-width:920px;color:var(--fg)">CE QU'ON NE<br>FERA PAS.</h2>
+
+    <div class="engagement-grid">
+      <div class="eng-card">
+        <div class="eng-num">01</div>
+        <h4>Pas de deepfake.</h4>
+        <p>Aucun visage généré pour incarner une personne réelle sans accord écrit.</p>
+      </div>
+      <div class="eng-card">
+        <div class="eng-num">02</div>
+        <h4>Pas de style volé.</h4>
+        <p>Pas de prompts qui imitent un artiste vivant identifiable. Le style se construit, ne se copie pas.</p>
+      </div>
+      <div class="eng-card">
+        <div class="eng-num">03</div>
+        <h4>Pas de boîte noire.</h4>
+        <p>On documente quels modèles, quels prompts, quelles itérations. Vous savez d'où vient chaque pixel.</p>
+      </div>
+      <div class="eng-card">
+        <div class="eng-num">04</div>
+        <h4>Pas d'usurpation.</h4>
+        <p>Si un plan est IA, on l'indique. Vos crédits restent honnêtes.</p>
+      </div>
+      <div class="eng-card">
+        <div class="eng-num">05</div>
+        <h4>Pas de tout-IA.</h4>
+        <p>Le réel reste la matière première. L'IA augmente. Elle ne substitue pas.</p>
+      </div>
+      <div class="eng-card">
+        <div class="eng-num">06</div>
+        <h4>Pas de précipitation.</h4>
+        <p>Si on vous dit qu'un plan exige un vrai tournage, c'est un vrai tournage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="container">
+    <span class="mono" style="color:var(--anse);display:inline-block;margin-bottom:24px">↳ ON COMMENCE QUAND ?</span>
+    <h2 class="display">UN PROJET ?<br>UN <em>BRIEF.</em></h2>
+    <p>30 minutes pour cadrer ensemble. Sans engagement. On vous dit ce qu'on peut faire — et ce qu'on refuse.</p>
+    <a href="#" class="cta-btn">Discuter avec l'équipe</a>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Pionniers depuis 2014</span>
+    <span>L'IA n'écrit pas l'histoire</span>
+    <span>Le plateau reste roi</span>
+    <span>Plus juste. Plus humain.</span>
+    <span>Pionniers depuis 2014</span>
+    <span>L'IA n'écrit pas l'histoire</span>
+    <span>Le plateau reste roi</span>
+    <span>Plus juste. Plus humain.</span>
+  </div>
+</div>
+
+</body>
+</html>

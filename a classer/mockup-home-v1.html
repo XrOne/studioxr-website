@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio XR·ONE — Mockup home v1 (Caraïbes Workflow)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lagon:#0E7C9B; --anse:#5EC8D6; --abysse:#0A1F2C;
+    --sable:#F2E6CF; --corail:#FF8A65;
+    --air:#F8FBFC; --fg:#0A1F2C; --muted:#3D5A6C;
+    --line:rgba(10,31,44,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;color:var(--fg);background:var(--air);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.02em;line-height:1.1}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1240px;margin:0 auto;padding:0 32px}
+
+  /* Header */
+  header{position:sticky;top:0;background:rgba(248,251,252,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);z-index:50}
+  nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:'Fraunces',serif;font-weight:600;font-size:20px;letter-spacing:-0.02em}
+  .logo span{color:var(--lagon)}
+  .nav-links{display:flex;gap:32px;font-size:15px;font-weight:500}
+  .nav-links a{color:var(--muted);transition:color .2s}
+  .nav-links a:hover{color:var(--fg)}
+  .cta-btn{padding:10px 20px;background:var(--abysse);color:var(--air);border-radius:999px;font-size:14px;font-weight:500;transition:transform .2s}
+  .cta-btn:hover{transform:translateY(-1px)}
+  .cta-btn.primary{background:var(--corail);color:var(--abysse)}
+
+  /* Hero */
+  .hero{position:relative;padding:120px 0 100px;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:-50px;background:
+    radial-gradient(800px circle at 20% 30%,rgba(94,200,214,.18),transparent 60%),
+    radial-gradient(600px circle at 80% 70%,rgba(14,124,155,.12),transparent 60%);
+    z-index:-1;animation:drift 20s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--lagon);margin-bottom:24px}
+  .eyebrow::before{content:'';width:32px;height:1px;background:var(--lagon)}
+  h1{font-size:clamp(40px,6vw,76px);max-width:900px;margin-bottom:32px}
+  h1 em{font-style:italic;color:var(--lagon);font-weight:400}
+  .lead{font-size:21px;color:var(--muted);max-width:680px;margin-bottom:48px}
+  .pillars{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:48px}
+  .pillar{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:500}
+  .pillar-dot{width:10px;height:10px;border-radius:50%}
+  .p1{background:var(--lagon)} .p2{background:var(--anse)} .p3{background:var(--corail)}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+  .btn-primary{background:var(--corail);color:var(--abysse);padding:16px 32px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .2s,box-shadow .2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,138,101,.35)}
+  .btn-secondary{background:transparent;color:var(--abysse);padding:16px 32px;border-radius:999px;font-weight:500;font-size:15px;border:1px solid var(--line);transition:border-color .2s}
+  .btn-secondary:hover{border-color:var(--abysse)}
+
+  /* Bandeau cas clients */
+  .cases-strip{padding:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+  .cases-label{text-align:center;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-bottom:32px}
+  .logos-row{display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:48px;opacity:.6}
+  .logo-placeholder{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--muted);letter-spacing:-0.01em}
+
+  /* Manifesto */
+  .manifesto{padding:120px 0;text-align:center}
+  .manifesto h2{font-size:clamp(28px,4vw,44px);max-width:840px;margin:0 auto 32px}
+  .manifesto p{font-size:18px;color:var(--muted);max-width:680px;margin:0 auto 24px}
+
+  /* 3 Piliers */
+  .pilliers-section{padding:80px 0 120px}
+  .section-title{font-size:clamp(28px,4vw,44px);margin-bottom:16px;max-width:680px}
+  .section-sub{font-size:18px;color:var(--muted);max-width:560px;margin-bottom:64px}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .pillar-card{position:relative;padding:40px;background:#fff;border-radius:24px;border:1px solid var(--line);overflow:hidden;transition:transform .3s,box-shadow .3s}
+  .pillar-card::before{content:'';position:absolute;inset:-1px;border-radius:24px;background:conic-gradient(from var(--angle,0deg),transparent,var(--anse),transparent 30%);opacity:0;transition:opacity .4s;z-index:0;animation:rotate 6s linear infinite}
+  .pillar-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(14,124,155,.12)}
+  .pillar-card:hover::before{opacity:1}
+  @keyframes rotate{to{--angle:360deg}}
+  @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+  .pillar-card>*{position:relative;z-index:1}
+  .pillar-card-inner{background:#fff;border-radius:23px;padding:40px;margin:-40px;height:calc(100% + 80px)}
+  .pillar-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:#fff}
+  .pi-1{background:var(--lagon)} .pi-2{background:var(--abysse)} .pi-3{background:var(--corail);color:var(--abysse)}
+  .pillar-card h3{font-size:24px;margin-bottom:12px}
+  .pillar-card p{color:var(--muted);font-size:15.5px;margin-bottom:24px;line-height:1.6}
+  .pillar-card a{font-size:14px;font-weight:600;color:var(--lagon);display:inline-flex;align-items:center;gap:6px}
+  .pillar-card a::after{content:'→';transition:transform .2s}
+  .pillar-card a:hover::after{transform:translateX(4px)}
+
+  /* Avant/Après — Signature showcase */
+  .showcase{padding:120px 0;background:linear-gradient(180deg,#fff,var(--air))}
+  .showcase-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:24px}
+  .showcase-header h2{max-width:520px}
+  .showcase-tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{padding:10px 18px;background:#fff;border:1px solid var(--line);border-radius:99px;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s}
+  .tab.active{background:var(--abysse);color:var(--air);border-color:var(--abysse)}
+  .ba-comparator{position:relative;height:520px;border-radius:24px;overflow:hidden;cursor:ew-resize;user-select:none;box-shadow:0 24px 60px rgba(10,31,44,.18);background:#000}
+  .ba-after,.ba-before{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:28px;color:rgba(255,255,255,.85);text-align:center;padding:0 32px}
+  .ba-after{background:
+    radial-gradient(ellipse 800px 400px at 30% 30%,rgba(94,200,214,.4),transparent 70%),
+    linear-gradient(135deg,#0E7C9B 0%,#0A1F2C 100%);
+    color:rgba(248,251,252,.95)}
+  .ba-after::after{content:'PROJECTION IA · vision finale';position:absolute;top:24px;right:24px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;background:rgba(255,138,101,.95);color:var(--abysse);padding:6px 12px;border-radius:99px}
+  .ba-before{background:
+    radial-gradient(ellipse 600px 400px at 60% 70%,rgba(242,230,207,.3),transparent 70%),
+    linear-gradient(135deg,#3D5A6C 0%,#0A1F2C 100%);
+    clip-path:inset(0 50% 0 0)}
+  .ba-before::after{content:'AVANT · décor naturel repéré';position:absolute;top:24px;left:24px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;background:rgba(248,251,252,.92);color:var(--abysse);padding:6px 12px;border-radius:99px}
+  .ba-handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);box-shadow:0 0 32px rgba(255,255,255,.5);pointer-events:none}
+  .ba-handle::before{content:'⇄';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:#fff;color:var(--abysse);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .ba-caption{margin-top:24px;display:flex;justify-content:space-between;font-size:14px;color:var(--muted);flex-wrap:wrap;gap:16px}
+  .ba-caption strong{color:var(--fg)}
+
+  /* Cinemia detail */
+  .cinemia-detail{padding:120px 0;background:#fff}
+  .cinemia-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:center}
+  .cinemia-features{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+  .cinemia-feat{padding:20px;border-left:2px solid var(--anse)}
+  .cinemia-feat strong{display:block;font-size:15px;color:var(--fg);margin-bottom:6px}
+  .cinemia-feat span{font-size:13.5px;color:var(--muted);line-height:1.5}
+  .cinemia-mock{aspect-ratio:4/3;border-radius:20px;background:linear-gradient(135deg,var(--abysse),#1a3a52);position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(10,31,44,.18)}
+  .cinemia-mock::before{content:'';position:absolute;inset:24px;border-radius:12px;background:rgba(248,251,252,.04);border:1px solid rgba(94,200,214,.18)}
+  .cinemia-mock::after{content:'CINEMIA · interface';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Fraunces',serif;font-size:22px;color:rgba(248,251,252,.5);letter-spacing:0.04em}
+  .cinemia-tag{display:inline-block;padding:4px 12px;background:rgba(14,124,155,.1);color:var(--lagon);border-radius:99px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px}
+
+  @media(max-width:768px){
+    .cinemia-grid{grid-template-columns:1fr;gap:32px}
+    .cinemia-features{grid-template-columns:1fr}
+    .ba-comparator{height:360px}
+    .ba-after,.ba-before{font-size:18px}
+  }
+
+  /* Workflow */
+  .workflow{padding:120px 0;background:linear-gradient(180deg,var(--air),#fff)}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;margin-top:48px}
+  .step{padding:32px 24px;border-left:1px solid var(--line);transition:border-color .3s}
+  .step:hover{border-left-color:var(--lagon)}
+  .step-num{font-family:'Fraunces',serif;font-size:48px;color:var(--anse);font-weight:300;margin-bottom:16px;line-height:1}
+  .step h4{font-size:17px;font-weight:600;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14.5px}
+
+  /* Logiciels */
+  .logiciels{padding:120px 0;background:var(--abysse);color:var(--air)}
+  .logiciels h2{color:var(--air)}
+  .logiciels .section-sub{color:rgba(248,251,252,.65)}
+  .software-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:48px}
+  .soft-card{padding:32px;border:1px solid rgba(94,200,214,.18);border-radius:20px;background:rgba(94,200,214,.04);backdrop-filter:blur(8px);transition:border-color .3s,transform .3s}
+  .soft-card:hover{border-color:var(--anse);transform:translateY(-4px)}
+  .soft-tag{display:inline-block;padding:4px 12px;border-radius:99px;background:rgba(94,200,214,.16);color:var(--anse);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px}
+  .soft-card h3{color:var(--air);font-size:22px;margin-bottom:8px}
+  .soft-card p{color:rgba(248,251,252,.7);font-size:14.5px;margin-bottom:20px}
+  .soft-card a{color:var(--anse);font-size:13.5px;font-weight:600}
+
+  /* CTA Final */
+  .cta-final{padding:120px 0;text-align:center}
+  .cta-final h2{font-size:clamp(32px,5vw,52px);max-width:760px;margin:0 auto 24px}
+  .cta-final p{color:var(--muted);font-size:18px;max-width:520px;margin:0 auto 32px}
+
+  /* Footer */
+  footer{padding:64px 0 32px;border-top:1px solid var(--line);background:#fff}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+  .footer-brand p{color:var(--muted);font-size:14px;margin-top:12px;max-width:300px}
+  .footer-col h5{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--fg);margin-bottom:16px}
+  .footer-col a{display:block;color:var(--muted);font-size:14px;padding:6px 0;transition:color .2s}
+  .footer-col a:hover{color:var(--lagon)}
+  .footer-bottom{padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:var(--muted);font-size:13px}
+  .heritage-strip{background:var(--sable);padding:24px 0;text-align:center;font-size:14px;color:var(--abysse);font-style:italic}
+  .heritage-strip strong{font-style:normal;font-weight:600}
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .hero{padding:80px 0 60px}
+    .pillars{flex-direction:column;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">STUDIO XR<span>·</span>ONE</a>
+      <div class="nav-links">
+        <a href="#">Studio</a>
+        <a href="#">Production</a>
+        <a href="#">Logiciels</a>
+        <a href="#">Workflow</a>
+        <a href="#">Journal</a>
+      </div>
+      <a href="#" class="cta-btn primary">Discuter d'un projet</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Pionnier de la création immersive · depuis 2015</div>
+    <h1>L'atelier où l'IA, le cinéma et le réel <em>fusionnent</em>.</h1>
+    <p class="lead">Studio de création audiovisuelle et logiciels IA. On accompagne vos productions avec un savoir-faire workflow né de 10 ans à pousser les frontières immersives.</p>
+    <div class="pillars">
+      <div class="pillar"><span class="pillar-dot p1"></span> Production IA & VR</div>
+      <div class="pillar"><span class="pillar-dot p2"></span> Logiciels &amp; brique IA</div>
+      <div class="pillar"><span class="pillar-dot p3"></span> Conseil &amp; workflow</div>
+    </div>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Discutons de votre projet</a>
+      <a href="#" class="btn-secondary">Voir nos réalisations</a>
+    </div>
+  </div>
+</section>
+
+<section class="cases-strip">
+  <div class="container">
+    <div class="cases-label">Ils nous ont fait confiance</div>
+    <div class="logos-row">
+      <div class="logo-placeholder">Declics</div>
+      <div class="logo-placeholder">France 3</div>
+      <div class="logo-placeholder">INRA · CIRAD</div>
+      <div class="logo-placeholder">ELLE Décor</div>
+      <div class="logo-placeholder">MIDEM</div>
+      <div class="logo-placeholder">Laval Virtual</div>
+      <div class="logo-placeholder">XR4ALL</div>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="container">
+    <h2>Un atelier paisible, pionnier depuis 2015.</h2>
+    <p>Né à l'incubateur ENSAM par deux passionnés de réalité virtuelle, Studio XR-ONE a accompagné dès 2015 les premières expériences immersives du paysage français — MIDEM, Laval Virtual, France 3, INRA/CIRAD, Monaco Périgord.</p>
+    <p>Aujourd'hui on poursuit la même obsession sur un nouveau médium : <strong>la création audiovisuelle augmentée par l'IA générative</strong>. Sans bruit, sans buzzwords. Avec rigueur, méthode, et le sens du plateau.</p>
+  </div>
+</section>
+
+<section class="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <div>
+        <span class="cinemia-tag" style="margin-bottom:0;display:inline-block">Signature · Préproduction augmentée</span>
+        <h2 class="section-title" style="margin-top:16px">Voir le décor avant le tournage.</h2>
+        <p class="section-sub">On photographie un décor naturel repéré, on l'augmente par IA, et l'équipe (réalisateur·trice, chef·fe déco, équipe de construction) <strong>visualise concrètement</strong> sa vision avant de poser un seul rideau.</p>
+      </div>
+      <div class="showcase-tabs">
+        <span class="tab active">Décors naturels</span>
+        <span class="tab">Prévisualisation scène</span>
+        <span class="tab">Mood lighting</span>
+      </div>
+    </div>
+    <div class="ba-comparator" id="comparator">
+      <div class="ba-after">VISION FINALE — décor augmenté IA</div>
+      <div class="ba-before" id="before">DÉCOR BRUT photographié sur site</div>
+      <div class="ba-handle" id="handle"></div>
+    </div>
+    <div class="ba-caption">
+      <span><strong>Glissez le séparateur ↔︎</strong> pour comparer le décor brut et la projection IA finale.</span>
+      <span>Cas réel · Production cinéma 2025 · 〈image placeholder — à remplacer par tes vraies captures〉</span>
+    </div>
+  </div>
+</section>
+
+<section class="pilliers-section">
+  <div class="container">
+    <h2 class="section-title">Trois territoires, une seule méthode.</h2>
+    <p class="section-sub">Production sur mesure, logiciels propriétaires, transmission du savoir-faire. Tout est connecté.</p>
+    <div class="grid-3">
+      <div class="pillar-card">
+        <div class="pillar-icon pi-1">P</div>
+        <h3>Production IA &amp; immersive</h3>
+        <p>Plans IA pour cinéma, pubs, clips. Prévisualisation de séquences. Expériences VR sur mesure. Intégrés à vos rushes existants, sans rupture de ton.</p>
+        <a href="#">Voir nos productions</a>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon pi-2">J</div>
+        <h3>Logiciels &amp; brique IA</h3>
+        <p>Jenial · l'éditeur de séquences IA. Cinemia · l'analyse de scénario IA. MIZIK · le karaoké VR. Trois outils, un même socle propriétaire.</p>
+        <a href="#">Découvrir nos logiciels</a>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon pi-3">W</div>
+        <h3>Conseil &amp; workflow</h3>
+        <p>On installe l'IA dans vos pipelines existants. Audit, accompagnement, formation. Une méthode, pas une promesse.</p>
+        <a href="#">Cadrer un audit</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="workflow">
+  <div class="container">
+    <h2 class="section-title">Une méthode en 6 mouvements.</h2>
+    <p class="section-sub">De l'idée brute à la livraison, un cadre qui sécurise vos productions.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h4>Brief &amp; contraintes</h4><p>Usage, style, durée, droits. Tout cadré dès la première heure.</p></div>
+      <div class="step"><div class="step-num">02</div><h4>Direction créative</h4><p>Moodboards, références, premiers tests. On valide ensemble la patte.</p></div>
+      <div class="step"><div class="step-num">03</div><h4>Images clés</h4><p>Plans validables avant animation. Itération courte, décisions claires.</p></div>
+      <div class="step"><div class="step-num">04</div><h4>Animation &amp; vidéo</h4><p>Veo · Wan · LTX · Flux · Qwen. On choisit l'outil selon le shot.</p></div>
+      <div class="step"><div class="step-num">05</div><h4>Post-prod</h4><p>Montage, étalonnage, sound design, captions, exports plateforme.</p></div>
+      <div class="step"><div class="step-num">06</div><h4>Livraison &amp; itérations</h4><p>Versions naming, retakes cadrés, archivage propre.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cinemia-detail">
+  <div class="container">
+    <div class="cinemia-grid">
+      <div>
+        <span class="cinemia-tag">Cinemia · IA pour cinéma</span>
+        <h2 class="section-title">Du scénario au plateau, en clair.</h2>
+        <p class="section-sub">Chargez votre script ou un brief court. Cinemia produit un découpage technique, une analyse de continuité, une prévisualisation de séquences, et propose des moodboards alignés à votre intention.</p>
+        <div class="cinemia-features">
+          <div class="cinemia-feat"><strong>Découpage technique</strong><span>Plans, durées, axes, mouvements caméra suggérés</span></div>
+          <div class="cinemia-feat"><strong>Analyse de continuité</strong><span>Détection automatique d'incohérences scénario</span></div>
+          <div class="cinemia-feat"><strong>Prévisualisation</strong><span>Génération d'images clés par séquence</span></div>
+          <div class="cinemia-feat"><strong>Moodboards IA</strong><span>Direction artistique alignée au brief</span></div>
+          <div class="cinemia-feat"><strong>Export équipe</strong><span>PDF découpage, contact sheets, exports plateau</span></div>
+          <div class="cinemia-feat"><strong>BYOK Gemini</strong><span>Vos clés, vos données, jamais sur nos serveurs</span></div>
+        </div>
+        <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#" class="btn-primary" style="background:var(--lagon);color:#fff">Tester Cinemia</a>
+          <a href="#" class="btn-secondary">Voir un exemple complet</a>
+        </div>
+      </div>
+      <div class="cinemia-mock"></div>
+    </div>
+  </div>
+</section>
+
+<section class="logiciels">
+  <div class="container">
+    <h2 class="section-title">Notre brique IA propriétaire.</h2>
+    <p class="section-sub">Trois logiciels, un même cœur. Construits sur le terrain, pour le terrain.</p>
+    <div class="software-grid">
+      <div class="soft-card">
+        <span class="soft-tag">Phare</span>
+        <h3>Jenial</h3>
+        <p>L'éditeur de séquences IA — assistant prompt, multi-providers, timeline, dogma manager, character manager.</p>
+        <a href="#">Ouvrir l'app →</a>
+      </div>
+      <div class="soft-card">
+        <span class="soft-tag">Module</span>
+        <h3>Cinemia</h3>
+        <p>L'IA au service du cinéma — découpage technique, analyse de continuité, prévisualisation scénario.</p>
+        <a href="#">En savoir plus →</a>
+      </div>
+      <div class="soft-card">
+        <span class="soft-tag">Live</span>
+        <h3>MIZIK</h3>
+        <p>Karaoké VR hybride — événements live, contests, expériences immersives B2B.</p>
+        <a href="#">Découvrir MIZIK →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="container">
+    <h2>Un projet ? Une idée ? Un workflow à challenger ?</h2>
+    <p>30 minutes pour cadrer, sans engagement. Café visio offert.</p>
+    <a href="#" class="btn-primary">Discuter avec l'équipe</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">STUDIO XR<span style="color:var(--lagon)">·</span>ONE</div>
+        <p>Atelier paisible où l'IA, le cinéma et le réel fusionnent. Pionnier français de la création immersive depuis 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="#">Manifesto</a>
+        <a href="#">Équipe</a>
+        <a href="#">Heritage XR</a>
+        <a href="#">Journal</a>
+      </div>
+      <div class="footer-col">
+        <h5>Produits</h5>
+        <a href="#">Jenial</a>
+        <a href="#">Cinemia</a>
+        <a href="#">MIZIK</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="#">contact@studioxr.one</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">155 Bd de l'Hôpital, 75013 Paris</a>
+        <a href="#">Incubateur ENSAM</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Studio XR-ONE · Pionnier XR depuis 2015</span>
+      <div style="display:flex;gap:24px"><a href="#">Mentions légales</a><a href="#">RGPD</a><a href="#">CGU</a></div>
+    </div>
+  </div>
+  <div class="heritage-strip" style="margin-top:32px">
+    <strong>De la frontière XR à la frontière IA.</strong> · Né à l'ENSAM, ancré en Martinique, présent au plateau.
+  </div>
+</footer>
+
+<script>
+  // Comparator avant/après — slider draggable
+  (function(){
+    const c = document.getElementById('comparator');
+    if(!c) return;
+    const before = document.getElementById('before');
+    const handle = document.getElementById('handle');
+    let dragging = false;
+    function setPos(clientX){
+      const rect = c.getBoundingClientRect();
+      let pct = ((clientX - rect.left) / rect.width) * 100;
+      pct = Math.max(0, Math.min(100, pct));
+      before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left = pct + '%';
+    }
+    c.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if(dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => dragging = false);
+    c.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); });
+    window.addEventListener('touchmove', e => { if(dragging) setPos(e.touches[0].clientX); });
+    window.addEventListener('touchend', () => dragging = false);
+    // Tabs (visual only for mockup)
+    document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    }));
+  })();
+</script>
+</body>
+</html>
