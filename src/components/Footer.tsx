@@ -103,14 +103,12 @@ export default function Footer({
             >
               Cinemia
             </a>
-            <a
-              href="https://mizik.tech"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/#pionniers"
               style={footerLinkStyle}
             >
-              MIZIK
-            </a>
+              Pionniers (R&amp;D XR)
+            </Link>
           </div>
           <div>
             <h5

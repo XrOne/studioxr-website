@@ -6,6 +6,8 @@ interface Software {
   hrefLabel: string;
 }
 
+// Section "outils IA propriétaires actifs" — uniquement Jenial + Cinemia.
+// MIZIK a été déplacé vers la section Pionniers (preuve d'ADN XR, pas outil vendu aux prods).
 const SOFTWARES: Software[] = [
   {
     tag: "Phare",
@@ -20,13 +22,6 @@ const SOFTWARES: Software[] = [
     desc: "L'IA pour le cinéma. Découpage, continuité, prévisualisation.",
     href: "https://jenial.app/cinemia",
     hrefLabel: "/cinemia →",
-  },
-  {
-    tag: "Projet XR-ONE",
-    title: "MIZIK",
-    desc: "Karaoké VR hybride. Live, contests, événements pionniers.",
-    href: "https://mizik.tech",
-    hrefLabel: "mizik.tech →",
   },
 ];
 
@@ -56,7 +51,7 @@ export default function Logiciels() {
           className="section-sub"
           style={{ color: "rgba(248,251,252,0.65)" }}
         >
-          Trois outils. Un même cœur. Construits sur le terrain.
+          Deux outils. Un même cœur. Construits sur le terrain.
         </p>
 
         <div

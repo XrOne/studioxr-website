@@ -31,6 +31,20 @@ export const ALL_CASE_STUDIES_QUERY = groq`
   }
 `;
 
+export const ALL_LEGACY_PROJECTS_QUERY = groq`
+  *[_type == "legacyProject"] | order(order asc, _createdAt desc) {
+    _id,
+    title,
+    year,
+    format,
+    role,
+    claim,
+    youtubeId,
+    thumbnailOverride,
+    order
+  }
+`;
+
 export const ALL_PARTNERS_QUERY = groq`
   *[_type == "partner"] | order(order asc, name asc) {
     _id,

@@ -38,6 +38,17 @@ export interface PartnerFallback {
   order: number;
 }
 
+export interface LegacyProjectFallback {
+  _id: string;
+  title: string;
+  year: string;
+  format: string;
+  role: string;
+  claim: string;
+  youtubeId: string;
+  order: number;
+}
+
 export interface EngagementFallback {
   number: string;
   title: string;
@@ -121,7 +132,9 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
   },
 ];
 
-// === Études de cas — 3 entries ===
+// === Études de cas — prestations IA actuelles ===
+// MIZIK et BNP ont été déplacés vers FALLBACK_LEGACY_PROJECTS (preuves d'antériorité XR/VR).
+// Cette section accueille uniquement les prestations IA récentes (à enrichir).
 export const FALLBACK_CASE_STUDIES: CaseStudyFallback[] = [
   {
     _id: "case-1",
@@ -136,29 +149,76 @@ export const FALLBACK_CASE_STUDIES: CaseStudyFallback[] = [
       "Décors IA avant/après · prévisualisation séquences · plans IA insérés.",
     bgVariant: 1,
   },
+];
+
+// === Projets pionniers — preuves d'ADN XR/VR (2015-2021) ===
+// Source : playlist YouTube "Videos immersive by studio XR-ONE" + projet MIZIK 2021.
+export const FALLBACK_LEGACY_PROJECTS: LegacyProjectFallback[] = [
   {
-    _id: "case-2",
-    title: "MIZIK",
-    slug: "mizik",
-    client: "MIZIK",
-    tag: "Projet XR-ONE · VR pionnier",
-    category: "projet-xr-one",
-    order: 2,
-    shortDescription:
-      "Karaoké VR hybride. Premier contest VR à Laval Virtual 2021.",
-    bgVariant: 3,
+    _id: "legacy-other-side",
+    title: "The Other Side",
+    year: "2015",
+    format: "Court-métrage VR 360° stéréoscopique",
+    role: "Réalisation — partenaires Panocam 3D + Holodia (O. Zitvogel)",
+    claim:
+      "Premier court-métrage français immersif stéréoscopique à 360°.",
+    youtubeId: "MI5p-keCBns",
+    order: 1,
   },
   {
-    _id: "case-3",
-    title: "BNP Paribas",
-    slug: "bnp-paribas",
-    client: "BNP Paribas",
-    tag: "Corporate immersif · à préciser",
-    category: "corporate",
+    _id: "legacy-shopper-lab",
+    title: "Shopper Lab Essilor",
+    year: "2016",
+    format: "Visite 360°",
+    role: "Opérateur 360, stitching, editing — Production Gunsmoke",
+    claim:
+      "Immersion R&D pour le shopper lab d'un grand groupe industriel.",
+    youtubeId: "mdDgzupI4es",
+    order: 2,
+  },
+  {
+    _id: "legacy-inra-cirad",
+    title: "INRA · CIRAD Corse",
+    year: "2016",
+    format: "Drone 360° + visite guidée immersive",
+    role: "Editing, stitching",
+    claim:
+      "Vue drone 360° sur la Corse, puis visite de la plus grande collection d'agrumes au monde.",
+    youtubeId: "dUgtBq8NWpA",
     order: 3,
-    shortDescription:
-      "〈à compléter — quelle prestation tu veux mettre en avant ?〉",
-    bgVariant: 2,
+  },
+  {
+    _id: "legacy-noob",
+    title: "Making of Noob 360°",
+    year: "2017",
+    format: "Coulisses 360°",
+    role: "Captation 360°, stitching, editing",
+    claim:
+      "Coulisses immersives de la web-série Noob, pop culture FR.",
+    youtubeId: "kE301arZ6aY",
+    order: 4,
+  },
+  {
+    _id: "legacy-elle-decor",
+    title: "ELLE Décor",
+    year: "2017",
+    format: "Vidéo 360°",
+    role: "Prestataire technique 360/VR — Production Plissken, agence Armstrong",
+    claim:
+      "Vidéo 360° au cœur d'un appartement parisien pour la marque presse.",
+    youtubeId: "RPtj42-5sZw",
+    order: 5,
+  },
+  {
+    _id: "legacy-mizik",
+    title: "MIZIK",
+    year: "2021",
+    format: "Karaoké VR hybride",
+    role: "Conception, réalisation et production XR-ONE",
+    claim:
+      "Premier contest karaoké VR à Laval Virtual 2021. Projet propre XR-ONE.",
+    youtubeId: "",
+    order: 6,
   },
 ];
 
