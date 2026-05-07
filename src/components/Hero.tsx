@@ -84,14 +84,16 @@ export default function Hero() {
             style={{
               fontSize: 19,
               color: "var(--muted)",
-              maxWidth: 520,
+              maxWidth: 560,
               lineHeight: 1.5,
             }}
           >
             Studio audiovisuel pionnier. On accompagne réalisateurs,
-            producteurs et régies de l&apos;écriture au pixel final — brief,
-            script, prépa, tournage hybride, post-prod augmentée par IA.
-            Sans buzzword. Avec méthode.
+            producteurs et régies de l&apos;écriture au pixel final —{" "}
+            <strong style={{ color: "var(--fg)" }}>
+              et on conçoit nos propres outils IA pour le faire
+            </strong>
+            . Le terrain dicte la R&amp;D. Sans buzzword. Avec méthode.
           </p>
           <div
             style={{
