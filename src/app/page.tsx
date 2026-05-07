@@ -5,6 +5,7 @@ import CasesStrip from "@/components/CasesStrip";
 import ManifesteTeaser from "@/components/ManifesteTeaser";
 import Capacities from "@/components/Capacities";
 import Pillars from "@/components/Pillars";
+import ManifesteDifference from "@/components/ManifesteDifference";
 import CaseStudies from "@/components/CaseStudies";
 import Pionniers from "@/components/Pionniers";
 import Logiciels from "@/components/Logiciels";
@@ -188,6 +189,7 @@ export default async function HomePage() {
         <ManifesteTeaser />
         <Capacities capacities={capacities} />
         <Pillars />
+        <ManifesteDifference />
         <CaseStudies caseStudies={caseStudies} />
         <Pionniers projects={legacyProjects} />
         <Logiciels />
