@@ -1,15 +1,23 @@
 import { groq } from "next-sanity";
 
 export const ALL_CAPACITIES_QUERY = groq`
-  *[_type == "capacity"] | order(order asc, title asc) {
+  *[_type == "capacity" && hidden != true] | order(order asc, title asc) {
     _id,
     title,
     "slug": slug.current,
     phase,
     order,
+    featured,
+    hidden,
+    mode,
     shortDescription,
     longDescription,
-    icon
+    icon,
+    "beforeImage": beforeImage.asset->url,
+    "afterImage": afterImage.asset->url,
+    beforeLabel,
+    afterLabel,
+    caption
   }
 `;
 

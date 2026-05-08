@@ -43,6 +43,14 @@ interface SanityCapacity {
   phase: CapacityFallback["phase"];
   order?: number;
   shortDescription?: string;
+  featured?: boolean;
+  hidden?: boolean;
+  mode?: CapacityFallback["mode"];
+  beforeImage?: string;
+  afterImage?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  caption?: string;
 }
 
 interface SanityCaseStudy {
@@ -115,14 +123,24 @@ export default async function HomePage() {
   // Bascule sur fallback si Sanity vide
   const capacities: CapacityFallback[] =
     capacitiesRes && capacitiesRes.length > 0
-      ? capacitiesRes.map((c, i) => ({
-          _id: c._id,
-          title: c.title,
-          slug: c.slug || c._id,
-          phase: c.phase,
-          order: c.order ?? i,
-          shortDescription: c.shortDescription || "",
-        }))
+      ? capacitiesRes
+          .filter((c) => c.hidden !== true)
+          .map((c, i) => ({
+            _id: c._id,
+            title: c.title,
+            slug: c.slug || c._id,
+            phase: c.phase,
+            order: c.order ?? i,
+            shortDescription: c.shortDescription || "",
+            featured: c.featured,
+            hidden: c.hidden,
+            mode: c.mode,
+            beforeImage: c.beforeImage,
+            afterImage: c.afterImage,
+            beforeLabel: c.beforeLabel,
+            afterLabel: c.afterLabel,
+            caption: c.caption,
+          }))
       : FALLBACK_CAPACITIES;
 
   const caseStudies: CaseStudyFallback[] =
