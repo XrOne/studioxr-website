@@ -232,7 +232,7 @@ export default function Logiciels() {
             style={{
               fontSize: "clamp(32px, 5vw, 56px)",
               color: "var(--air)",
-              marginBottom: 16,
+              marginBottom: 48,
               maxWidth: 920,
               letterSpacing: "0.01em",
             }}
@@ -241,19 +241,6 @@ export default function Logiciels() {
             <br />
             SANS RIEN CASSER.
           </h3>
-          <p
-            style={{
-              fontSize: 17,
-              color: "rgba(248,251,252,0.65)",
-              maxWidth: 640,
-              lineHeight: 1.55,
-              marginBottom: 48,
-            }}
-          >
-            Cinemia agit sur la pré-production. Le tournage, l&apos;étalonnage,
-            le mixage et le mastering restent aux chefs de poste — comme il
-            se doit.
-          </p>
 
           <ol
             style={{
