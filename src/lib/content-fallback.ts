@@ -146,15 +146,16 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
   },
   {
     _id: "cap-6",
-    title: "Continuité",
-    slug: "continuite",
-    phase: "prepa-prod",
+    title: "Cohérence personnages",
+    slug: "coherence-personnages",
+    phase: "transverse",
     order: 6,
-    shortDescription: "Détection d'incohérences scénario.",
+    shortDescription:
+      "Même visage, mêmes vêtements, mêmes proportions sur plusieurs plans.",
     mode: "comparator",
-    beforeLabel: "PLAN N",
-    afterLabel: "PLAN N+1 RACCORDÉ",
-    caption: "↳ glissez · continuité IA (projet client, NDA)",
+    beforeLabel: "RÉFÉRENCES PERSO",
+    afterLabel: "SÉQUENCE COHÉRENTE",
+    caption: "↳ glissez · cohérence personnages — séquence multi-plans",
   },
   {
     _id: "cap-7",
