@@ -200,7 +200,7 @@ h1, h2, h3, h4, h5 {
 .word-cycle span:nth-child(4) { animation-delay: 4.2s; }
 .word-cycle span:nth-child(5) { animation-delay: 5.6s; }
 .word-cycle::after {
-  content: "STORYBOARD";
+  content: "PREVIZ";
   display: inline-block;
   visibility: hidden;
 }
