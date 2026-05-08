@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const CYCLE_WORDS = ["BRIEF", "SCRIPT", "DÉCOUPAGE", "TEASER", "STORYBOARD"];
+const CYCLE_WORDS = ["BRIEF", "SCRIPT", "PLAN", "PREVIZ", "TEASER"];
 
 export default function Hero() {
   return (
@@ -59,7 +59,7 @@ export default function Hero() {
         >
           DU{" "}
           <span className="sr-only">
-            brief, du script, du découpage, du teaser ou du storyboard,
+            brief, du script, du plan, du previz ou du teaser,
           </span>
           <span className="word-cycle" aria-hidden="true">
             {CYCLE_WORDS.map((word) => (
