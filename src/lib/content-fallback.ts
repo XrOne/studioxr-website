@@ -10,6 +10,13 @@ export type CapacityPhase =
   | "post-prod"
   | "transverse";
 
+export type CapacityMode =
+  | "comparator"
+  | "split"
+  | "video"
+  | "screenshot"
+  | "sequence";
+
 export interface CapacityFallback {
   _id: string;
   title: string;
@@ -17,6 +24,14 @@ export interface CapacityFallback {
   phase: CapacityPhase;
   order: number;
   shortDescription: string;
+  featured?: boolean;
+  hidden?: boolean;
+  mode?: CapacityMode;
+  beforeImage?: string;
+  afterImage?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  caption?: string;
 }
 
 export interface CaseStudyFallback {
@@ -73,6 +88,12 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "prepa-prod",
     order: 1,
     shortDescription: "Lieu repéré → projection IA finale.",
+    featured: true,
+    mode: "comparator",
+    beforeLabel: "DÉCOR BRUT",
+    afterLabel: "PROJECTION IA",
+    caption:
+      "↳ glissez le séparateur · placeholder · Declics 2 (production Inevitable)",
   },
   {
     _id: "cap-2",
@@ -81,6 +102,10 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "prepa-prod",
     order: 2,
     shortDescription: "Du scénario aux planches cohérentes.",
+    mode: "comparator",
+    beforeLabel: "EXTRAIT SCRIPT",
+    afterLabel: "STORYBOARD GÉNÉRÉ",
+    caption: "↳ glissez · découpage technique illustré (pipeline Cinemia)",
   },
   {
     _id: "cap-3",
@@ -89,6 +114,10 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "prepa-prod",
     order: 3,
     shortDescription: "Prévisualisation séquences pré-tournage.",
+    mode: "comparator",
+    beforeLabel: "STORYBOARD",
+    afterLabel: "ANIMATIC",
+    caption: "↳ glissez · animatic généré (référence Cinemia)",
   },
   {
     _id: "cap-4",
@@ -97,22 +126,36 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "post-prod",
     order: 4,
     shortDescription: "Uprez colorimétrique IA · masters EXR float.",
+    mode: "comparator",
+    beforeLabel: "8 BITS LDR",
+    afterLabel: "32 BITS HDR",
+    caption: "↳ glissez · pipeline HDR XR-ONE (référence interne)",
   },
   {
     _id: "cap-5",
-    title: "Apps métier",
-    slug: "apps-metier",
-    phase: "transverse",
+    title: "Lumière & météo",
+    slug: "lumiere-meteo",
+    phase: "tournage-hybride",
     order: 5,
-    shortDescription: "Outils dédiés — déco, costume, lumière, cadre.",
+    shortDescription:
+      "Changer l’heure, l’ambiance ou la lumière d’une séquence.",
+    mode: "comparator",
+    beforeLabel: "PLAN SOURCE",
+    afterLabel: "AMBIANCE RELIGHT",
+    caption: "↳ glissez · relight météo IA — décor extérieur",
   },
   {
     _id: "cap-6",
-    title: "Continuité",
-    slug: "continuite",
-    phase: "prepa-prod",
+    title: "Cohérence personnages",
+    slug: "coherence-personnages",
+    phase: "transverse",
     order: 6,
-    shortDescription: "Détection d'incohérences scénario.",
+    shortDescription:
+      "Même visage, mêmes vêtements, mêmes proportions sur plusieurs plans.",
+    mode: "comparator",
+    beforeLabel: "RÉFÉRENCES PERSO",
+    afterLabel: "SÉQUENCE COHÉRENTE",
+    caption: "↳ glissez · cohérence personnages — séquence multi-plans",
   },
   {
     _id: "cap-7",
@@ -121,6 +164,10 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "tournage-hybride",
     order: 7,
     shortDescription: "Génération qui s'intègre aux rushes.",
+    mode: "comparator",
+    beforeLabel: "RUSH BRUT",
+    afterLabel: "PLAN IA INTÉGRÉ",
+    caption: "↳ glissez · plan complémentaire IA (projet client, NDA)",
   },
   {
     _id: "cap-8",
@@ -129,6 +176,10 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
     phase: "prepa-prod",
     order: 8,
     shortDescription: "Direction artistique alignée brief.",
+    mode: "comparator",
+    beforeLabel: "RÉFÉRENCES BRUTES",
+    afterLabel: "PLANCHE STYLISÉE",
+    caption: "↳ glissez · moodboard IA (pipeline Jenial)",
   },
 ];
 
