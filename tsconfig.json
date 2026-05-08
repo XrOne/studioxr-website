@@ -22,7 +22,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",
@@ -30,7 +31,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "sanity.config.ts",
-    "sanity.cli.ts"
+    "sanity.cli.ts",
+    "tests/**/*.ts",
+    "vitest.config.ts"
   ],
   "exclude": ["node_modules"]
 }
