@@ -47,3 +47,6 @@ dist/
 # Documentation projet (hors code)
 /a classer/
 /docs-projet/
+
+# Claude Code local config
+.claude/
