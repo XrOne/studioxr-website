@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const CYCLE_WORDS = ["BRIEF", "SCRIPT", "PLATEAU", "TEASER", "STORYBOARD"];
+const CYCLE_WORDS = ["BRIEF", "SCRIPT", "PLAN", "PREVIZ", "TEASER"];
 
 export default function Hero() {
   return (
@@ -59,7 +59,7 @@ export default function Hero() {
         >
           DU{" "}
           <span className="sr-only">
-            brief, du script, du plateau, du teaser ou du storyboard,
+            brief, du script, du plan, du previz ou du teaser,
           </span>
           <span className="word-cycle" aria-hidden="true">
             {CYCLE_WORDS.map((word) => (
@@ -93,7 +93,8 @@ export default function Hero() {
             <strong style={{ color: "var(--fg)" }}>
               et on conçoit nos propres outils IA pour le faire
             </strong>
-            . Le terrain dicte la R&amp;D. Sans buzzword. Avec méthode.
+            . La R&amp;D vient des productions, pas l&apos;inverse. Sans
+            buzzword. Avec méthode.
           </p>
           <div
             style={{

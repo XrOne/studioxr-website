@@ -65,8 +65,8 @@ export default function ManifesteDifference() {
           }}
         >
           Studio de prestation et éditeur d&apos;outils IA. Les deux à la
-          fois. C&apos;est cette double casquette qui fait que vos plateaux
-          ne dépendent pas du roadmap d&apos;un éditeur tiers.
+          fois. C&apos;est cette double casquette qui fait que vos
+          productions ne dépendent pas du roadmap d&apos;un éditeur tiers.
         </p>
       </div>
     </section>
