@@ -133,15 +133,16 @@ export const FALLBACK_CAPACITIES: CapacityFallback[] = [
   },
   {
     _id: "cap-5",
-    title: "Apps métier",
-    slug: "apps-metier",
-    phase: "transverse",
+    title: "Lumière & météo",
+    slug: "lumiere-meteo",
+    phase: "tournage-hybride",
     order: 5,
-    shortDescription: "Outils dédiés — déco, costume, lumière, cadre.",
+    shortDescription:
+      "Changer l’heure, l’ambiance ou la lumière d’une séquence.",
     mode: "comparator",
-    beforeLabel: "PROCESS MANUEL",
-    afterLabel: "OUTIL DÉDIÉ",
-    caption: "↳ glissez · pile logicielle Jenial · jenial.app",
+    beforeLabel: "PLAN SOURCE",
+    afterLabel: "AMBIANCE RELIGHT",
+    caption: "↳ glissez · relight météo IA — décor extérieur",
   },
   {
     _id: "cap-6",
