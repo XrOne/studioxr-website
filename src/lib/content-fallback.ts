@@ -12,10 +12,18 @@ export type CapacityPhase =
 
 export type CapacityMode =
   | "comparator"
-  | "split"
-  | "video"
-  | "screenshot"
-  | "sequence";
+  | "video-proof"
+  | "character-sequence";
+
+export interface CapacityVideo {
+  posterImage?: string;
+  fileMp4?: string;
+  fileWebm?: string;
+  externalUrl?: string;
+  duration?: number;
+  showSplitLabels?: boolean;
+  transcript?: string;
+}
 
 export interface CapacityFallback {
   _id: string;
@@ -32,6 +40,7 @@ export interface CapacityFallback {
   beforeLabel?: string;
   afterLabel?: string;
   caption?: string;
+  video?: CapacityVideo;
 }
 
 export interface CaseStudyFallback {

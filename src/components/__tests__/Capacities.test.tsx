@@ -169,3 +169,98 @@ describe("Capacities — section interactive", () => {
     expect(slider).toBeInTheDocument();
   });
 });
+
+describe("Capacities — mode video-proof", () => {
+  const videoFixtures: CapacityFallback[] = [
+    {
+      _id: "video-1",
+      title: "Preuve vidéo",
+      slug: "preuve-video",
+      phase: "tournage-hybride",
+      order: 1,
+      shortDescription: "Loop court démontrant la preuve.",
+      featured: true,
+      mode: "video-proof",
+      caption: "↳ preuve vidéo loop test",
+      video: {
+        posterImage: "https://example.test/poster.jpg",
+        fileMp4: "https://example.test/proof.mp4",
+        duration: 6,
+        transcript: "Description textuelle de la preuve vidéo.",
+      },
+    },
+    {
+      _id: "video-2",
+      title: "Comparator standard",
+      slug: "comparator-standard",
+      phase: "post-prod",
+      order: 2,
+      shortDescription: "Curseur avant/après.",
+      mode: "comparator",
+      beforeLabel: "AVANT",
+      afterLabel: "APRÈS",
+      caption: "↳ comparator test",
+    },
+    {
+      _id: "video-3",
+      title: "Vidéo sans source",
+      slug: "video-sans-source",
+      phase: "transverse",
+      order: 3,
+      shortDescription: "Aucune source vidéo, doit fallback proprement.",
+      mode: "video-proof",
+      video: {
+        posterImage: "https://example.test/poster-only.jpg",
+      },
+    },
+  ];
+
+  it("affiche un lecteur vidéo en mode video-proof avec le bouton play/pause", () => {
+    render(<Capacities capacities={videoFixtures} />);
+
+    const playButton = screen.getByRole("button", { name: /pause|lecture/i });
+    expect(playButton).toBeInTheDocument();
+
+    expect(screen.queryByRole("slider")).not.toBeInTheDocument();
+  });
+
+  it("ne rend pas le curseur avant/après en mode video-proof", () => {
+    render(<Capacities capacities={videoFixtures} />);
+    expect(screen.queryByRole("slider")).not.toBeInTheDocument();
+  });
+
+  it("rend le BeforeAfterSlider quand on bascule sur une capacité comparator", async () => {
+    const user = userEvent.setup();
+    render(<Capacities capacities={videoFixtures} />);
+
+    const tablist = screen.getByRole("tablist", { name: /capacités ia/i });
+    const comparatorTab = within(tablist).getByRole("tab", {
+      name: /comparator standard/i,
+    });
+
+    await user.click(comparatorTab);
+
+    expect(screen.getByRole("slider")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /pause|lecture/i })).not
+      .toBeInTheDocument();
+  });
+
+  it("ne crash pas en mode video-proof sans source vidéo (poster seul)", async () => {
+    const user = userEvent.setup();
+
+    expect(() =>
+      render(<Capacities capacities={videoFixtures} />)
+    ).not.toThrow();
+
+    const tablist = screen.getByRole("tablist", { name: /capacités ia/i });
+    const noSourceTab = within(tablist).getByRole("tab", {
+      name: /vidéo sans source/i,
+    });
+
+    await user.click(noSourceTab);
+
+    expect(noSourceTab).toHaveAttribute("aria-selected", "true");
+    expect(screen.queryByRole("button", { name: /pause|lecture/i })).not
+      .toBeInTheDocument();
+  });
+});
