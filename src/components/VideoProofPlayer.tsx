@@ -60,7 +60,8 @@ export default function VideoProofPlayer({
 
   const containerStyle: React.CSSProperties = {
     position: "relative",
-    height: 560,
+    width: "100%",
+    aspectRatio: "16 / 9",
     background: "#000",
     marginBottom: 16,
     overflow: "hidden",

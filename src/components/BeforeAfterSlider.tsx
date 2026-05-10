@@ -126,7 +126,8 @@ export default function BeforeAfterSlider({
         }}
         style={{
           position: "relative",
-          height: 560,
+          width: "100%",
+          aspectRatio: "16 / 9",
           cursor: "ew-resize",
           userSelect: "none",
           background: "#000",
