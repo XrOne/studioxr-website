@@ -321,36 +321,42 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
         }
 
-        /* 1200px+ : layout 2 colonnes (60% média / 40% mosaïque 2×4) */
+        /* 1200px+ : layout 2 colonnes — mosaïque calée sur le rectangle media (560px) */
         @media (min-width: 1200px) {
           .capacities-layout {
             display: grid;
             grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
             gap: 32px;
-            align-items: stretch;
+            align-items: start;
+          }
+          .capacities-media {
+            min-width: 0;
           }
           .capacities-grid {
             margin-top: 0;
-            grid-template-columns: 1fr 1fr;
+            height: 560px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             grid-template-rows: repeat(4, minmax(0, 1fr));
             gap: 12px;
-            height: 100%;
             background: transparent;
             border: none;
+            overflow: hidden;
           }
           .capacity-card {
-            padding: 14px 16px;
+            padding: 12px 14px;
+            min-height: 0;
+            overflow: hidden;
             box-shadow: inset 0 0 0 1px var(--line);
           }
           .capacity-card[data-active="true"] {
             box-shadow: none;
           }
           .capacity-card-eyebrow {
-            margin-bottom: 6px !important;
+            margin-bottom: 4px !important;
           }
           .capacity-card-title {
             font-size: 15px !important;
-            margin-bottom: 6px !important;
+            margin-bottom: 4px !important;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
