@@ -61,7 +61,7 @@ export default function CTAFinal({
           qu&apos;on peut faire — et ce qu&apos;on refuse.
         </p>
         <a
-          href={`mailto:${contactEmail}?subject=Brief%20Studio%20XR-ONE`}
+          href={`mailto:${contactEmail}?subject=Brief%20Jenial`}
           className="cta-btn cta-btn-lg"
         >
           Discuter avec l&apos;équipe
