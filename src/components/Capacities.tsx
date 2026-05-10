@@ -17,18 +17,12 @@ const PHASE_LABEL: Record<string, string> = {
 };
 
 const PANEL_ID = "capacities-comparator";
-const MOBILE_BREAKPOINT_PX = 768;
 
 function pickInitialId(items: CapacityFallback[]): string | null {
   if (items.length === 0) return null;
   const featured = items.find((c) => c.featured);
   if (featured) return featured._id;
   return items[0]._id;
-}
-
-function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export default function Capacities({ capacities }: CapacitiesProps) {
@@ -42,7 +36,6 @@ export default function Capacities({ capacities }: CapacitiesProps) {
   );
 
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const panelRef = useRef<HTMLDivElement>(null);
   const mediaWrapperRef = useRef<HTMLDivElement>(null);
   const [mediaFrameHeight, setMediaFrameHeight] = useState<number | null>(null);
 
@@ -77,15 +70,10 @@ export default function Capacities({ capacities }: CapacitiesProps) {
   }, [active?._id, renderMode]);
 
   function activateCapacity(id: string) {
+    // Pas de scroll au switch : sur mobile les chips de télécommande sont
+    // placées au-dessus du media, donc le changement est immédiatement
+    // visible sans yo-yo viewport.
     setActiveId(id);
-    if (typeof window === "undefined") return;
-    const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
-
-    // Desktop ≥ 1200px : mosaïque 2×4 visible d'un coup, pas de scroll.
-    // Mobile < 768px : scroll viewport vers le panel (comportement existant).
-    if (window.innerWidth < MOBILE_BREAKPOINT_PX && panelRef.current) {
-      panelRef.current.scrollIntoView({ behavior, block: "start" });
-    }
   }
 
   function focusCapacity(id: string) {
@@ -153,7 +141,6 @@ export default function Capacities({ capacities }: CapacitiesProps) {
         </p>
 
         <div
-          ref={panelRef}
           id={PANEL_ID}
           role="tabpanel"
           aria-labelledby={
@@ -206,32 +193,6 @@ export default function Capacities({ capacities }: CapacitiesProps) {
         </div>
 
         <div className="capacities-layout">
-          <div ref={mediaWrapperRef} className="capacities-media">
-            {renderMode === "video-proof" ? (
-              <VideoProofPlayer
-                key={active?._id ?? "default"}
-                video={active?.video}
-                caption={active?.caption}
-                beforeLabel={active?.beforeLabel}
-                afterLabel={active?.afterLabel}
-                ariaLabel={
-                  active?.title
-                    ? `Preuve vidéo · ${active.title}`
-                    : "Preuve vidéo"
-                }
-              />
-            ) : (
-              <BeforeAfterSlider
-                key={active?._id ?? "default"}
-                beforeImage={active?.beforeImage}
-                afterImage={active?.afterImage}
-                beforeLabel={active?.beforeLabel}
-                afterLabel={active?.afterLabel}
-                caption={active?.caption}
-              />
-            )}
-          </div>
-
           <div
             role="tablist"
             aria-label="Capacités IA"
@@ -321,11 +282,39 @@ export default function Capacities({ capacities }: CapacitiesProps) {
               );
             })}
           </div>
+
+          <div ref={mediaWrapperRef} className="capacities-media">
+            {renderMode === "video-proof" ? (
+              <VideoProofPlayer
+                key={active?._id ?? "default"}
+                video={active?.video}
+                caption={active?.caption}
+                beforeLabel={active?.beforeLabel}
+                afterLabel={active?.afterLabel}
+                ariaLabel={
+                  active?.title
+                    ? `Preuve vidéo · ${active.title}`
+                    : "Preuve vidéo"
+                }
+              />
+            ) : (
+              <BeforeAfterSlider
+                key={active?._id ?? "default"}
+                beforeImage={active?.beforeImage}
+                afterImage={active?.afterImage}
+                beforeLabel={active?.beforeLabel ?? "AVANT"}
+                afterLabel={active?.afterLabel ?? "APRÈS"}
+                caption={active?.caption}
+              />
+            )}
+          </div>
         </div>
       </div>
 
       <style>{`
-        /* Mobile / tablet / laptop : layout vertical (par défaut) */
+        /* Layout par défaut : flex column. JSX = [tablist, media] ;
+           sur mobile <768px, le tablist (devenu chips horizontaux) apparaît
+           donc AU-DESSUS du media — télécommande compacte avant le lecteur. */
         .capacities-layout {
           display: flex;
           flex-direction: column;
@@ -335,39 +324,78 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
           gap: 1px;
           background: var(--line);
-          margin-top: 80px;
           border: 1px solid var(--line);
         }
         .capacity-card {
           padding: 32px 28px;
         }
 
-        /* 768px – 1199px : sticky du media pour réduire le yo-yo */
+        /* Mobile <768px : chips horizontaux scroll-x au-dessus du media */
+        @media (max-width: 767px) {
+          .capacities-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            gap: 8px;
+            margin: 8px 0 24px;
+            padding: 4px 4px;
+            background: transparent;
+            border: none;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+          }
+          .capacity-card {
+            flex: 0 0 auto;
+            padding: 10px 16px;
+            min-height: 0;
+          }
+          .capacity-card-eyebrow,
+          .capacity-card-desc {
+            display: none;
+          }
+          .capacity-card-title {
+            font-size: 13px !important;
+            margin: 0 !important;
+            white-space: nowrap;
+          }
+        }
+
+        /* 768-1199px : conserver l'ancien ordre (media avant tablist en stack)
+           via flex order, plus sticky du media pour réduire le yo-yo. */
         @media (min-width: 768px) and (max-width: 1199px) {
           .capacities-media {
+            order: 0;
             position: sticky;
             top: 88px;
             z-index: 1;
             background: var(--air);
             padding-bottom: 24px;
           }
+          .capacities-grid {
+            order: 1;
+            margin-top: 40px;
+          }
         }
 
-        /* 1200px+ : layout 2 colonnes — mosaïque calée sur la hauteur mesurée
-           du rectangle media (cf. ResizeObserver côté React qui pose
-           --media-frame-height). Aucune hauteur hardcodée. */
+        /* 1200px+ : layout 2 colonnes (media gauche / mosaïque droite)
+           via grid-template-areas pour remixer l'ordre DOM.
+           Mosaïque calée sur la hauteur mesurée du rectangle media
+           (cf. ResizeObserver côté React qui pose --media-frame-height). */
         @media (min-width: 1200px) {
           .capacities-layout {
             display: grid;
             grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+            grid-template-areas: "media grid";
             gap: 32px;
             align-items: start;
           }
           .capacities-media {
+            grid-area: media;
             min-width: 0;
           }
           .capacities-grid {
-            margin-top: 0;
+            grid-area: grid;
             height: var(--media-frame-height, auto);
             min-height: 0;
             grid-template-columns: repeat(2, minmax(0, 1fr));

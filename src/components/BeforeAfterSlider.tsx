@@ -154,21 +154,6 @@ export default function BeforeAfterSlider({
           }}
         >
           {afterLabel}
-          <span
-            style={{
-              position: "absolute",
-              top: 24,
-              right: 24,
-              fontFamily: "var(--font-anton), Anton, sans-serif",
-              fontSize: 13,
-              letterSpacing: "0.12em",
-              background: "rgba(255,138,101,0.95)",
-              color: "var(--abysse)",
-              padding: "8px 14px",
-            }}
-          >
-            PLAN CINÉMA
-          </span>
         </div>
 
         <div
@@ -188,21 +173,6 @@ export default function BeforeAfterSlider({
           }}
         >
           {beforeLabel}
-          <span
-            style={{
-              position: "absolute",
-              top: 24,
-              left: 24,
-              fontFamily: "var(--font-anton), Anton, sans-serif",
-              fontSize: 13,
-              letterSpacing: "0.12em",
-              background: "rgba(248,251,252,0.92)",
-              color: "var(--abysse)",
-              padding: "8px 14px",
-            }}
-          >
-            BRUT REPÉRÉ
-          </span>
         </div>
 
         <div
