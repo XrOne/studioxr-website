@@ -17,7 +17,6 @@ const PHASE_LABEL: Record<string, string> = {
 };
 
 const PANEL_ID = "capacities-comparator";
-const TWO_COL_BREAKPOINT_PX = 1200;
 const MOBILE_BREAKPOINT_PX = 768;
 
 function pickInitialId(items: CapacityFallback[]): string | null {
@@ -44,7 +43,6 @@ export default function Capacities({ capacities }: CapacitiesProps) {
 
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const panelRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const active =
     visible.find((c) => c._id === activeId) ?? visible[0] ?? null;
@@ -57,19 +55,10 @@ export default function Capacities({ capacities }: CapacitiesProps) {
     setActiveId(id);
     if (typeof window === "undefined") return;
     const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
-    const width = window.innerWidth;
 
-    if (width >= TWO_COL_BREAKPOINT_PX) {
-      // En 2 colonnes : scroll local de la carte dans sa grille (block: nearest)
-      const node = tabRefs.current[id];
-      if (node && gridRef.current) {
-        node.scrollIntoView({ behavior, block: "nearest" });
-      }
-      return;
-    }
-
-    if (width < MOBILE_BREAKPOINT_PX && panelRef.current) {
-      // Mobile : scroll viewport vers le comparateur (comportement existant)
+    // Desktop ≥ 1200px : mosaïque 2×4 visible d'un coup, pas de scroll.
+    // Mobile < 768px : scroll viewport vers le panel (comportement existant).
+    if (window.innerWidth < MOBILE_BREAKPOINT_PX && panelRef.current) {
       panelRef.current.scrollIntoView({ behavior, block: "start" });
     }
   }
@@ -217,7 +206,6 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           </div>
 
           <div
-            ref={gridRef}
             role="tablist"
             aria-label="Capacités IA"
             className="capacities-grid"
@@ -240,6 +228,7 @@ export default function Capacities({ capacities }: CapacitiesProps) {
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                   className="capacity-card"
                   data-active={isActive ? "true" : "false"}
+                  title={cap.title}
                   style={{
                     position: "relative",
                     textAlign: "left",
@@ -330,30 +319,39 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
         }
 
-        /* 1200px+ : layout 2 colonnes (60% média / 40% grille) */
+        /* 1200px+ : layout 2 colonnes (60% média / 40% mosaïque 2×4) */
         @media (min-width: 1200px) {
           .capacities-layout {
             display: grid;
             grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
             gap: 32px;
-            align-items: start;
+            align-items: stretch;
           }
           .capacities-grid {
             margin-top: 0;
-            grid-template-columns: 1fr;
-            max-height: 720px;
-            overflow-y: auto;
-            scrollbar-width: thin;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            height: 100%;
+            background: transparent;
+            border: none;
           }
           .capacity-card {
-            padding: 20px 22px;
+            padding: 14px 16px;
+            box-shadow: inset 0 0 0 1px var(--line);
           }
-          .capacity-card-title {
-            font-size: 18px !important;
-            margin-bottom: 6px !important;
+          .capacity-card[data-active="true"] {
+            box-shadow: none;
           }
           .capacity-card-eyebrow {
-            margin-bottom: 8px !important;
+            margin-bottom: 6px !important;
+          }
+          .capacity-card-title {
+            font-size: 15px !important;
+            margin-bottom: 6px !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .capacity-card-desc {
             display: -webkit-box;
