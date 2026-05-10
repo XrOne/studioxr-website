@@ -43,16 +43,16 @@ export default function ManifesteTeaser() {
             marginBottom: 24,
           }}
         >
-          L&apos;IA NE REMPLACE
+          L&apos;IA NE REMPLACE PAS
           <br />
-          PAS LE{" "}
+          LA{" "}
           <em
             style={{ fontStyle: "normal", color: "var(--corail)" }}
           >
-            PLATEAU.
+            VISION.
           </em>
           <br />
-          ELLE L&apos;AGRANDIT.
+          ELLE L&apos;ACCÉLÈRE.
         </h2>
         <p
           style={{
@@ -64,7 +64,8 @@ export default function ManifesteTeaser() {
         >
           Onze ans à manipuler les outils. À en connaître les forces, les
           angles morts, les bons et mauvais usages. Pour ne jamais laisser
-          la machine décider à la place du réalisateur.
+          la machine décider à la place du réalisateur, du scénariste, des
+          chefs de poste.
         </p>
         <Link href="/manifeste" className="cta-btn cta-btn-lg">
           Lire notre manifeste →

@@ -17,7 +17,7 @@ interface PipelineStep {
 // MIZIK a été déplacé vers la section Pionniers (preuve d'ADN XR, pas outil vendu aux productions).
 const SOFTWARES: Software[] = [
   {
-    tag: "Phare",
+    tag: "Suite logicielle GenAI cinéma",
     title: "Jenial",
     intro:
       "Visualisation IA pour la production audiovisuelle. Keyframes, références, séquences tests, continuité visuelle.",

@@ -29,39 +29,39 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    template: "%s · Studio XR·ONE",
-    default: "Studio XR·ONE — Du plateau au pixel. Depuis 2014.",
+    template: "%s · Jenial",
+    default: "Jenial — Du script au pixel.",
   },
   description:
-    "Pionnier français du tournage hybride et de la production augmentée par IA. Né à CréaCannes en 2014. Prépa prod, tournage hybride, post prod & étalonnage HDR.",
+    "Studio GenAI cinéma. Workflows IA pour la prépa, le tournage et la post-prod. Onze ans à diriger les outils. Du script au pixel, la vision reste humaine.",
   keywords: [
-    "tournage hybride",
+    "GenAI cinéma",
     "IA cinéma",
     "production augmentée",
-    "studio audiovisuel",
     "prépa prod",
+    "tournage hybride",
     "post prod",
     "étalonnage HDR",
-    "VR",
-    "AR",
-    "CréaCannes",
+    "Jenial",
+    "Cinemia",
+    "studio audiovisuel",
   ],
-  authors: [{ name: "Studio XR·ONE" }],
+  authors: [{ name: "Jenial" }],
   alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: SITE_URL,
-    siteName: "Studio XR·ONE",
-    title: "Studio XR·ONE — Du plateau au pixel.",
+    siteName: "Jenial",
+    title: "Jenial — Du script au pixel.",
     description:
-      "Pionnier du tournage hybride. Onze ans à manipuler les outils. L'IA ne remplace pas le plateau. Elle l'agrandit.",
+      "Studio GenAI cinéma. Workflows IA pour la prépa, le tournage et la post-prod. Onze ans à diriger les outils. Du script au pixel, la vision reste humaine.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Studio XR·ONE",
+    title: "Jenial",
     description:
-      "Du plateau au pixel. Tournage hybride et production augmentée par IA depuis 2014.",
+      "Studio GenAI cinéma. Du script au pixel, la vision reste humaine.",
   },
   robots: { index: true, follow: true },
 };
