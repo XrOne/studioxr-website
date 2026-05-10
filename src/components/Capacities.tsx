@@ -127,59 +127,61 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           moins.
         </p>
 
-        <div className="capacities-layout">
+        <div
+          ref={panelRef}
+          id={PANEL_ID}
+          role="tabpanel"
+          aria-labelledby={
+            active ? `capacity-tab-${active._id}` : undefined
+          }
+          className="capacities-text"
+          style={{ scrollMarginTop: 80 }}
+        >
           <div
-            ref={panelRef}
-            id={PANEL_ID}
-            role="tabpanel"
-            aria-labelledby={
-              active ? `capacity-tab-${active._id}` : undefined
-            }
-            className="capacities-panel"
-            style={{ scrollMarginTop: 80 }}
+            aria-live="polite"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "8px 16px",
+              background: "var(--corail)",
+              color: "var(--abysse)",
+              fontFamily: "var(--font-anton), Anton, sans-serif",
+              fontSize: 12,
+              letterSpacing: "0.1em",
+              marginBottom: 24,
+              textTransform: "uppercase",
+            }}
           >
-            <div
-              aria-live="polite"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "8px 16px",
-                background: "var(--corail)",
-                color: "var(--abysse)",
-                fontFamily: "var(--font-anton), Anton, sans-serif",
-                fontSize: 12,
-                letterSpacing: "0.1em",
-                marginBottom: 24,
-                textTransform: "uppercase",
-              }}
-            >
-              FEATURED · {phaseLabel.toUpperCase() || "PRÉPA PROD"}
-            </div>
-            <h3
-              className="display"
-              aria-live="polite"
-              style={{
-                fontSize: "clamp(36px, 5vw, 64px)",
-                marginBottom: 24,
-              }}
-            >
-              {active ? active.title.toUpperCase() : "DÉCORS — AVANT / APRÈS."}
-            </h3>
-            <p
-              aria-live="polite"
-              style={{
-                color: "var(--muted)",
-                maxWidth: 680,
-                marginBottom: 32,
-                fontSize: 17,
-                minHeight: 52,
-              }}
-            >
-              {active?.shortDescription ||
-                "Photo du décor brut. Projection IA finalisée. L’équipe valide la mise en scène avant de poser un seul rideau."}
-            </p>
+            FEATURED · {phaseLabel.toUpperCase() || "PRÉPA PROD"}
+          </div>
+          <h3
+            className="display"
+            aria-live="polite"
+            style={{
+              fontSize: "clamp(36px, 5vw, 64px)",
+              marginBottom: 24,
+            }}
+          >
+            {active ? active.title.toUpperCase() : "DÉCORS — AVANT / APRÈS."}
+          </h3>
+          <p
+            aria-live="polite"
+            style={{
+              color: "var(--muted)",
+              maxWidth: 680,
+              marginBottom: 32,
+              fontSize: 17,
+              minHeight: 52,
+            }}
+          >
+            {active?.shortDescription ||
+              "Photo du décor brut. Projection IA finalisée. L’équipe valide la mise en scène avant de poser un seul rideau."}
+          </p>
+        </div>
 
+        <div className="capacities-layout">
+          <div className="capacities-media">
             {renderMode === "video-proof" ? (
               <VideoProofPlayer
                 key={active?._id ?? "default"}
@@ -308,9 +310,9 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           padding: 32px 28px;
         }
 
-        /* 768px – 1199px : sticky du panel pour réduire le yo-yo */
+        /* 768px – 1199px : sticky du media pour réduire le yo-yo */
         @media (min-width: 768px) and (max-width: 1199px) {
-          .capacities-panel {
+          .capacities-media {
             position: sticky;
             top: 88px;
             z-index: 1;
