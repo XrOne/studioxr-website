@@ -361,10 +361,19 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
         }
 
-        /* Mobile <768px : stabilise la hauteur du bloc texte au-dessus du
-           media pour éviter que le lecteur ne saute au switch de chip
-           (le H3 et la description varient en longueur selon la capacité). */
+        /* Mobile <768px : cadre media compact en 4/3, capé à 50vh.
+           Le !important est nécessaire pour override le aspect-ratio
+           inline posé par BeforeAfterSlider/VideoProofPlayer (qui restent
+           en 16/9 sur desktop, plus cinéma). Adaptation responsive ciblée,
+           pas une rustine. La mesure ResizeObserver n'a d'effet que sur
+           le bloc desktop ≥1200px (CSS variable --media-frame-height non
+           consommée mobile). */
         @media (max-width: 767px) {
+          .capacities-media > .ba-comparator,
+          .capacities-media > [data-mode="video-proof"] {
+            aspect-ratio: 4 / 3 !important;
+            max-height: 50vh;
+          }
           .capacities-text {
             margin-bottom: 16px;
           }
