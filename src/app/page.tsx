@@ -51,6 +51,7 @@ interface SanityCapacity {
   beforeLabel?: string;
   afterLabel?: string;
   caption?: string;
+  video?: CapacityFallback["video"];
 }
 
 interface SanityCaseStudy {
@@ -140,6 +141,7 @@ export default async function HomePage() {
             beforeLabel: c.beforeLabel,
             afterLabel: c.afterLabel,
             caption: c.caption,
+            video: c.video,
           }))
       : FALLBACK_CAPACITIES;
 

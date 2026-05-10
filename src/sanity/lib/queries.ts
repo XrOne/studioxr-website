@@ -17,7 +17,16 @@ export const ALL_CAPACITIES_QUERY = groq`
     "afterImage": afterImage.asset->url,
     beforeLabel,
     afterLabel,
-    caption
+    caption,
+    "video": video {
+      "posterImage": posterImage.asset->url,
+      "fileMp4": fileMp4.asset->url,
+      "fileWebm": fileWebm.asset->url,
+      externalUrl,
+      duration,
+      showSplitLabels,
+      transcript
+    }
   }
 `;
 

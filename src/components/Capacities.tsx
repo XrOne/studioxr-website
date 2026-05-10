@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import type { CapacityFallback } from "@/lib/content-fallback";
 import BeforeAfterSlider from "./BeforeAfterSlider";
+import VideoProofPlayer from "./VideoProofPlayer";
 
 interface CapacitiesProps {
   capacities: CapacityFallback[];
@@ -40,8 +41,9 @@ export default function Capacities({ capacities }: CapacitiesProps) {
   const active =
     visible.find((c) => c._id === activeId) ?? visible[0] ?? null;
 
-  const supportedMode =
-    !active?.mode || active.mode === "comparator" ? "comparator" : "fallback";
+  const activeMode = active?.mode ?? "comparator";
+  const renderMode: "comparator" | "video-proof" =
+    activeMode === "video-proof" ? "video-proof" : "comparator";
 
   function activateCapacity(id: string) {
     setActiveId(id);
@@ -164,18 +166,29 @@ export default function Capacities({ capacities }: CapacitiesProps) {
               "Photo du décor brut. Projection IA finalisée. L’équipe valide la mise en scène avant de poser un seul rideau."}
           </p>
 
-          <BeforeAfterSlider
-            key={active?._id ?? "default"}
-            beforeImage={
-              supportedMode === "comparator" ? active?.beforeImage : undefined
-            }
-            afterImage={
-              supportedMode === "comparator" ? active?.afterImage : undefined
-            }
-            beforeLabel={active?.beforeLabel}
-            afterLabel={active?.afterLabel}
-            caption={active?.caption}
-          />
+          {renderMode === "video-proof" ? (
+            <VideoProofPlayer
+              key={active?._id ?? "default"}
+              video={active?.video}
+              caption={active?.caption}
+              beforeLabel={active?.beforeLabel}
+              afterLabel={active?.afterLabel}
+              ariaLabel={
+                active?.title
+                  ? `Preuve vidéo · ${active.title}`
+                  : "Preuve vidéo"
+              }
+            />
+          ) : (
+            <BeforeAfterSlider
+              key={active?._id ?? "default"}
+              beforeImage={active?.beforeImage}
+              afterImage={active?.afterImage}
+              beforeLabel={active?.beforeLabel}
+              afterLabel={active?.afterLabel}
+              caption={active?.caption}
+            />
+          )}
         </div>
 
         <div
