@@ -26,6 +26,19 @@ if (
   HTMLMediaElement.prototype.pause = vi.fn();
 }
 
+if (
+  typeof window !== "undefined" &&
+  typeof window.ResizeObserver === "undefined"
+) {
+  class ResizeObserverMock {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+  }
+  window.ResizeObserver =
+    ResizeObserverMock as unknown as typeof ResizeObserver;
+}
+
 afterEach(() => {
   cleanup();
 });

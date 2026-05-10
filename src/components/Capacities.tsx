@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CapacityFallback } from "@/lib/content-fallback";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 import VideoProofPlayer from "./VideoProofPlayer";
@@ -43,6 +43,8 @@ export default function Capacities({ capacities }: CapacitiesProps) {
 
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const panelRef = useRef<HTMLDivElement>(null);
+  const mediaWrapperRef = useRef<HTMLDivElement>(null);
+  const [mediaFrameHeight, setMediaFrameHeight] = useState<number | null>(null);
 
   const active =
     visible.find((c) => c._id === activeId) ?? visible[0] ?? null;
@@ -50,6 +52,29 @@ export default function Capacities({ capacities }: CapacitiesProps) {
   const activeMode = active?.mode ?? "comparator";
   const renderMode: "comparator" | "video-proof" =
     activeMode === "video-proof" ? "video-proof" : "comparator";
+
+  // Synchronise la hauteur de la mosaïque sur le rectangle media (premier
+  // enfant du wrapper, hors caption). ResizeObserver suit les changements
+  // de viewport / aspect ratio. Aucune hauteur hardcodée côté CSS.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const wrapper = mediaWrapperRef.current;
+    if (!wrapper) return;
+    const frame = wrapper.firstElementChild;
+    if (!(frame instanceof HTMLElement)) return;
+
+    const updateHeight = () => {
+      const h = frame.getBoundingClientRect().height;
+      if (h > 0) setMediaFrameHeight(h);
+    };
+
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(frame);
+
+    return () => observer.disconnect();
+  }, [active?._id, renderMode]);
 
   function activateCapacity(id: string) {
     setActiveId(id);
@@ -181,7 +206,7 @@ export default function Capacities({ capacities }: CapacitiesProps) {
         </div>
 
         <div className="capacities-layout">
-          <div className="capacities-media">
+          <div ref={mediaWrapperRef} className="capacities-media">
             {renderMode === "video-proof" ? (
               <VideoProofPlayer
                 key={active?._id ?? "default"}
@@ -211,6 +236,13 @@ export default function Capacities({ capacities }: CapacitiesProps) {
             role="tablist"
             aria-label="Capacités IA"
             className="capacities-grid"
+            style={
+              mediaFrameHeight
+                ? ({
+                    ["--media-frame-height" as string]: `${mediaFrameHeight}px`,
+                  } as React.CSSProperties)
+                : undefined
+            }
           >
             {visible.map((cap, idx) => {
               const isActive = cap._id === activeId;
@@ -321,7 +353,9 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
         }
 
-        /* 1200px+ : layout 2 colonnes — mosaïque calée sur le rectangle media (560px) */
+        /* 1200px+ : layout 2 colonnes — mosaïque calée sur la hauteur mesurée
+           du rectangle media (cf. ResizeObserver côté React qui pose
+           --media-frame-height). Aucune hauteur hardcodée. */
         @media (min-width: 1200px) {
           .capacities-layout {
             display: grid;
@@ -334,7 +368,8 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
           .capacities-grid {
             margin-top: 0;
-            height: 560px;
+            height: var(--media-frame-height, auto);
+            min-height: 0;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             grid-template-rows: repeat(4, minmax(0, 1fr));
             gap: 12px;
