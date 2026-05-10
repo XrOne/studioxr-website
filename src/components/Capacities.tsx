@@ -17,12 +17,19 @@ const PHASE_LABEL: Record<string, string> = {
 };
 
 const PANEL_ID = "capacities-comparator";
+const TWO_COL_BREAKPOINT_PX = 1200;
+const MOBILE_BREAKPOINT_PX = 768;
 
 function pickInitialId(items: CapacityFallback[]): string | null {
   if (items.length === 0) return null;
   const featured = items.find((c) => c.featured);
   if (featured) return featured._id;
   return items[0]._id;
+}
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export default function Capacities({ capacities }: CapacitiesProps) {
@@ -37,6 +44,7 @@ export default function Capacities({ capacities }: CapacitiesProps) {
 
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const panelRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const active =
     visible.find((c) => c._id === activeId) ?? visible[0] ?? null;
@@ -48,8 +56,21 @@ export default function Capacities({ capacities }: CapacitiesProps) {
   function activateCapacity(id: string) {
     setActiveId(id);
     if (typeof window === "undefined") return;
-    if (window.innerWidth < 768 && panelRef.current) {
-      panelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
+    const width = window.innerWidth;
+
+    if (width >= TWO_COL_BREAKPOINT_PX) {
+      // En 2 colonnes : scroll local de la carte dans sa grille (block: nearest)
+      const node = tabRefs.current[id];
+      if (node && gridRef.current) {
+        node.scrollIntoView({ behavior, block: "nearest" });
+      }
+      return;
+    }
+
+    if (width < MOBILE_BREAKPOINT_PX && panelRef.current) {
+      // Mobile : scroll viewport vers le comparateur (comportement existant)
+      panelRef.current.scrollIntoView({ behavior, block: "start" });
     }
   }
 
@@ -117,168 +138,238 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           moins.
         </p>
 
-        <div
-          ref={panelRef}
-          id={PANEL_ID}
-          role="tabpanel"
-          aria-labelledby={active ? `capacity-tab-${active._id}` : undefined}
-          style={{ scrollMarginTop: 80 }}
-        >
+        <div className="capacities-layout">
           <div
-            aria-live="polite"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "8px 16px",
-              background: "var(--corail)",
-              color: "var(--abysse)",
-              fontFamily: "var(--font-anton), Anton, sans-serif",
-              fontSize: 12,
-              letterSpacing: "0.1em",
-              marginBottom: 24,
-              textTransform: "uppercase",
-            }}
+            ref={panelRef}
+            id={PANEL_ID}
+            role="tabpanel"
+            aria-labelledby={
+              active ? `capacity-tab-${active._id}` : undefined
+            }
+            className="capacities-panel"
+            style={{ scrollMarginTop: 80 }}
           >
-            FEATURED · {phaseLabel.toUpperCase() || "PRÉPA PROD"}
+            <div
+              aria-live="polite"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "8px 16px",
+                background: "var(--corail)",
+                color: "var(--abysse)",
+                fontFamily: "var(--font-anton), Anton, sans-serif",
+                fontSize: 12,
+                letterSpacing: "0.1em",
+                marginBottom: 24,
+                textTransform: "uppercase",
+              }}
+            >
+              FEATURED · {phaseLabel.toUpperCase() || "PRÉPA PROD"}
+            </div>
+            <h3
+              className="display"
+              aria-live="polite"
+              style={{
+                fontSize: "clamp(36px, 5vw, 64px)",
+                marginBottom: 24,
+              }}
+            >
+              {active ? active.title.toUpperCase() : "DÉCORS — AVANT / APRÈS."}
+            </h3>
+            <p
+              aria-live="polite"
+              style={{
+                color: "var(--muted)",
+                maxWidth: 680,
+                marginBottom: 32,
+                fontSize: 17,
+                minHeight: 52,
+              }}
+            >
+              {active?.shortDescription ||
+                "Photo du décor brut. Projection IA finalisée. L’équipe valide la mise en scène avant de poser un seul rideau."}
+            </p>
+
+            {renderMode === "video-proof" ? (
+              <VideoProofPlayer
+                key={active?._id ?? "default"}
+                video={active?.video}
+                caption={active?.caption}
+                beforeLabel={active?.beforeLabel}
+                afterLabel={active?.afterLabel}
+                ariaLabel={
+                  active?.title
+                    ? `Preuve vidéo · ${active.title}`
+                    : "Preuve vidéo"
+                }
+              />
+            ) : (
+              <BeforeAfterSlider
+                key={active?._id ?? "default"}
+                beforeImage={active?.beforeImage}
+                afterImage={active?.afterImage}
+                beforeLabel={active?.beforeLabel}
+                afterLabel={active?.afterLabel}
+                caption={active?.caption}
+              />
+            )}
           </div>
-          <h3
-            className="display"
-            aria-live="polite"
-            style={{
-              fontSize: "clamp(36px, 5vw, 64px)",
-              marginBottom: 24,
-            }}
-          >
-            {active ? active.title.toUpperCase() : "DÉCORS — AVANT / APRÈS."}
-          </h3>
-          <p
-            aria-live="polite"
-            style={{
-              color: "var(--muted)",
-              maxWidth: 680,
-              marginBottom: 32,
-              fontSize: 17,
-              minHeight: 52,
-            }}
-          >
-            {active?.shortDescription ||
-              "Photo du décor brut. Projection IA finalisée. L’équipe valide la mise en scène avant de poser un seul rideau."}
-          </p>
 
-          {renderMode === "video-proof" ? (
-            <VideoProofPlayer
-              key={active?._id ?? "default"}
-              video={active?.video}
-              caption={active?.caption}
-              beforeLabel={active?.beforeLabel}
-              afterLabel={active?.afterLabel}
-              ariaLabel={
-                active?.title
-                  ? `Preuve vidéo · ${active.title}`
-                  : "Preuve vidéo"
-              }
-            />
-          ) : (
-            <BeforeAfterSlider
-              key={active?._id ?? "default"}
-              beforeImage={active?.beforeImage}
-              afterImage={active?.afterImage}
-              beforeLabel={active?.beforeLabel}
-              afterLabel={active?.afterLabel}
-              caption={active?.caption}
-            />
-          )}
-        </div>
-
-        <div
-          role="tablist"
-          aria-label="Capacités IA"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 1,
-            background: "var(--line)",
-            marginTop: 80,
-            border: "1px solid var(--line)",
-          }}
-        >
-          {visible.map((cap, idx) => {
-            const isActive = cap._id === activeId;
-            return (
-              <button
-                key={cap._id}
-                ref={(el) => {
-                  tabRefs.current[cap._id] = el;
-                }}
-                id={`capacity-tab-${cap._id}`}
-                role="tab"
-                type="button"
-                aria-selected={isActive}
-                aria-controls={PANEL_ID}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => activateCapacity(cap._id)}
-                onKeyDown={(e) => handleKeyDown(e, idx)}
-                className="capacity-card"
-                data-active={isActive ? "true" : "false"}
-                style={{
-                  position: "relative",
-                  textAlign: "left",
-                  padding: "32px 28px",
-                  background: isActive ? "var(--abysse)" : "#fff",
-                  color: isActive ? "var(--air)" : "var(--fg)",
-                  border: "none",
-                  borderLeft: isActive
-                    ? "4px solid var(--corail)"
-                    : "4px solid transparent",
-                  cursor: "pointer",
-                  font: "inherit",
-                  transition:
-                    "background .22s cubic-bezier(.2,.8,.2,1), color .22s ease, border-color .22s ease",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily:
-                      "var(--font-jetbrains), JetBrains Mono, monospace",
-                    fontSize: 11,
-                    color: isActive ? "var(--anse)" : "var(--lagon)",
-                    marginBottom: 16,
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
+          <div
+            ref={gridRef}
+            role="tablist"
+            aria-label="Capacités IA"
+            className="capacities-grid"
+          >
+            {visible.map((cap, idx) => {
+              const isActive = cap._id === activeId;
+              return (
+                <button
+                  key={cap._id}
+                  ref={(el) => {
+                    tabRefs.current[cap._id] = el;
                   }}
-                >
-                  {String(idx + 1).padStart(2, "0")} ·{" "}
-                  {PHASE_LABEL[cap.phase] || cap.phase}
-                </div>
-                <h4
-                  className="display"
+                  id={`capacity-tab-${cap._id}`}
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  aria-controls={PANEL_ID}
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => activateCapacity(cap._id)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  className="capacity-card"
+                  data-active={isActive ? "true" : "false"}
                   style={{
-                    fontSize: 24,
-                    marginBottom: 12,
+                    position: "relative",
+                    textAlign: "left",
+                    background: isActive ? "var(--abysse)" : "#fff",
                     color: isActive ? "var(--air)" : "var(--fg)",
-                    letterSpacing: "0.02em",
+                    border: "none",
+                    borderLeft: isActive
+                      ? "4px solid var(--corail)"
+                      : "4px solid transparent",
+                    cursor: "pointer",
+                    font: "inherit",
+                    transition:
+                      "background .22s cubic-bezier(.2,.8,.2,1), color .22s ease, border-color .22s ease",
                   }}
                 >
-                  {cap.title}
-                </h4>
-                <p
-                  style={{
-                    color: isActive
-                      ? "rgba(248,251,252,0.72)"
-                      : "var(--muted)",
-                    fontSize: 14.5,
-                    lineHeight: 1.55,
-                    margin: 0,
-                  }}
-                >
-                  {cap.shortDescription}
-                </p>
-              </button>
-            );
-          })}
+                  <div
+                    className="capacity-card-eyebrow"
+                    style={{
+                      fontFamily:
+                        "var(--font-jetbrains), JetBrains Mono, monospace",
+                      fontSize: 11,
+                      color: isActive ? "var(--anse)" : "var(--lagon)",
+                      marginBottom: 12,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {String(idx + 1).padStart(2, "0")} ·{" "}
+                    {PHASE_LABEL[cap.phase] || cap.phase}
+                  </div>
+                  <h4
+                    className="display capacity-card-title"
+                    style={{
+                      fontSize: 22,
+                      marginBottom: 10,
+                      color: isActive ? "var(--air)" : "var(--fg)",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {cap.title}
+                  </h4>
+                  <p
+                    className="capacity-card-desc"
+                    style={{
+                      color: isActive
+                        ? "rgba(248,251,252,0.72)"
+                        : "var(--muted)",
+                      fontSize: 14.5,
+                      lineHeight: 1.5,
+                      margin: 0,
+                    }}
+                  >
+                    {cap.shortDescription}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
+
+      <style>{`
+        /* Mobile / tablet / laptop : layout vertical (par défaut) */
+        .capacities-layout {
+          display: flex;
+          flex-direction: column;
+        }
+        .capacities-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 1px;
+          background: var(--line);
+          margin-top: 80px;
+          border: 1px solid var(--line);
+        }
+        .capacity-card {
+          padding: 32px 28px;
+        }
+
+        /* 768px – 1199px : sticky du panel pour réduire le yo-yo */
+        @media (min-width: 768px) and (max-width: 1199px) {
+          .capacities-panel {
+            position: sticky;
+            top: 88px;
+            z-index: 1;
+            background: var(--air);
+            padding-bottom: 24px;
+          }
+        }
+
+        /* 1200px+ : layout 2 colonnes (60% média / 40% grille) */
+        @media (min-width: 1200px) {
+          .capacities-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+            gap: 32px;
+            align-items: start;
+          }
+          .capacities-grid {
+            margin-top: 0;
+            grid-template-columns: 1fr;
+            max-height: 720px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+          }
+          .capacity-card {
+            padding: 20px 22px;
+          }
+          .capacity-card-title {
+            font-size: 18px !important;
+            margin-bottom: 6px !important;
+          }
+          .capacity-card-eyebrow {
+            margin-bottom: 8px !important;
+          }
+          .capacity-card-desc {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+        }
+
+        /* prefers-reduced-motion : aplatir la transition de fond */
+        @media (prefers-reduced-motion: reduce) {
+          .capacity-card {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
