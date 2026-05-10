@@ -361,6 +361,35 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
         }
 
+        /* Mobile <768px : stabilise la hauteur du bloc texte au-dessus du
+           media pour éviter que le lecteur ne saute au switch de chip
+           (le H3 et la description varient en longueur selon la capacité). */
+        @media (max-width: 767px) {
+          .capacities-text {
+            margin-bottom: 16px;
+          }
+          .capacities-text > h3 {
+            font-size: 28px !important;
+            line-height: 1.05 !important;
+            margin-bottom: 12px !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(2 * 28px * 1.05);
+          }
+          .capacities-text > p {
+            font-size: 14px !important;
+            line-height: 1.4 !important;
+            margin-bottom: 12px !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(2 * 14px * 1.4);
+          }
+        }
+
         /* 768-1199px : conserver l'ancien ordre (media avant tablist en stack)
            via flex order, plus sticky du media pour réduire le yo-yo. */
         @media (min-width: 768px) and (max-width: 1199px) {
