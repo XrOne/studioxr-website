@@ -39,11 +39,11 @@ export default function Footer({
                 letterSpacing: "0.04em",
               }}
             >
-              XR<span style={{ color: "var(--anse)" }}>·</span>ONE
+              JEN<span style={{ color: "var(--corail)" }}>IA</span>L
             </div>
             <p style={{ marginTop: 16, fontSize: 14, maxWidth: 320 }}>
-              Pionnier français du tournage hybride et de la production
-              augmentée par IA. Né à CréaCannes, 2014.
+              Studio GenAI cinéma. Workflows IA pour la prépa, le tournage
+              et la post-prod. Du script au pixel, la vision reste humaine.
             </p>
           </div>
           <div>
@@ -163,7 +163,7 @@ export default function Footer({
               letterSpacing: "0.06em",
             }}
           >
-            © 2026 · STUDIO XR-ONE · DEPUIS 2014
+            © 2026 · STUDIO JENIAL · HÉRITAGE XR-ONE DEPUIS 2014
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <a href="#" style={footerSmallStyle}>Mentions</a>

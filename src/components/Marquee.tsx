@@ -6,7 +6,7 @@ const DEFAULT_ITEMS = [
   "Pionniers depuis 2014",
   "Du brief au pixel",
   "Tournage hybride",
-  "IA au service du plateau",
+  "IA dirigée par les chefs de poste",
 ];
 
 export default function Marquee({ items = DEFAULT_ITEMS }: MarqueeProps) {

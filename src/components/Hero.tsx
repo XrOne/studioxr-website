@@ -42,7 +42,7 @@ export default function Hero() {
           }}
         >
           <span className="mono" style={{ color: "var(--lagon-text)" }}>
-            <span aria-hidden="true">↳ </span>STUDIO XR-ONE · DEPUIS 2014
+            <span aria-hidden="true">↳ </span>JENIAL · STUDIO GENAI CINÉMA · ONZE ANS À DIRIGER LES OUTILS
           </span>
           <span className="mono" style={{ color: "var(--muted)" }}>
             CRÉACANNES <span aria-hidden="true">→</span>

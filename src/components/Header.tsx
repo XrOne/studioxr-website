@@ -29,11 +29,11 @@ export default function Header() {
         >
           <Link
             href="/"
-            aria-label="Studio XR-ONE — accueil"
+            aria-label="Jenial — accueil"
             className="display"
             style={{ fontSize: 24, letterSpacing: "0.04em" }}
           >
-            XR<span aria-hidden="true" style={{ color: "var(--lagon)" }}>·</span>ONE
+            JEN<span style={{ color: "var(--corail)" }}>IA</span>L
           </Link>
 
           <div

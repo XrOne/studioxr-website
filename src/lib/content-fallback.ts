@@ -337,8 +337,8 @@ export const FALLBACK_ENGAGEMENTS: EngagementFallback[] = [
 ];
 
 export const FALLBACK_SETTINGS: SettingsFallback = {
-  siteTitle: "Studio XR·ONE",
-  tagline: "Du plateau au pixel. Depuis 2014.",
+  siteTitle: "Jenial",
+  tagline: "Du script au pixel.",
   contactEmail: "contact@studioxr.one",
   engagements: FALLBACK_ENGAGEMENTS,
 };

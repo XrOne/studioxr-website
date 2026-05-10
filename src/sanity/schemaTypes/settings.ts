@@ -9,13 +9,13 @@ export const settings = defineType({
       name: "siteTitle",
       title: "Titre du site",
       type: "string",
-      initialValue: "Studio XR·ONE",
+      initialValue: "Jenial",
     }),
     defineField({
       name: "tagline",
       title: "Tagline",
       type: "string",
-      initialValue: "Du plateau au pixel. Depuis 2014.",
+      initialValue: "Du script au pixel.",
     }),
     defineField({
       name: "contactEmail",
