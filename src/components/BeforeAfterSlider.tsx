@@ -138,6 +138,7 @@ export default function BeforeAfterSlider({
         className="ba-comparator"
       >
         <div
+          className="ba-panel ba-panel-after"
           style={{
             position: "absolute",
             inset: 0,
@@ -153,10 +154,14 @@ export default function BeforeAfterSlider({
             ...afterStyle,
           }}
         >
-          {afterLabel}
+          <span className="ba-center-label">{afterLabel}</span>
+          <span className="ba-corner-label ba-corner-label-after">
+            {afterLabel}
+          </span>
         </div>
 
         <div
+          className="ba-panel ba-panel-before"
           style={{
             position: "absolute",
             inset: 0,
@@ -172,11 +177,15 @@ export default function BeforeAfterSlider({
             ...beforeStyle,
           }}
         >
-          {beforeLabel}
+          <span className="ba-center-label">{beforeLabel}</span>
+          <span className="ba-corner-label ba-corner-label-before">
+            {beforeLabel}
+          </span>
         </div>
 
         <div
           aria-hidden="true"
+          className="ba-divider"
           style={{
             position: "absolute",
             top: 0,
@@ -190,6 +199,7 @@ export default function BeforeAfterSlider({
           }}
         >
           <div
+            className="ba-handle"
             style={{
               position: "absolute",
               top: "50%",
@@ -216,6 +226,57 @@ export default function BeforeAfterSlider({
       >
         {caption}
       </div>
+
+      <style>{`
+        /* Desktop par défaut : labels centraux visibles, badges en coins
+           masqués, poignée 48px et séparateur 3px (cf. inline styles). */
+        .ba-corner-label {
+          display: none;
+        }
+
+        /* Mobile <768px : on inverse — labels centraux masqués, badges
+           discrets en coins, poignée et séparateur réduits.
+           Le !important est nécessaire pour override les inline styles
+           des handle / divider (adaptation responsive ciblée). */
+        @media (max-width: 767px) {
+          .ba-center-label {
+            display: none;
+          }
+          .ba-corner-label {
+            display: inline-block;
+            position: absolute;
+            top: 12px;
+            font-family: var(--font-anton), Anton, sans-serif;
+            font-size: 10px;
+            line-height: 1;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 8px;
+            background: rgba(10, 31, 44, 0.85);
+            color: rgba(248, 251, 252, 0.95);
+            pointer-events: none;
+            white-space: nowrap;
+            max-width: calc(50% - 24px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .ba-corner-label-before {
+            left: 12px;
+          }
+          .ba-corner-label-after {
+            right: 12px;
+          }
+          .ba-divider {
+            width: 2px !important;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.4) !important;
+          }
+          .ba-handle {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 16px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
