@@ -258,26 +258,13 @@ export default function Capacities({ capacities }: CapacitiesProps) {
                     className="display capacity-card-title"
                     style={{
                       fontSize: 22,
-                      marginBottom: 10,
+                      marginBottom: 0,
                       color: isActive ? "var(--air)" : "var(--fg)",
                       letterSpacing: "0.02em",
                     }}
                   >
                     {cap.title}
                   </h4>
-                  <p
-                    className="capacity-card-desc"
-                    style={{
-                      color: isActive
-                        ? "rgba(248,251,252,0.72)"
-                        : "var(--muted)",
-                      fontSize: 14.5,
-                      lineHeight: 1.5,
-                      margin: 0,
-                    }}
-                  >
-                    {cap.shortDescription}
-                  </p>
                 </button>
               );
             })}
@@ -350,8 +337,7 @@ export default function Capacities({ capacities }: CapacitiesProps) {
             padding: 10px 16px;
             min-height: 0;
           }
-          .capacity-card-eyebrow,
-          .capacity-card-desc {
+          .capacity-card-eyebrow {
             display: none;
           }
           .capacity-card-title {
@@ -457,16 +443,10 @@ export default function Capacities({ capacities }: CapacitiesProps) {
           }
           .capacity-card-title {
             font-size: 15px !important;
-            margin-bottom: 4px !important;
+            margin-bottom: 0 !important;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-          }
-          .capacity-card-desc {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
           }
         }
 
