@@ -121,29 +121,45 @@ export default async function HomePage() {
     }),
   ]);
 
-  // Bascule sur fallback si Sanity vide
-  const capacities: CapacityFallback[] =
-    capacitiesRes && capacitiesRes.length > 0
-      ? capacitiesRes
-          .filter((c) => c.hidden !== true)
-          .map((c, i) => ({
-            _id: c._id,
-            title: c.title,
-            slug: c.slug || c._id,
-            phase: c.phase,
-            order: c.order ?? i,
-            shortDescription: c.shortDescription || "",
-            featured: c.featured,
-            hidden: c.hidden,
-            mode: c.mode,
-            beforeImage: c.beforeImage,
-            afterImage: c.afterImage,
-            beforeLabel: c.beforeLabel,
-            afterLabel: c.afterLabel,
-            caption: c.caption,
-            video: c.video,
-          }))
-      : FALLBACK_CAPACITIES;
+  // MERGE Sanity ↔ FALLBACK_CAPACITIES par slug.
+  // - FALLBACK_CAPACITIES définit la liste éditoriale CANONIQUE (8 capacités).
+  // - Pour chaque slug fallback : si Sanity a une entrée avec ce slug exact,
+  //   on l'utilise (enrichie : images, labels, vidéo). Sinon, on garde
+  //   l'entrée fallback comme placeholder éditorial.
+  // - Les capacités Sanity marquées hidden:true sont retirées du lookup.
+  // - Les capacités Sanity dont le slug ne matche AUCUN slug fallback ne
+  //   sont PAS affichées sur cette page (pour conserver la grille à
+  //   exactement 8 cards). Pour qu'une entrée Sanity enrichisse une card,
+  //   son slug doit être aligné sur l'un des slugs fallback côté /studio.
+  const sanityBySlug = new Map<string, CapacityFallback>();
+  if (capacitiesRes) {
+    capacitiesRes
+      .filter((c) => c.hidden !== true)
+      .forEach((c, i) => {
+        const slug = c.slug || c._id;
+        sanityBySlug.set(slug, {
+          _id: c._id,
+          title: c.title,
+          slug,
+          phase: c.phase,
+          order: c.order ?? i,
+          shortDescription: c.shortDescription || "",
+          featured: c.featured,
+          hidden: c.hidden,
+          mode: c.mode,
+          beforeImage: c.beforeImage,
+          afterImage: c.afterImage,
+          beforeLabel: c.beforeLabel,
+          afterLabel: c.afterLabel,
+          caption: c.caption,
+          video: c.video,
+        });
+      });
+  }
+
+  const capacities: CapacityFallback[] = FALLBACK_CAPACITIES.map(
+    (fb) => sanityBySlug.get(fb.slug) ?? fb
+  );
 
   const caseStudies: CaseStudyFallback[] =
     caseStudiesRes && caseStudiesRes.length > 0

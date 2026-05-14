@@ -88,8 +88,9 @@ describe("Capacities — section interactive", () => {
     expect(featuredTab).toHaveAttribute("aria-selected", "true");
 
     expect(getActiveHeadingText()).toMatch(/DÉCORS AVANT \/ APRÈS/i);
-    expect(screen.getByText("DÉCOR BRUT")).toBeInTheDocument();
-    expect(screen.getByText("PROJECTION IA")).toBeInTheDocument();
+    // Les labels apparaissent en double (variant center desktop + corner mobile).
+    expect(screen.getAllByText("DÉCOR BRUT").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("PROJECTION IA").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/placeholder · Decors test/)).toBeInTheDocument();
   });
 
@@ -114,8 +115,8 @@ describe("Capacities — section interactive", () => {
 
     expect(targetTab).toHaveAttribute("aria-selected", "true");
     expect(getActiveHeadingText()).toMatch(/LUMIÈRE & MÉTÉO/i);
-    expect(screen.getByText("PLAN SOURCE")).toBeInTheDocument();
-    expect(screen.getByText("AMBIANCE RELIGHT")).toBeInTheDocument();
+    expect(screen.getAllByText("PLAN SOURCE").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("AMBIANCE RELIGHT").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/relight test/)).toBeInTheDocument();
   });
 
@@ -135,8 +136,8 @@ describe("Capacities — section interactive", () => {
 
     expect(targetTab).toHaveAttribute("aria-selected", "true");
     expect(getActiveHeadingText()).toMatch(/COHÉRENCE PERSONNAGES/i);
-    expect(screen.getByText("RÉFÉRENCES PERSO")).toBeInTheDocument();
-    expect(screen.getByText("SÉQUENCE COHÉRENTE")).toBeInTheDocument();
+    expect(screen.getAllByText("RÉFÉRENCES PERSO").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("SÉQUENCE COHÉRENTE").length).toBeGreaterThanOrEqual(1);
   });
 
   it("déplace le focus avec ArrowRight et Home", async () => {
