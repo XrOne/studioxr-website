@@ -121,29 +121,51 @@ export default async function HomePage() {
     }),
   ]);
 
-  // Bascule sur fallback si Sanity vide
-  const capacities: CapacityFallback[] =
-    capacitiesRes && capacitiesRes.length > 0
-      ? capacitiesRes
-          .filter((c) => c.hidden !== true)
-          .map((c, i) => ({
-            _id: c._id,
-            title: c.title,
-            slug: c.slug || c._id,
-            phase: c.phase,
-            order: c.order ?? i,
-            shortDescription: c.shortDescription || "",
-            featured: c.featured,
-            hidden: c.hidden,
-            mode: c.mode,
-            beforeImage: c.beforeImage,
-            afterImage: c.afterImage,
-            beforeLabel: c.beforeLabel,
-            afterLabel: c.afterLabel,
-            caption: c.caption,
-            video: c.video,
-          }))
-      : FALLBACK_CAPACITIES;
+  // MERGE Sanity ↔ FALLBACK_CAPACITIES par slug.
+  // - FALLBACK_CAPACITIES définit la liste éditoriale complète (8 capacités).
+  // - Pour chaque slug : si Sanity en a une version, on l'utilise (enrichie
+  //   avec images, labels, vidéo, etc.). Sinon, on garde l'entrée fallback
+  //   comme placeholder éditorial (titre + phase + description, gradient).
+  // - Les capacités Sanity marquées hidden:true sont retirées de la grille.
+  // - Les capacités Sanity sans slug correspondant en fallback (nouvelles
+  //   capacités créées en /studio) sont ajoutées à la fin.
+  const sanityBySlug = new Map<string, CapacityFallback>();
+  if (capacitiesRes) {
+    capacitiesRes
+      .filter((c) => c.hidden !== true)
+      .forEach((c, i) => {
+        const slug = c.slug || c._id;
+        sanityBySlug.set(slug, {
+          _id: c._id,
+          title: c.title,
+          slug,
+          phase: c.phase,
+          order: c.order ?? i,
+          shortDescription: c.shortDescription || "",
+          featured: c.featured,
+          hidden: c.hidden,
+          mode: c.mode,
+          beforeImage: c.beforeImage,
+          afterImage: c.afterImage,
+          beforeLabel: c.beforeLabel,
+          afterLabel: c.afterLabel,
+          caption: c.caption,
+          video: c.video,
+        });
+      });
+  }
+
+  const mergedFromFallback = FALLBACK_CAPACITIES.map(
+    (fb) => sanityBySlug.get(fb.slug) ?? fb
+  );
+  const fallbackSlugs = new Set(FALLBACK_CAPACITIES.map((fb) => fb.slug));
+  const extraFromSanity = Array.from(sanityBySlug.values()).filter(
+    (c) => !fallbackSlugs.has(c.slug)
+  );
+  const capacities: CapacityFallback[] = [
+    ...mergedFromFallback,
+    ...extraFromSanity,
+  ];
 
   const caseStudies: CaseStudyFallback[] =
     caseStudiesRes && caseStudiesRes.length > 0
