@@ -122,13 +122,15 @@ export default async function HomePage() {
   ]);
 
   // MERGE Sanity ↔ FALLBACK_CAPACITIES par slug.
-  // - FALLBACK_CAPACITIES définit la liste éditoriale complète (8 capacités).
-  // - Pour chaque slug : si Sanity en a une version, on l'utilise (enrichie
-  //   avec images, labels, vidéo, etc.). Sinon, on garde l'entrée fallback
-  //   comme placeholder éditorial (titre + phase + description, gradient).
-  // - Les capacités Sanity marquées hidden:true sont retirées de la grille.
-  // - Les capacités Sanity sans slug correspondant en fallback (nouvelles
-  //   capacités créées en /studio) sont ajoutées à la fin.
+  // - FALLBACK_CAPACITIES définit la liste éditoriale CANONIQUE (8 capacités).
+  // - Pour chaque slug fallback : si Sanity a une entrée avec ce slug exact,
+  //   on l'utilise (enrichie : images, labels, vidéo). Sinon, on garde
+  //   l'entrée fallback comme placeholder éditorial.
+  // - Les capacités Sanity marquées hidden:true sont retirées du lookup.
+  // - Les capacités Sanity dont le slug ne matche AUCUN slug fallback ne
+  //   sont PAS affichées sur cette page (pour conserver la grille à
+  //   exactement 8 cards). Pour qu'une entrée Sanity enrichisse une card,
+  //   son slug doit être aligné sur l'un des slugs fallback côté /studio.
   const sanityBySlug = new Map<string, CapacityFallback>();
   if (capacitiesRes) {
     capacitiesRes
@@ -155,17 +157,9 @@ export default async function HomePage() {
       });
   }
 
-  const mergedFromFallback = FALLBACK_CAPACITIES.map(
+  const capacities: CapacityFallback[] = FALLBACK_CAPACITIES.map(
     (fb) => sanityBySlug.get(fb.slug) ?? fb
   );
-  const fallbackSlugs = new Set(FALLBACK_CAPACITIES.map((fb) => fb.slug));
-  const extraFromSanity = Array.from(sanityBySlug.values()).filter(
-    (c) => !fallbackSlugs.has(c.slug)
-  );
-  const capacities: CapacityFallback[] = [
-    ...mergedFromFallback,
-    ...extraFromSanity,
-  ];
 
   const caseStudies: CaseStudyFallback[] =
     caseStudiesRes && caseStudiesRes.length > 0
