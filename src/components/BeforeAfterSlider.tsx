@@ -228,37 +228,48 @@ export default function BeforeAfterSlider({
       </div>
 
       <style>{`
-        /* Desktop par défaut : labels centraux visibles, badges en coins
-           masqués, poignée 48px et séparateur 3px (cf. inline styles). */
-        .ba-corner-label {
+        /* Labels affichés en cartouches discrets aux coins (haut-gauche
+           pour AVANT, haut-droite pour APRÈS). Pas de label central qui
+           masquerait l'image. Cohérent sur tous les viewports — seules
+           les tailles changent en responsive. Les textes sont dynamiques
+           (beforeLabel / afterLabel viennent de la capacité active via
+           props ; aucune valeur hardcodée). */
+        .ba-center-label {
           display: none;
         }
+        .ba-corner-label {
+          display: inline-block;
+          position: absolute;
+          top: 18px;
+          font-family: var(--font-anton), Anton, sans-serif;
+          font-size: 13px;
+          line-height: 1;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 6px 12px;
+          color: var(--abysse);
+          pointer-events: none;
+          white-space: nowrap;
+          max-width: calc(50% - 32px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .ba-corner-label-before {
+          left: 18px;
+          background: rgba(248, 251, 252, 0.92); /* Air translucide */
+        }
+        .ba-corner-label-after {
+          right: 18px;
+          background: rgba(255, 138, 101, 0.95); /* Corail */
+        }
 
-        /* Mobile <768px : on inverse — labels centraux masqués, badges
-           discrets en coins, poignée et séparateur réduits.
-           Le !important est nécessaire pour override les inline styles
-           des handle / divider (adaptation responsive ciblée). */
+        /* Mobile < 768px : cartouches plus compacts, poignée et séparateur réduits. */
         @media (max-width: 767px) {
-          .ba-center-label {
-            display: none;
-          }
           .ba-corner-label {
-            display: inline-block;
-            position: absolute;
             top: 12px;
-            font-family: var(--font-anton), Anton, sans-serif;
             font-size: 10px;
-            line-height: 1;
+            padding: 4px 8px;
             letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 5px 8px;
-            background: rgba(10, 31, 44, 0.85);
-            color: rgba(248, 251, 252, 0.95);
-            pointer-events: none;
-            white-space: nowrap;
-            max-width: calc(50% - 24px);
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
           .ba-corner-label-before {
             left: 12px;
