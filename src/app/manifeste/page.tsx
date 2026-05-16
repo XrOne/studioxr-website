@@ -3,8 +3,10 @@ import Link from "next/link";
 import Marquee from "@/components/Marquee";
 import CTAFinal from "@/components/CTAFinal";
 
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { fetchSanity } from "@/sanity/lib/fetch";
 import { SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import {
   FALLBACK_ENGAGEMENTS,
   type EngagementFallback,
@@ -18,9 +20,20 @@ export const metadata: Metadata = {
     "Tourner à l'ère de l'IA. Sans la subir. Sans la fétichiser. Onze ans à manipuler les outils — Studio XR·ONE.",
 };
 
+interface SanityManifestoVideo {
+  isEnabled?: boolean;
+  title?: string;
+  source?: "sanityFile" | "externalUrl";
+  fileUrl?: string;
+  externalUrl?: string;
+  poster?: SanityImageSource;
+  caption?: string;
+}
+
 interface SanitySettings {
   contactEmail?: string;
   engagements?: { number?: string; title?: string; description?: string }[];
+  manifestoVideo?: SanityManifestoVideo;
 }
 
 export default async function ManifestePage() {
@@ -39,6 +52,17 @@ export default async function ManifestePage() {
       : FALLBACK_ENGAGEMENTS;
 
   const contactEmail = settings?.contactEmail || "contact@studioxr.one";
+
+  const manifestoVideo = settings?.manifestoVideo;
+  const manifestoVideoUrl =
+    manifestoVideo?.source === "externalUrl"
+      ? manifestoVideo.externalUrl
+      : manifestoVideo?.fileUrl;
+  const showManifestoVideo =
+    manifestoVideo?.isEnabled === true && Boolean(manifestoVideoUrl);
+  const manifestoPosterUrl = manifestoVideo?.poster
+    ? urlFor(manifestoVideo.poster).width(1600).url()
+    : undefined;
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
@@ -208,6 +232,72 @@ export default async function ManifestePage() {
           ↓ Lire
         </div>
       </section>
+
+      {/* MANIFESTO VIDEO (Sanity-managed, optionnelle) */}
+      {showManifestoVideo && (
+        <section
+          style={{
+            padding: "120px 0",
+            background: "var(--abysse)",
+            color: "var(--air)",
+            borderBlock: "1px solid var(--line-dark)",
+          }}
+        >
+          <div
+            className="container-x"
+            style={{ maxWidth: 1080, marginInline: "auto" }}
+          >
+            {manifestoVideo?.title && (
+              <h2
+                className="display"
+                style={{
+                  fontSize: "clamp(28px, 4vw, 48px)",
+                  color: "var(--air)",
+                  marginBottom: 32,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {manifestoVideo.title}
+              </h2>
+            )}
+            <div
+              style={{
+                border: "1px solid var(--line-dark)",
+                background: "var(--abysse)",
+                aspectRatio: "16 / 9",
+                overflow: "hidden",
+              }}
+            >
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster={manifestoPosterUrl}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                  objectFit: "contain",
+                  background: "#000",
+                }}
+              >
+                <source src={manifestoVideoUrl} />
+              </video>
+            </div>
+            {manifestoVideo?.caption && (
+              <p
+                className="mono"
+                style={{
+                  marginTop: 16,
+                  color: "rgba(248,251,252,0.6)",
+                }}
+              >
+                {manifestoVideo.caption}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* STATEMENT */}
       <section

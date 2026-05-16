@@ -44,6 +44,62 @@ export const settings = defineType({
       type: "blockContent",
     }),
     defineField({
+      name: "manifestoVideo",
+      title: "Manifeste — vidéo",
+      type: "object",
+      fields: [
+        defineField({
+          name: "isEnabled",
+          title: "Afficher la vidéo",
+          type: "boolean",
+          initialValue: false,
+        }),
+        defineField({
+          name: "title",
+          title: "Titre de la section",
+          type: "string",
+        }),
+        defineField({
+          name: "source",
+          title: "Source de la vidéo",
+          type: "string",
+          options: {
+            list: [
+              { title: "Fichier hébergé sur Sanity", value: "sanityFile" },
+              { title: "URL externe (lien direct .mp4 / .webm)", value: "externalUrl" },
+            ],
+            layout: "radio",
+          },
+          initialValue: "sanityFile",
+        }),
+        defineField({
+          name: "file",
+          title: "Fichier vidéo",
+          type: "file",
+          options: { accept: "video/*" },
+          description: 'Utilisé si la source est "Fichier hébergé sur Sanity".',
+        }),
+        defineField({
+          name: "externalUrl",
+          title: "URL externe",
+          type: "url",
+          description:
+            'Lien direct vers un fichier vidéo (.mp4 / .webm). Pas un lien YouTube/Vimeo. Utilisé si la source est "URL externe".',
+        }),
+        defineField({
+          name: "poster",
+          title: "Image poster",
+          type: "image",
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: "caption",
+          title: "Légende",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
       name: "engagements",
       title: "Engagements (lignes rouges)",
       type: "array",
