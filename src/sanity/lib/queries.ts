@@ -81,6 +81,15 @@ export const SETTINGS_QUERY = groq`
     linkedinUrl,
     manifestoIntro,
     manifestoBody,
+    manifestoVideo {
+      isEnabled,
+      title,
+      source,
+      externalUrl,
+      caption,
+      poster,
+      "fileUrl": file.asset->url
+    },
     engagements
   }
 `;
