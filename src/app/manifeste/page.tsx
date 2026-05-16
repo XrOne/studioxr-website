@@ -27,6 +27,7 @@ interface SanityManifestoVideo {
   fileUrl?: string;
   externalUrl?: string;
   poster?: SanityImageSource;
+  fallbackImage?: SanityImageSource;
   caption?: string;
 }
 
@@ -54,15 +55,22 @@ export default async function ManifestePage() {
   const contactEmail = settings?.contactEmail || "contact@studioxr.one";
 
   const manifestoVideo = settings?.manifestoVideo;
+  const manifestoEnabled = manifestoVideo?.isEnabled === true;
   const manifestoVideoUrl =
     manifestoVideo?.source === "externalUrl"
       ? manifestoVideo.externalUrl
       : manifestoVideo?.fileUrl;
-  const showManifestoVideo =
-    manifestoVideo?.isEnabled === true && Boolean(manifestoVideoUrl);
   const manifestoPosterUrl = manifestoVideo?.poster
     ? urlFor(manifestoVideo.poster).width(1600).url()
     : undefined;
+  const manifestoFallbackImageUrl = manifestoVideo?.fallbackImage
+    ? urlFor(manifestoVideo.fallbackImage).width(2000).url()
+    : undefined;
+  // Média de fond du hero : priorité vidéo, sinon image de repli.
+  const heroVideoUrl = manifestoEnabled ? manifestoVideoUrl : undefined;
+  const heroImageUrl =
+    manifestoEnabled && !heroVideoUrl ? manifestoFallbackImageUrl : undefined;
+  const hasHeroMedia = Boolean(heroVideoUrl) || Boolean(heroImageUrl);
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
@@ -121,27 +129,79 @@ export default async function ManifestePage() {
           overflow: "hidden",
         }}
       >
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(1200px circle at 30% 40%, rgba(14,124,155,0.5), transparent 60%), radial-gradient(900px circle at 75% 65%, rgba(94,200,214,0.3), transparent 60%), linear-gradient(135deg, #061421 0%, #0A1F2C 50%, #0E2A3D 100%)",
-            zIndex: 0,
-          }}
-        >
+        {hasHeroMedia ? (
+          <>
+            {heroVideoUrl ? (
+              <video
+                aria-hidden="true"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={manifestoPosterUrl}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  zIndex: 0,
+                }}
+              >
+                <source src={heroVideoUrl} />
+              </video>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                aria-hidden="true"
+                src={heroImageUrl}
+                alt=""
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  zIndex: 0,
+                }}
+              />
+            )}
+            {/* Overlay cinématique : au-dessus du média, sous le texte (zIndex 1) */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 0,
+                background:
+                  "linear-gradient(180deg, rgba(6,20,33,0.45) 0%, rgba(6,20,33,0.62) 45%, rgba(10,31,44,0.92) 100%)",
+              }}
+            />
+          </>
+        ) : (
           <div
+            aria-hidden="true"
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, rgba(94,200,214,0.15) 1px, transparent 0)",
-              backgroundSize: "48px 48px",
-              opacity: 0.4,
+              background:
+                "radial-gradient(1200px circle at 30% 40%, rgba(14,124,155,0.5), transparent 60%), radial-gradient(900px circle at 75% 65%, rgba(94,200,214,0.3), transparent 60%), linear-gradient(135deg, #061421 0%, #0A1F2C 50%, #0E2A3D 100%)",
+              zIndex: 0,
             }}
-          />
-        </div>
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, rgba(94,200,214,0.15) 1px, transparent 0)",
+                backgroundSize: "48px 48px",
+                opacity: 0.4,
+              }}
+            />
+          </div>
+        )}
 
         <div
           className="container-x"
@@ -232,72 +292,6 @@ export default async function ManifestePage() {
           ↓ Lire
         </div>
       </section>
-
-      {/* MANIFESTO VIDEO (Sanity-managed, optionnelle) */}
-      {showManifestoVideo && (
-        <section
-          style={{
-            padding: "120px 0",
-            background: "var(--abysse)",
-            color: "var(--air)",
-            borderBlock: "1px solid var(--line-dark)",
-          }}
-        >
-          <div
-            className="container-x"
-            style={{ maxWidth: 1080, marginInline: "auto" }}
-          >
-            {manifestoVideo?.title && (
-              <h2
-                className="display"
-                style={{
-                  fontSize: "clamp(28px, 4vw, 48px)",
-                  color: "var(--air)",
-                  marginBottom: 32,
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {manifestoVideo.title}
-              </h2>
-            )}
-            <div
-              style={{
-                border: "1px solid var(--line-dark)",
-                background: "var(--abysse)",
-                aspectRatio: "16 / 9",
-                overflow: "hidden",
-              }}
-            >
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                poster={manifestoPosterUrl}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "block",
-                  objectFit: "contain",
-                  background: "#000",
-                }}
-              >
-                <source src={manifestoVideoUrl} />
-              </video>
-            </div>
-            {manifestoVideo?.caption && (
-              <p
-                className="mono"
-                style={{
-                  marginTop: 16,
-                  color: "rgba(248,251,252,0.6)",
-                }}
-              >
-                {manifestoVideo.caption}
-              </p>
-            )}
-          </div>
-        </section>
-      )}
 
       {/* STATEMENT */}
       <section
