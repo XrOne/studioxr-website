@@ -93,6 +93,14 @@ export const settings = defineType({
           options: { hotspot: true },
         }),
         defineField({
+          name: "fallbackImage",
+          title: "Image de repli",
+          type: "image",
+          options: { hotspot: true },
+          description:
+            "Affichée dans le cadre média si aucune vidéo n'est configurée (mais que la section est activée).",
+        }),
+        defineField({
           name: "caption",
           title: "Légende",
           type: "string",

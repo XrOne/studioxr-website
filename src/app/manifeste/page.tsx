@@ -27,6 +27,7 @@ interface SanityManifestoVideo {
   fileUrl?: string;
   externalUrl?: string;
   poster?: SanityImageSource;
+  fallbackImage?: SanityImageSource;
   caption?: string;
 }
 
@@ -58,11 +59,17 @@ export default async function ManifestePage() {
     manifestoVideo?.source === "externalUrl"
       ? manifestoVideo.externalUrl
       : manifestoVideo?.fileUrl;
-  const showManifestoVideo =
-    manifestoVideo?.isEnabled === true && Boolean(manifestoVideoUrl);
   const manifestoPosterUrl = manifestoVideo?.poster
     ? urlFor(manifestoVideo.poster).width(1600).url()
     : undefined;
+  const manifestoFallbackImageUrl = manifestoVideo?.fallbackImage
+    ? urlFor(manifestoVideo.fallbackImage).width(1600).url()
+    : undefined;
+  // Priorité : vidéo si URL exploitable, sinon image de repli.
+  const hasManifestoVideo = Boolean(manifestoVideoUrl);
+  const showManifestoMedia =
+    manifestoVideo?.isEnabled === true &&
+    (hasManifestoVideo || Boolean(manifestoFallbackImageUrl));
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
@@ -233,8 +240,8 @@ export default async function ManifestePage() {
         </div>
       </section>
 
-      {/* MANIFESTO VIDEO (Sanity-managed, optionnelle) */}
-      {showManifestoVideo && (
+      {/* MANIFESTO MEDIA (Sanity-managed, optionnel : vidéo ou image de repli) */}
+      {showManifestoMedia && (
         <section
           style={{
             padding: "120px 0",
@@ -268,21 +275,36 @@ export default async function ManifestePage() {
                 overflow: "hidden",
               }}
             >
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                poster={manifestoPosterUrl}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "block",
-                  objectFit: "contain",
-                  background: "#000",
-                }}
-              >
-                <source src={manifestoVideoUrl} />
-              </video>
+              {hasManifestoVideo ? (
+                <video
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster={manifestoPosterUrl}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                    objectFit: "contain",
+                    background: "#000",
+                  }}
+                >
+                  <source src={manifestoVideoUrl} />
+                </video>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={manifestoFallbackImageUrl}
+                  alt={manifestoVideo?.title || "Manifeste — illustration"}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                    objectFit: "cover",
+                    background: "#000",
+                  }}
+                />
+              )}
             </div>
             {manifestoVideo?.caption && (
               <p
