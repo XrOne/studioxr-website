@@ -101,6 +101,14 @@ export const settings = defineType({
             "Affichée en fond du hero /manifeste si aucune vidéo n'est configurée (mais que la section est activée).",
         }),
         defineField({
+          name: "mobileImage",
+          title: "Image mobile",
+          type: "image",
+          options: { hotspot: true },
+          description:
+            "Image spécifique mobile. Utilisée sur smartphone pour éviter les crops agressifs du visuel principal. Format recommandé : portrait, 4:5 ou 3:4.",
+        }),
+        defineField({
           name: "caption",
           title: "Légende",
           type: "string",
