@@ -7,6 +7,7 @@ import {
   type ContaminationVariant,
 } from "./contamination.config";
 import { GrainCycle } from "./GrainCycle";
+import { DustScratchLayer } from "./DustScratchLayer";
 import { HaloCorners } from "./HaloCorners";
 import { ForensicStamp } from "./ForensicStamp";
 import styles from "./contamination.module.css";
@@ -16,6 +17,7 @@ interface ContaminationLayerProps {
 }
 
 // Positions fixes des tampons dans le stampLayer plein écran.
+// La 1re position (haut-droite) évite le titre MANIFESTE ancré en bas de hero.
 const STAMP_POSITIONS = [
   { top: 132, right: 36 },
   { bottom: 152, left: 32 },
@@ -37,7 +39,16 @@ export function ContaminationLayer({ variant }: ContaminationLayerProps) {
 
   return (
     <>
-      <GrainCycle opacity={cfg.grainOpacity} />
+      <GrainCycle
+        desktop={cfg.grain.desktop}
+        mobile={cfg.grain.mobile}
+      />
+      <DustScratchLayer
+        dustDesktop={cfg.dust.desktop}
+        dustMobile={cfg.dust.mobile}
+        scratchDesktop={cfg.scratches.desktop}
+        scratchMobile={cfg.scratches.mobile}
+      />
       <HaloCorners opacity={cfg.haloOpacity} />
       {stamps.length > 0 && (
         <div className={styles.stampLayer} aria-hidden="true">

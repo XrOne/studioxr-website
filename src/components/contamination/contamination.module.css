@@ -1,4 +1,6 @@
-/* Couche contamination — styles isolés. Tout en CSS pur, aucune dépendance JS. */
+/* Couche contamination — styles isolés. Tout en CSS pur, aucune dépendance JS.
+   Opacités desktop/mobile : custom properties posées en inline (--*-op-d /
+   --*-op-m) puis résolues vers --*-opacity selon media query. */
 
 /* === Grain cyclé === */
 .grainWrap {
@@ -6,6 +8,7 @@
   inset: 0;
   z-index: 9998;
   pointer-events: none;
+  --grain-opacity: var(--grain-op-d, 0.05);
 }
 
 .grain {
@@ -30,7 +33,7 @@
 @keyframes grainCycleA {
   0%,
   49.99% {
-    opacity: var(--grain-opacity, 0.06);
+    opacity: var(--grain-opacity, 0.05);
   }
   50%,
   100% {
@@ -45,11 +48,39 @@
   }
   50%,
   100% {
-    opacity: var(--grain-opacity, 0.06);
+    opacity: var(--grain-opacity, 0.05);
   }
 }
 
-/* === Halation 4 coins === */
+/* === Poussière + rayures === */
+.dustWrap {
+  position: fixed;
+  inset: 0;
+  z-index: 9996;
+  pointer-events: none;
+  --dust-opacity: var(--dust-op-d, 0);
+  --scratch-opacity: var(--scratch-op-d, 0);
+}
+
+.dust {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  background-size: 1920px 1080px;
+  mix-blend-mode: multiply;
+}
+
+.dustLayer {
+  background-image: url(/textures/contamination/dust-hair-1.webp);
+  opacity: var(--dust-opacity, 0);
+}
+
+.scratchLayer {
+  background-image: url(/textures/contamination/scratches-vertical.webp);
+  opacity: var(--scratch-opacity, 0);
+}
+
+/* === Halation 4 coins + edge fog === */
 .halo {
   position: fixed;
   inset: 0;
@@ -70,7 +101,18 @@
   position: absolute;
 }
 
-/* === Accessibilité / responsive === */
+/* === Responsive : opacités mobile (<768px) === */
+@media (max-width: 767px) {
+  .grainWrap {
+    --grain-opacity: var(--grain-op-m, 0.04);
+  }
+  .dustWrap {
+    --dust-opacity: var(--dust-op-m, 0);
+    --scratch-opacity: var(--scratch-op-m, 0);
+  }
+}
+
+/* === Accessibilité === */
 @media (prefers-reduced-motion: reduce) {
   .grain1,
   .grain2 {
@@ -78,6 +120,7 @@
   }
 }
 
+/* Sécurité : sous 375px le gate ne monte déjà rien, ceinture + bretelles. */
 @media (max-width: 374px) {
   .stampLayer {
     display: none;
