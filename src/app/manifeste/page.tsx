@@ -29,6 +29,7 @@ interface SanityManifestoVideo {
   externalUrl?: string;
   poster?: SanityImageSource;
   fallbackImage?: SanityImageSource;
+  mobileImage?: SanityImageSource;
   caption?: string;
 }
 
@@ -67,10 +68,17 @@ export default async function ManifestePage() {
   const manifestoFallbackImageUrl = manifestoVideo?.fallbackImage
     ? urlFor(manifestoVideo.fallbackImage).width(2000).url()
     : undefined;
+  const manifestoMobileImageUrl = manifestoVideo?.mobileImage
+    ? urlFor(manifestoVideo.mobileImage).width(1200).url()
+    : undefined;
   // Média de fond du hero : priorité vidéo, sinon image de repli.
   const heroVideoUrl = manifestoEnabled ? manifestoVideoUrl : undefined;
   const heroImageUrl =
     manifestoEnabled && !heroVideoUrl ? manifestoFallbackImageUrl : undefined;
+  // Image mobile dédiée : remplace la couche desktop sur smartphone (<768px).
+  const heroMobileImageUrl = manifestoEnabled
+    ? manifestoMobileImageUrl
+    : undefined;
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
@@ -126,10 +134,15 @@ export default async function ManifestePage() {
           color: "var(--air)",
         }}
       >
-        {/* 1. BACKGROUND MEDIA Sanity-driven */}
+        {/* 1. BACKGROUND MEDIA Sanity-driven — couche desktop/tablette */}
         {heroVideoUrl ? (
           <video
             aria-hidden="true"
+            className={
+              heroMobileImageUrl
+                ? "hero-bg-desktop hero-bg-desktop--hide"
+                : "hero-bg-desktop"
+            }
             autoPlay
             muted
             loop
@@ -150,6 +163,11 @@ export default async function ManifestePage() {
           </video>
         ) : heroImageUrl ? (
           <Image
+            className={
+              heroMobileImageUrl
+                ? "hero-bg-desktop hero-bg-desktop--hide"
+                : "hero-bg-desktop"
+            }
             src={heroImageUrl}
             alt=""
             fill
@@ -175,6 +193,22 @@ export default async function ManifestePage() {
           />
         )}
 
+        {/* 1b. Couche mobile dédiée — affichée < 768px uniquement si configurée */}
+        {heroMobileImageUrl && (
+          <Image
+            className="hero-bg-mobile"
+            src={heroMobileImageUrl}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center center",
+              zIndex: 0,
+            }}
+          />
+        )}
+
         {/* 2. OVERLAY — quasi-invisible, fondu uniquement tiers bas */}
         <div
           aria-hidden="true"
@@ -190,7 +224,7 @@ export default async function ManifestePage() {
 
         {/* 3. TITRE — énorme, déborde, ancré bas */}
         <h1
-          className="display"
+          className="display hero-title"
           style={{
             position: "absolute",
             bottom: 80,
@@ -593,6 +627,19 @@ export default async function ManifestePage() {
       />
 
       <style>{`
+        /* Hero /manifeste — couche mobile dédiée (cf. champ Sanity mobileImage) */
+        .hero-bg-mobile { display: none; }
+        @media (max-width: 767px) {
+          .hero-bg-mobile { display: block !important; }
+          .hero-bg-desktop--hide { display: none !important; }
+          /* Si pas d'image mobile dédiée : crop plus sûr du visuel desktop */
+          .hero-bg-desktop { object-position: center 35% !important; }
+          .hero-title {
+            font-size: clamp(64px, 22vw, 112px) !important;
+            bottom: 64px !important;
+            padding: 0 16px !important;
+          }
+        }
         @media (max-width: 768px) {
           .manifeste-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
           .manifeste-grid h2.display { position: static !important; }
