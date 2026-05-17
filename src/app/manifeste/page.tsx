@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Marquee from "@/components/Marquee";
 import CTAFinal from "@/components/CTAFinal";
+import { ContaminationLayer } from "@/components/contamination/ContaminationLayer";
 
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { fetchSanity } from "@/sanity/lib/fetch";
@@ -82,6 +83,7 @@ export default async function ManifestePage() {
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
+      <ContaminationLayer variant="manifeste" />
       {/* Header transparent fixed */}
       <header
         style={{
