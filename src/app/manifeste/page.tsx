@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import Marquee from "@/components/Marquee";
 import CTAFinal from "@/components/CTAFinal";
 
@@ -17,7 +18,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Manifeste",
   description:
-    "Tourner à l'ère de l'IA. Sans la subir. Sans la fétichiser. Onze ans à manipuler les outils — Studio XR·ONE.",
+    "Tourner à l'ère de l'IA. Sans la subir. Sans la fétichiser. Onze ans à manipuler les outils — Studio Jenial.",
 };
 
 interface SanityManifestoVideo {
@@ -27,6 +28,7 @@ interface SanityManifestoVideo {
   fileUrl?: string;
   externalUrl?: string;
   poster?: SanityImageSource;
+  fallbackImage?: SanityImageSource;
   caption?: string;
 }
 
@@ -54,15 +56,21 @@ export default async function ManifestePage() {
   const contactEmail = settings?.contactEmail || "contact@studioxr.one";
 
   const manifestoVideo = settings?.manifestoVideo;
+  const manifestoEnabled = manifestoVideo?.isEnabled === true;
   const manifestoVideoUrl =
     manifestoVideo?.source === "externalUrl"
       ? manifestoVideo.externalUrl
       : manifestoVideo?.fileUrl;
-  const showManifestoVideo =
-    manifestoVideo?.isEnabled === true && Boolean(manifestoVideoUrl);
   const manifestoPosterUrl = manifestoVideo?.poster
     ? urlFor(manifestoVideo.poster).width(1600).url()
     : undefined;
+  const manifestoFallbackImageUrl = manifestoVideo?.fallbackImage
+    ? urlFor(manifestoVideo.fallbackImage).width(2000).url()
+    : undefined;
+  // Média de fond du hero : priorité vidéo, sinon image de repli.
+  const heroVideoUrl = manifestoEnabled ? manifestoVideoUrl : undefined;
+  const heroImageUrl =
+    manifestoEnabled && !heroVideoUrl ? manifestoFallbackImageUrl : undefined;
 
   return (
     <div style={{ background: "var(--abysse)", color: "var(--air)" }}>
@@ -89,13 +97,14 @@ export default async function ManifestePage() {
             <Link
               href="/"
               className="display"
+              aria-label="Studio Jenial — Accueil"
               style={{
                 fontSize: 24,
                 color: "var(--air)",
                 letterSpacing: "0.04em",
               }}
             >
-              XR<span style={{ color: "var(--anse)" }}>·</span>ONE
+              JEN<span style={{ color: "var(--corail)" }}>IA</span>L
             </Link>
             <Link
               href="/"
@@ -108,196 +117,161 @@ export default async function ManifestePage() {
         </div>
       </header>
 
-      {/* HERO */}
+      {/* HERO — pattern affiche cinéma : image dominante, titre assumé */}
       <section
         style={{
           position: "relative",
           minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          padding: "120px 0 80px",
-          color: "var(--air)",
           overflow: "hidden",
+          color: "var(--air)",
         }}
       >
+        {/* 1. BACKGROUND MEDIA Sanity-driven */}
+        {heroVideoUrl ? (
+          <video
+            aria-hidden="true"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={manifestoPosterUrl}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center 40%",
+              zIndex: 0,
+            }}
+          >
+            <source src={heroVideoUrl} />
+          </video>
+        ) : heroImageUrl ? (
+          <Image
+            src={heroImageUrl}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center 40%",
+              zIndex: 0,
+            }}
+          />
+        ) : (
+          /* Fallback cinématique si aucun média Sanity n'est configuré */
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              background:
+                "radial-gradient(1200px circle at 30% 40%, rgba(14,124,155,0.5), transparent 60%), radial-gradient(900px circle at 75% 65%, rgba(94,200,214,0.3), transparent 60%), linear-gradient(135deg, #061421 0%, #0A1F2C 50%, #0E2A3D 100%)",
+            }}
+          />
+        )}
+
+        {/* 2. OVERLAY — quasi-invisible, fondu uniquement tiers bas */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(1200px circle at 30% 40%, rgba(14,124,155,0.5), transparent 60%), radial-gradient(900px circle at 75% 65%, rgba(94,200,214,0.3), transparent 60%), linear-gradient(135deg, #061421 0%, #0A1F2C 50%, #0E2A3D 100%)",
-            zIndex: 0,
+              "linear-gradient(180deg, transparent 0%, transparent 65%, rgba(10,31,44,0.20) 80%, rgba(10,31,44,0.55) 100%)",
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* 3. TITRE — énorme, déborde, ancré bas */}
+        <h1
+          className="display"
+          style={{
+            position: "absolute",
+            bottom: 80,
+            left: 0,
+            right: 0,
+            padding: "0 24px",
+            margin: 0,
+            fontSize: "clamp(80px, 18vw, 280px)",
+            lineHeight: 0.85,
+            letterSpacing: "-0.02em",
+            color: "var(--air)",
+            whiteSpace: "nowrap",
+            overflow: "visible",
+            zIndex: 2,
+          }}
+        >
+          MANIFESTE.
+        </h1>
+
+        {/* 4. BASELINE MONO — 3 cols sous fine ligne */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 24,
+            left: 24,
+            right: 24,
+            zIndex: 2,
           }}
         >
           <div
+            aria-hidden="true"
             style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, rgba(94,200,214,0.15) 1px, transparent 0)",
-              backgroundSize: "48px 48px",
-              opacity: 0.4,
+              height: 1,
+              background: "rgba(248,251,252,0.18)",
+              marginBottom: 16,
             }}
           />
-        </div>
-
-        <div
-          className="container-x"
-          style={{ position: "relative", zIndex: 1, width: "100%" }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 48,
-              flexWrap: "wrap",
-              gap: 16,
-            }}
-          >
-            <span className="mono" style={{ color: "var(--anse)" }}>
-              ↳ STUDIO XR-ONE · MANIFESTE
-            </span>
-            <span
-              className="mono"
-              style={{ color: "rgba(248,251,252,0.5)" }}
-            >
-              PRODUIRE À L&apos;ÈRE DE L&apos;IA · 2026
-            </span>
-          </div>
-          <h1
-            className="display"
-            style={{
-              fontSize: "clamp(72px, 16vw, 260px)",
-              color: "var(--air)",
-              marginBottom: 64,
-            }}
-          >
-            MANIFESTE.
-          </h1>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 48,
-              alignItems: "end",
+              gridTemplateColumns: "1fr auto 1fr",
+              alignItems: "center",
+              gap: 24,
             }}
-            className="manifeste-hero-grid"
           >
-            <div
-              className="display"
+            <span
+              className="mono"
               style={{
-                fontSize: "clamp(20px, 2.5vw, 32px)",
-                letterSpacing: "0.02em",
-                lineHeight: 1.1,
-                color: "var(--anse)",
+                color: "rgba(248,251,252,0.9)",
+                fontSize: 10,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
               }}
             >
-              Tourner à l&apos;ère de l&apos;intelligence artificielle.
-              <br />
-              Sans la subir. Sans la fétichiser.
-            </div>
-            <div
+              Studio Jenial · Manifeste
+            </span>
+            <span
+              className="mono"
+              aria-hidden="true"
               style={{
-                fontSize: 18,
-                color: "rgba(248,251,252,0.7)",
-                maxWidth: 480,
-                justifySelf: "end",
-                lineHeight: 1.5,
+                color: "rgba(248,251,252,0.6)",
+                fontSize: 14,
               }}
-              className="manifeste-hero-right"
             >
-              Onze ans à manipuler les outils. Onze ans à savoir{" "}
-              <em style={{ color: "var(--anse)", fontStyle: "normal" }}>
-                quand les utiliser. Et quand ne pas les utiliser.
-              </em>
-            </div>
+              ↓
+            </span>
+            <span
+              className="mono"
+              style={{
+                color: "rgba(248,251,252,0.9)",
+                fontSize: 10,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                textAlign: "right",
+              }}
+            >
+              Du script au pixel · 2026
+            </span>
           </div>
-        </div>
-
-        <div
-          aria-hidden="true"
-          className="mono"
-          style={{
-            position: "absolute",
-            bottom: 32,
-            left: "50%",
-            transform: "translateX(-50%)",
-            color: "rgba(248,251,252,0.5)",
-            letterSpacing: "0.12em",
-            animation: "bob 2s ease-in-out infinite",
-          }}
-        >
-          ↓ Lire
         </div>
       </section>
-
-      {/* MANIFESTO VIDEO (Sanity-managed, optionnelle) */}
-      {showManifestoVideo && (
-        <section
-          style={{
-            padding: "120px 0",
-            background: "var(--abysse)",
-            color: "var(--air)",
-            borderBlock: "1px solid var(--line-dark)",
-          }}
-        >
-          <div
-            className="container-x"
-            style={{ maxWidth: 1080, marginInline: "auto" }}
-          >
-            {manifestoVideo?.title && (
-              <h2
-                className="display"
-                style={{
-                  fontSize: "clamp(28px, 4vw, 48px)",
-                  color: "var(--air)",
-                  marginBottom: 32,
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {manifestoVideo.title}
-              </h2>
-            )}
-            <div
-              style={{
-                border: "1px solid var(--line-dark)",
-                background: "var(--abysse)",
-                aspectRatio: "16 / 9",
-                overflow: "hidden",
-              }}
-            >
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                poster={manifestoPosterUrl}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "block",
-                  objectFit: "contain",
-                  background: "#000",
-                }}
-              >
-                <source src={manifestoVideoUrl} />
-              </video>
-            </div>
-            {manifestoVideo?.caption && (
-              <p
-                className="mono"
-                style={{
-                  marginTop: 16,
-                  color: "rgba(248,251,252,0.6)",
-                }}
-              >
-                {manifestoVideo.caption}
-              </p>
-            )}
-          </div>
-        </section>
-      )}
 
       {/* STATEMENT */}
       <section
@@ -620,8 +594,6 @@ export default async function ManifestePage() {
 
       <style>{`
         @media (max-width: 768px) {
-          .manifeste-hero-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          .manifeste-hero-right { justify-self: start !important; }
           .manifeste-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
           .manifeste-grid h2.display { position: static !important; }
           .position-grid { grid-template-columns: 1fr !important; }

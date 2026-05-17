@@ -88,6 +88,7 @@ export const SETTINGS_QUERY = groq`
       externalUrl,
       caption,
       poster,
+      fallbackImage,
       "fileUrl": file.asset->url
     },
     engagements
