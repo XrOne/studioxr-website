@@ -1,8 +1,10 @@
 /* Couche contamination — styles isolés. Tout en CSS pur, aucune dépendance JS.
    Système site-wide « analog thriller » : grain, poussière/rayures, halation,
-   perforations, repères de banc-titre, tampons lab, accident optique.
+   perforations, repères de banc-titre, glyphes mécaniques mutants, tampons
+   lab frappés, machine à écrire, jolt optique, inserts mono-frame.
    Toutes les couches : position fixed, pointer-events:none, aria-hidden.
-   Opacités desktop/mobile : custom properties inline résolues par media query. */
+   Opacités desktop/mobile : custom properties inline résolues par media query.
+   Tout le motion est court, sec, jamais en boucle flashy ni stroboscopique. */
 
 /* === Grain cyclé === */
 .grainWrap {
@@ -124,7 +126,7 @@
   right: 0;
 }
 
-/* === Repères graphiques de banc-titre === */
+/* === Repères graphiques de banc-titre (équerres statiques) === */
 .marks {
   position: fixed;
   inset: 0;
@@ -160,32 +162,123 @@
   transform: rotate(270deg);
 }
 
-.crosshair {
+/* === Glyphes mécaniques mutants === */
+.mechGlyphs {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--mech-opacity, 0);
+}
+
+.mechGlyph {
   position: absolute;
+  display: grid;
+  place-items: center;
+}
+
+/* Les deux états occupent la même cellule de grille — empilés. */
+.glyphState {
+  grid-area: 1 / 1;
+}
+
+.glyphA {
+  opacity: 1;
+  animation-name: glyphSwapA;
+  animation-timing-function: step-end;
+  animation-iteration-count: infinite;
+}
+
+.glyphB {
+  opacity: 0;
+  animation-name: glyphSwapB;
+  animation-timing-function: step-end;
+  animation-iteration-count: infinite;
+}
+
+/* Alternance sèche : chaque état tient la moitié du cycle. */
+@keyframes glyphSwapA {
+  0%,
+  49.9% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes glyphSwapB {
+  0%,
+  49.9% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.glyphText {
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #f4ecdd;
+  white-space: nowrap;
+}
+
+.mechMire {
+  top: 31%;
+  left: 44px;
+}
+
+.mechReg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.frameNum {
-  position: absolute;
-  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: #f4ecdd;
+.mechFrame {
+  bottom: 122px;
+  right: 38px;
 }
 
-.frameNumTop {
-  top: 100px;
-  right: 34px;
-}
-
-.frameNumBottom {
-  bottom: 124px;
+/* === Artefact machine à écrire === */
+.typewriter {
+  position: fixed;
+  top: 122px;
   left: 34px;
+  z-index: 9999;
+  pointer-events: none;
 }
 
-/* === Tampons lab forensic === */
+.typewriterText {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #f4ecdd;
+  border-right: 1px solid rgba(244, 236, 221, 0.5);
+  animation-name: typewriterReveal;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0.8s;
+}
+
+/* Révélation caractère par caractère — timing steps() posé en inline. */
+@keyframes typewriterReveal {
+  from {
+    width: 0;
+  }
+  to {
+    width: calc(var(--tw-chars, 0) * (1ch + 0.08em));
+  }
+}
+
+/* === Tampons lab forensic (arrivée frappée) === */
 .stampLayer {
   position: fixed;
   inset: 0;
@@ -196,9 +289,37 @@
 
 .stamp {
   position: absolute;
+  animation: stampImpact 110ms step-end both;
 }
 
-/* === Accident optique : flash/brûlure unique au montage === */
+/* Le 2e tampon est frappé juste après le 1er. */
+.stamp:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+/* Porte la rotation figée, isolée des keyframes d'impact de l'outer. */
+.stampInner {
+  display: block;
+  transform-origin: center;
+}
+
+/* Impact en deux temps secs : offset puis retour, aucun fondu. */
+@keyframes stampImpact {
+  0% {
+    opacity: 0;
+    transform: translate(4px, -3px);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(-2px, 2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* === Accident optique : flash/brûlure long unique au montage === */
 .opticalAccident {
   position: fixed;
   inset: 0;
@@ -236,6 +357,58 @@
   }
 }
 
+/* === Insert mono-frame : cut blanc/burn vertical bref, unique === */
+.singleFrameInsert {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(248, 244, 236, 0) 0%,
+    rgba(248, 244, 236, 0.82) 46%,
+    rgba(255, 250, 242, 0.95) 52%,
+    rgba(248, 244, 236, 0) 100%
+  );
+  /* ~70 ms visibles, joué une fois 3 s après le montage. */
+  animation: singleFrame 70ms step-end 3s 1 both;
+}
+
+@keyframes singleFrame {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.92;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* === Jolt optique : micro-saut 1–2 px de la couche, cycle ~11 s === */
+.jolt {
+  animation: opticalJolt 11s step-end infinite;
+}
+
+@keyframes opticalJolt {
+  0%,
+  98.9% {
+    transform: translate(0, 0);
+  }
+  99.2% {
+    transform: translate(2px, -1px);
+  }
+  99.6% {
+    transform: translate(-1px, 1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
 /* === Responsive : opacités mobile (<768px), réduction ~35% === */
 @media (max-width: 767px) {
   .grainWrap {
@@ -251,30 +424,58 @@
   .marks {
     opacity: calc(var(--marks-opacity, 0) * 0.65);
   }
+  .mechGlyphs {
+    opacity: calc(var(--mech-opacity, 0) * 0.65);
+  }
   .stampLayer {
     opacity: calc(var(--stamp-opacity, 0) * 0.65);
   }
 }
 
-/* === Accessibilité : prefers-reduced-motion coupe toute animation === */
+/* === Accessibilité : prefers-reduced-motion coupe TOUT le motion === */
 @media (prefers-reduced-motion: reduce) {
   .grain1,
-  .grain2 {
+  .grain2,
+  .glyphA,
+  .glyphB,
+  .typewriterText,
+  .stamp,
+  .jolt,
+  .opticalAccident,
+  .singleFrameInsert {
     animation: none;
   }
-  .opticalAccident {
-    animation: none;
+  /* États figés lisibles une fois le motion coupé. */
+  .typewriterText {
+    width: auto;
+  }
+  .opticalAccident,
+  .singleFrameInsert {
     display: none;
   }
 }
 
-/* === Viewport très étroit (<375px) : grain léger seul, repères coupés === */
+/* === Viewport très étroit (<375px) : grain léger statique, motion coupé === */
 @media (max-width: 374px) {
   .dustWrap,
   .perforation,
   .marks,
+  .mechGlyphs,
+  .typewriter,
   .stampLayer,
-  .opticalAccident {
+  .opticalAccident,
+  .singleFrameInsert {
     display: none;
+  }
+  .jolt {
+    animation: none;
+  }
+  .grain1 {
+    animation: none;
+    opacity: var(--grain-opacity);
+  }
+  .grain2 {
+    animation: none;
+    opacity: 0;
   }
 }

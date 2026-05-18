@@ -26,18 +26,20 @@ export function ForensicStamp({
 }: ForensicStampProps) {
   const filterId = useId();
 
+  // Outer = ancrage + animation d'impact (translate sec). Inner = rotation
+  // figée, isolée pour ne pas être écrasée par les keyframes d'impact.
   return (
-    <div
-      className={styles.stamp}
-      aria-hidden="true"
-      style={{ ...position, transform: `rotate(${rotation}deg)` }}
-    >
-      <svg
-        width="248"
-        height="62"
-        viewBox="0 0 248 62"
-        xmlns="http://www.w3.org/2000/svg"
+    <div className={styles.stamp} aria-hidden="true" style={position}>
+      <div
+        className={styles.stampInner}
+        style={{ transform: `rotate(${rotation}deg)` }}
       >
+        <svg
+          width="248"
+          height="62"
+          viewBox="0 0 248 62"
+          xmlns="http://www.w3.org/2000/svg"
+        >
         <defs>
           <filter id={filterId} x="-12%" y="-12%" width="124%" height="124%">
             <feTurbulence
@@ -82,7 +84,8 @@ export function ForensicStamp({
             STUDIO JENIAL — LAB PROCESSED
           </text>
         </g>
-      </svg>
+        </svg>
+      </div>
     </div>
   );
 }

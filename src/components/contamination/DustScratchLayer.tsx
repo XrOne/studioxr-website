@@ -13,15 +13,17 @@ export function DustScratchLayer({
   dustMobile,
   scratchDesktop,
   scratchMobile,
+  jolt = false,
 }: {
   dustDesktop: number;
   dustMobile: number;
   scratchDesktop: number;
   scratchMobile: number;
+  jolt?: boolean;
 }) {
   return (
     <div
-      className={styles.dustWrap}
+      className={`${styles.dustWrap}${jolt ? ` ${styles.jolt}` : ""}`}
       aria-hidden="true"
       style={
         {

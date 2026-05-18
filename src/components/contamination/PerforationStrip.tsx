@@ -8,10 +8,16 @@ import styles from "./contamination.module.css";
  * Lecture « bord de pellicule / banc-titre » sur les zones hero/éditoriales.
  * 100% CSS (repeating-linear-gradient), fixe, pointer-events:none, aria-hidden.
  */
-export function PerforationStrip({ opacity }: { opacity: number }) {
+export function PerforationStrip({
+  opacity,
+  jolt = false,
+}: {
+  opacity: number;
+  jolt?: boolean;
+}) {
   return (
     <div
-      className={styles.perforation}
+      className={`${styles.perforation}${jolt ? ` ${styles.jolt}` : ""}`}
       aria-hidden="true"
       style={{ ["--perf-opacity"]: String(opacity) } as CSSProperties}
     >

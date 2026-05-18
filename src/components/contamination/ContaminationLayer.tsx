@@ -13,7 +13,10 @@ import { HaloCorners } from "./HaloCorners";
 import { ForensicStamp } from "./ForensicStamp";
 import { PerforationStrip } from "./PerforationStrip";
 import { GraphicMarks } from "./GraphicMarks";
+import { MechanicalGlyphs } from "./MechanicalGlyphs";
+import { TypewriterArtifact } from "./TypewriterArtifact";
 import { OpticalAccident } from "./OpticalAccident";
+import { SingleFrameInsert } from "./SingleFrameInsert";
 import styles from "./contamination.module.css";
 
 interface ContaminationLayerProps {
@@ -42,21 +45,35 @@ export function ContaminationLayer({ variant }: ContaminationLayerProps) {
   const stamps = cfg.stamp.enabled
     ? STAMP_LABELS.slice(0, cfg.stamp.count)
     : [];
+  const jolt = cfg.opticalJolt;
 
   return (
     <>
-      <GrainCycle desktop={cfg.grain.desktop} mobile={cfg.grain.mobile} />
+      <GrainCycle
+        desktop={cfg.grain.desktop}
+        mobile={cfg.grain.mobile}
+        jolt={jolt}
+      />
       <DustScratchLayer
         dustDesktop={cfg.dust.desktop}
         dustMobile={cfg.dust.mobile}
         scratchDesktop={cfg.scratches.desktop}
         scratchMobile={cfg.scratches.mobile}
+        jolt={jolt}
       />
       <HaloCorners corner={cfg.halo.corner} fog={cfg.halo.fog} />
       {cfg.perforation.enabled && (
-        <PerforationStrip opacity={cfg.perforation.opacity} />
+        <PerforationStrip opacity={cfg.perforation.opacity} jolt={jolt} />
       )}
-      {cfg.marks.enabled && <GraphicMarks opacity={cfg.marks.opacity} />}
+      {cfg.marks.enabled && (
+        <>
+          <GraphicMarks opacity={cfg.marks.opacity} jolt={jolt} />
+          <MechanicalGlyphs opacity={cfg.marks.opacity} jolt={jolt} />
+        </>
+      )}
+      {cfg.typewriter.enabled && cfg.typewriter.text !== "" && (
+        <TypewriterArtifact text={cfg.typewriter.text} />
+      )}
       {stamps.length > 0 && (
         <div
           className={styles.stampLayer}
@@ -76,6 +93,7 @@ export function ContaminationLayer({ variant }: ContaminationLayerProps) {
         </div>
       )}
       {cfg.opticalAccident && <OpticalAccident />}
+      {cfg.singleFrameInsert && <SingleFrameInsert />}
     </>
   );
 }

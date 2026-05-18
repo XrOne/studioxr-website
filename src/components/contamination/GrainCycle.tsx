@@ -11,13 +11,15 @@ import styles from "./contamination.module.css";
 export function GrainCycle({
   desktop,
   mobile,
+  jolt = false,
 }: {
   desktop: number;
   mobile: number;
+  jolt?: boolean;
 }) {
   return (
     <div
-      className={styles.grainWrap}
+      className={`${styles.grainWrap}${jolt ? ` ${styles.jolt}` : ""}`}
       aria-hidden="true"
       style={
         {

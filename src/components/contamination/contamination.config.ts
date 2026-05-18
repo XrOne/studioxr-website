@@ -19,10 +19,16 @@ interface ContaminationVariantConfig {
   halo: { corner: number; fog: number };
   stamp: { enabled: boolean; count: number; opacity: number };
   perforation: { enabled: boolean; opacity: number };
-  /** Repères graphiques : croix de visée, n° de plan, marques contact-sheet. */
+  /** Repères graphiques : équerres, glyphes mécaniques mutants. */
   marks: { enabled: boolean; opacity: number };
-  /** Accident optique : un flash/brûlure CSS unique, jamais en boucle. */
+  /** Accident optique : un flash/brûlure CSS long unique, jamais en boucle. */
   opticalAccident: boolean;
+  /** Insert mono-frame : un cut blanc bref unique (40–90 ms) après 2–4 s. */
+  singleFrameInsert: boolean;
+  /** Jolt optique : micro-saut 1–2 px de la couche, toutes les ~11 s. */
+  opticalJolt: boolean;
+  /** Artefact machine à écrire : un fragment court par page. */
+  typewriter: { enabled: boolean; text: string };
 }
 
 // Quatre presets d'intensité par route/section :
@@ -44,6 +50,9 @@ export const CONTAMINATION_VARIANTS: Record<
     perforation: { enabled: true, opacity: 0.5 },
     marks: { enabled: true, opacity: 0.55 },
     opticalAccident: true,
+    singleFrameInsert: true,
+    opticalJolt: true,
+    typewriter: { enabled: true, text: "PROCESS CHECK" },
   },
   home: {
     grain: { desktop: 0.07, mobile: 0.045 },
@@ -54,6 +63,9 @@ export const CONTAMINATION_VARIANTS: Record<
     perforation: { enabled: true, opacity: 0.32 },
     marks: { enabled: true, opacity: 0.32 },
     opticalAccident: false,
+    singleFrameInsert: false,
+    opticalJolt: false,
+    typewriter: { enabled: true, text: "REEL 04" },
   },
   // Pages éditoriales / capacités / process : présence discrète, zéro
   // obstruction du contenu de conversion.
@@ -66,6 +78,9 @@ export const CONTAMINATION_VARIANTS: Record<
     perforation: { enabled: true, opacity: 0.2 },
     marks: { enabled: false, opacity: 0 },
     opticalAccident: false,
+    singleFrameInsert: false,
+    opticalJolt: false,
+    typewriter: { enabled: false, text: "" },
   },
   off: {
     grain: { desktop: 0, mobile: 0 },
@@ -76,6 +91,9 @@ export const CONTAMINATION_VARIANTS: Record<
     perforation: { enabled: false, opacity: 0 },
     marks: { enabled: false, opacity: 0 },
     opticalAccident: false,
+    singleFrameInsert: false,
+    opticalJolt: false,
+    typewriter: { enabled: false, text: "" },
   },
 };
 
