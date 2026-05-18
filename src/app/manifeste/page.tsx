@@ -384,14 +384,16 @@ export default async function ManifestePage() {
             </h2>
             <div className="manifeste-text">
               <p style={paragraphStyle}>
-                Depuis <strong style={strongStyle}>2014, à CréaCannes</strong>,
+                Depuis <strong style={strongStyle}>2014, de Cannes à Paris</strong>,
                 nous fabriquons des images là où la frontière du réel devient
-                floue. VR. AR. Plateaux virtuels. Plans IA. Tournage hybride.
+                floue. VR. AR. Plans IA. Production hybride.
               </p>
               <p style={paragraphStyle}>
                 L&apos;IA générative n&apos;est pas une révolution. C&apos;est{" "}
-                <strong style={strongStyle}>un outil de plus</strong> sur le
-                plateau — un outil rapide, exigeant, parfois trompeur.
+                <strong style={strongStyle}>une nouvelle couche</strong> dans la
+                chaîne de production — rapide, exigeante, parfois trompeuse. Elle
+                traverse l&apos;écriture, la préparation, le tournage, la
+                post-production.
               </p>
               <p style={quoteStyle}>
                 L&apos;IA ne crée pas du sens. Elle amplifie ce qu&apos;on lui
@@ -400,16 +402,18 @@ export default async function ManifestePage() {
               <p style={paragraphStyle}>
                 Notre métier n&apos;a pas changé.{" "}
                 <strong style={strongStyle}>Nous racontons des histoires.</strong>{" "}
-                Nous éclairons des décors. Nous cadrons des regards. Nous
-                étalonnons des images. La technologie sert. Elle ne décide pas.
+                Nous lisons des scénarios. Nous éclairons des décors. Nous
+                cadrons des regards. Nous étalonnons des images. La technologie
+                sert. Elle ne décide pas.
               </p>
               <p style={paragraphStyle}>
                 Mais l&apos;IA change{" "}
                 <strong style={strongStyle}>les règles du temps</strong>. Avant
-                de poser un rideau, on peut voir le décor finalisé. Avant de
-                tourner une séquence, on peut la prévisualiser. Avant la
-                post-prod, on peut tester l&apos;étalonnage. C&apos;est ça, le
-                tournage hybride.
+                d&apos;écrire une scène, on peut tester sa structure. Avant de
+                poser un rideau, on peut voir le décor finalisé. Avant de tourner
+                une séquence, on peut la prévisualiser. Avant la post-prod, on
+                peut tester l&apos;étalonnage. C&apos;est ça, la production
+                hybride.
               </p>
               <p style={quoteStyle}>Plus vite. Plus juste. Plus humain.</p>
               <p style={paragraphStyle}>
@@ -518,8 +522,8 @@ export default async function ManifestePage() {
               </h3>
               <ol style={posListStyle} start={1}>
                 {[
-                  "Pionniers depuis 2014, dès avant la mode. Onze ans de pratique réelle.",
-                  "Maîtrise full-pipeline : prépa, tournage hybride, post-prod, formation.",
+                  "Onze ans d'images. Avant que l'IA générative ne devienne un argument commercial.",
+                  "Maîtrise complète : développement, pré-prod, tournage, post-prod, formation des équipes.",
                   "Direction artistique avant outil. La machine ne propose jamais en premier.",
                   "Vos données restent vôtres. Pas de modèles entraînés sur vos rushes.",
                   "Transparence sur ce que l'IA fait — et sur ce qu'elle ne fait pas.",
@@ -621,7 +625,7 @@ export default async function ManifestePage() {
         items={[
           "Pionniers depuis 2014",
           "L'IA n'écrit pas l'histoire",
-          "Le plateau reste roi",
+          "Le récit reste roi",
           "Plus juste. Plus humain.",
         ]}
       />
