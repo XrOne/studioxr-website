@@ -25,6 +25,8 @@ interface ContaminationVariantConfig {
   opticalAccident: boolean;
   /** Insert mono-frame : un cut blanc bref unique (40–90 ms) après 2–4 s. */
   singleFrameInsert: boolean;
+  /** Insert subliminal IA : apparition fantôme ~40 ms unique après 4–5 s. */
+  subliminalAIFrame: boolean;
   /** Jolt optique : micro-saut 1–2 px de la couche, toutes les ~11 s. */
   opticalJolt: boolean;
   /** Artefact machine à écrire : un fragment court par page. */
@@ -51,6 +53,7 @@ export const CONTAMINATION_VARIANTS: Record<
     marks: { enabled: true, opacity: 0.55 },
     opticalAccident: true,
     singleFrameInsert: true,
+    subliminalAIFrame: true,
     opticalJolt: true,
     typewriter: { enabled: true, text: "PROCESS CHECK" },
   },
@@ -64,6 +67,7 @@ export const CONTAMINATION_VARIANTS: Record<
     marks: { enabled: true, opacity: 0.32 },
     opticalAccident: false,
     singleFrameInsert: false,
+    subliminalAIFrame: false,
     opticalJolt: false,
     typewriter: { enabled: true, text: "REEL 04" },
   },
@@ -79,6 +83,7 @@ export const CONTAMINATION_VARIANTS: Record<
     marks: { enabled: false, opacity: 0 },
     opticalAccident: false,
     singleFrameInsert: false,
+    subliminalAIFrame: false,
     opticalJolt: false,
     typewriter: { enabled: false, text: "" },
   },
@@ -92,6 +97,7 @@ export const CONTAMINATION_VARIANTS: Record<
     marks: { enabled: false, opacity: 0 },
     opticalAccident: false,
     singleFrameInsert: false,
+    subliminalAIFrame: false,
     opticalJolt: false,
     typewriter: { enabled: false, text: "" },
   },

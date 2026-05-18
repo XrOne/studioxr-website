@@ -17,6 +17,7 @@ import { MechanicalGlyphs } from "./MechanicalGlyphs";
 import { TypewriterArtifact } from "./TypewriterArtifact";
 import { OpticalAccident } from "./OpticalAccident";
 import { SingleFrameInsert } from "./SingleFrameInsert";
+import { SubliminalAIFrame } from "./SubliminalAIFrame";
 import styles from "./contamination.module.css";
 
 interface ContaminationLayerProps {
@@ -94,6 +95,7 @@ export function ContaminationLayer({ variant }: ContaminationLayerProps) {
       )}
       {cfg.opticalAccident && <OpticalAccident />}
       {cfg.singleFrameInsert && <SingleFrameInsert />}
+      {cfg.subliminalAIFrame && <SubliminalAIFrame />}
     </>
   );
 }

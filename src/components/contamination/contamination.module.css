@@ -388,6 +388,33 @@
   }
 }
 
+/* === Insert subliminal IA : apparition fantôme ~40 ms, unique === */
+.subliminalAI {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  mix-blend-mode: screen;
+  /* ~42 ms visibles, joué une fois ~4,2 s après le montage. */
+  animation: subliminalAI 50ms step-end 4.2s 1 both;
+}
+
+@keyframes subliminalAI {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* === Jolt optique : micro-saut 1–2 px de la couche, cycle ~11 s === */
 .jolt {
   animation: opticalJolt 11s step-end infinite;
@@ -442,7 +469,8 @@
   .stamp,
   .jolt,
   .opticalAccident,
-  .singleFrameInsert {
+  .singleFrameInsert,
+  .subliminalAI {
     animation: none;
   }
   /* États figés lisibles une fois le motion coupé. */
@@ -450,7 +478,8 @@
     width: auto;
   }
   .opticalAccident,
-  .singleFrameInsert {
+  .singleFrameInsert,
+  .subliminalAI {
     display: none;
   }
 }
@@ -464,7 +493,8 @@
   .typewriter,
   .stampLayer,
   .opticalAccident,
-  .singleFrameInsert {
+  .singleFrameInsert,
+  .subliminalAI {
     display: none;
   }
   .jolt {
