@@ -1,6 +1,8 @@
 /* Couche contamination — styles isolés. Tout en CSS pur, aucune dépendance JS.
-   Opacités desktop/mobile : custom properties posées en inline (--*-op-d /
-   --*-op-m) puis résolues vers --*-opacity selon media query. */
+   Système site-wide « analog thriller » : grain, poussière/rayures, halation,
+   perforations, repères de banc-titre, tampons lab, accident optique.
+   Toutes les couches : position fixed, pointer-events:none, aria-hidden.
+   Opacités desktop/mobile : custom properties inline résolues par media query. */
 
 /* === Grain cyclé === */
 .grainWrap {
@@ -89,19 +91,152 @@
   mix-blend-mode: overlay;
 }
 
-/* === Tampons forensic === */
+/* === Perforations 35mm (bords gauche/droit) === */
+.perforation {
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  pointer-events: none;
+  opacity: var(--perf-opacity, 0);
+}
+
+.perfStrip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  mix-blend-mode: screen;
+  /* Trous de perforation : ellipses crème régulières sur fond transparent. */
+  background-image: radial-gradient(
+    ellipse 6px 9px at 50% 50%,
+    rgba(244, 236, 221, 0.72) 0 58%,
+    rgba(244, 236, 221, 0) 66%
+  );
+  background-size: 100% 26px;
+  background-repeat: repeat-y;
+}
+
+.perfLeft {
+  left: 0;
+}
+
+.perfRight {
+  right: 0;
+}
+
+/* === Repères graphiques de banc-titre === */
+.marks {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--marks-opacity, 0);
+}
+
+.cropMark {
+  position: absolute;
+}
+
+.cropTL {
+  top: 22px;
+  left: 22px;
+}
+
+.cropTR {
+  top: 22px;
+  right: 22px;
+  transform: rotate(90deg);
+}
+
+.cropBR {
+  bottom: 22px;
+  right: 22px;
+  transform: rotate(180deg);
+}
+
+.cropBL {
+  bottom: 22px;
+  left: 22px;
+  transform: rotate(270deg);
+}
+
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.frameNum {
+  position: absolute;
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #f4ecdd;
+}
+
+.frameNumTop {
+  top: 100px;
+  right: 34px;
+}
+
+.frameNumBottom {
+  bottom: 124px;
+  left: 34px;
+}
+
+/* === Tampons lab forensic === */
 .stampLayer {
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
+  opacity: var(--stamp-opacity, 0);
 }
 
 .stamp {
   position: absolute;
 }
 
-/* === Responsive : opacités mobile (<768px) === */
+/* === Accident optique : flash/brûlure unique au montage === */
+.opticalAccident {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    rgba(255, 250, 238, 0.95) 0%,
+    rgba(255, 243, 222, 0.35) 52%,
+    rgba(255, 240, 215, 0) 78%
+  );
+  animation: opticalBurn 2s ease-out 0.45s 1 both;
+}
+
+@keyframes opticalBurn {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.92;
+  }
+  12% {
+    opacity: 0.1;
+  }
+  17% {
+    opacity: 0.58;
+  }
+  24% {
+    opacity: 0.04;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* === Responsive : opacités mobile (<768px), réduction ~35% === */
 @media (max-width: 767px) {
   .grainWrap {
     --grain-opacity: var(--grain-op-m, 0.04);
@@ -110,19 +245,36 @@
     --dust-opacity: var(--dust-op-m, 0);
     --scratch-opacity: var(--scratch-op-m, 0);
   }
+  .perforation {
+    opacity: calc(var(--perf-opacity, 0) * 0.65);
+  }
+  .marks {
+    opacity: calc(var(--marks-opacity, 0) * 0.65);
+  }
+  .stampLayer {
+    opacity: calc(var(--stamp-opacity, 0) * 0.65);
+  }
 }
 
-/* === Accessibilité === */
+/* === Accessibilité : prefers-reduced-motion coupe toute animation === */
 @media (prefers-reduced-motion: reduce) {
   .grain1,
   .grain2 {
     animation: none;
   }
+  .opticalAccident {
+    animation: none;
+    display: none;
+  }
 }
 
-/* Sécurité : sous 375px le gate ne monte déjà rien, ceinture + bretelles. */
+/* === Viewport très étroit (<375px) : grain léger seul, repères coupés === */
 @media (max-width: 374px) {
-  .stampLayer {
+  .dustWrap,
+  .perforation,
+  .marks,
+  .stampLayer,
+  .opticalAccident {
     display: none;
   }
 }

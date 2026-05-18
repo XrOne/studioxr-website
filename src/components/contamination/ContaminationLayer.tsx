@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useContaminationGate } from "./useContaminationGate";
 import {
   CONTAMINATION_VARIANTS,
@@ -10,57 +11,71 @@ import { GrainCycle } from "./GrainCycle";
 import { DustScratchLayer } from "./DustScratchLayer";
 import { HaloCorners } from "./HaloCorners";
 import { ForensicStamp } from "./ForensicStamp";
+import { PerforationStrip } from "./PerforationStrip";
+import { GraphicMarks } from "./GraphicMarks";
+import { OpticalAccident } from "./OpticalAccident";
 import styles from "./contamination.module.css";
 
 interface ContaminationLayerProps {
   variant: ContaminationVariant;
 }
 
-// Positions fixes des tampons dans le stampLayer plein écran.
-// La 1re position (haut-droite) évite le titre MANIFESTE ancré en bas de hero.
-const STAMP_POSITIONS = [
-  { top: 132, right: 36 },
-  { bottom: 152, left: 32 },
+// Ancrages fixes des tampons : hors bande nav (haut) et hors zone CTA/footer
+// (bas). Rotations déterministes — aucun Math.random, rendu stable.
+const STAMP_SLOTS = [
+  { position: { top: "30%", right: 40 }, rotation: -2.4 },
+  { position: { top: "63%", left: 36 }, rotation: 1.8 },
 ] as const;
 
 /**
- * Composant racine de la couche contamination.
- * Monté en premier enfant de la page /manifeste. Rend null tant que le
- * gate (reduced-motion / viewport étroit / flag désactivé) ne l'autorise pas.
+ * Composant racine de la couche contamination, monté une fois globalement
+ * via GlobalContamination. Toutes les sous-couches sont fixes,
+ * pointer-events:none et aria-hidden — aucune interaction, conversion et
+ * lisibilité préservées. Rend null tant que le gate (reduced-motion / flag)
+ * ne l'autorise pas, donc jamais côté serveur.
  */
 export function ContaminationLayer({ variant }: ContaminationLayerProps) {
   const enabled = useContaminationGate();
   if (!enabled) return null;
 
   const cfg = CONTAMINATION_VARIANTS[variant];
-  const stamps = cfg.stampsEnabled
-    ? STAMP_LABELS.slice(0, cfg.stampCount)
+  const stamps = cfg.stamp.enabled
+    ? STAMP_LABELS.slice(0, cfg.stamp.count)
     : [];
 
   return (
     <>
-      <GrainCycle
-        desktop={cfg.grain.desktop}
-        mobile={cfg.grain.mobile}
-      />
+      <GrainCycle desktop={cfg.grain.desktop} mobile={cfg.grain.mobile} />
       <DustScratchLayer
         dustDesktop={cfg.dust.desktop}
         dustMobile={cfg.dust.mobile}
         scratchDesktop={cfg.scratches.desktop}
         scratchMobile={cfg.scratches.mobile}
       />
-      <HaloCorners opacity={cfg.haloOpacity} />
+      <HaloCorners corner={cfg.halo.corner} fog={cfg.halo.fog} />
+      {cfg.perforation.enabled && (
+        <PerforationStrip opacity={cfg.perforation.opacity} />
+      )}
+      {cfg.marks.enabled && <GraphicMarks opacity={cfg.marks.opacity} />}
       {stamps.length > 0 && (
-        <div className={styles.stampLayer} aria-hidden="true">
+        <div
+          className={styles.stampLayer}
+          aria-hidden="true"
+          style={
+            { ["--stamp-opacity"]: String(cfg.stamp.opacity) } as CSSProperties
+          }
+        >
           {stamps.map((label, i) => (
             <ForensicStamp
               key={label}
               label={label}
-              position={STAMP_POSITIONS[i] ?? {}}
+              position={STAMP_SLOTS[i]?.position ?? {}}
+              rotation={STAMP_SLOTS[i]?.rotation ?? 0}
             />
           ))}
         </div>
       )}
+      {cfg.opticalAccident && <OpticalAccident />}
     </>
   );
 }
