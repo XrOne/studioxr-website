@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { GlobalContamination } from "@/components/contamination/GlobalContamination";
 
 const anton = Anton({
   subsets: ["latin"],
@@ -77,10 +76,7 @@ export default function RootLayout({
       lang="fr"
       className={`${anton.variable} ${inter.variable} ${jetbrains.variable}`}
     >
-      <body>
-        {children}
-        <GlobalContamination />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

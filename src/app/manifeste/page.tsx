@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Marquee from "@/components/Marquee";
 import CTAFinal from "@/components/CTAFinal";
+import { FilmLabHeroBackground } from "@/components/contamination/FilmLabHeroBackground";
 
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { fetchSanity } from "@/sanity/lib/fetch";
@@ -221,6 +222,9 @@ export default async function ManifestePage() {
             pointerEvents: "none",
           }}
         />
+
+        {/* 2b. Traitement analog film-lab — intégré au background du hero */}
+        <FilmLabHeroBackground variant="hero" />
 
         {/* 3. TITRE — énorme, déborde, ancré bas */}
         <h1
