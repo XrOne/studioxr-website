@@ -24,7 +24,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://studioxr.one";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://jenial.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "IA cinéma",
     "production augmentée",
     "prépa prod",
-    "tournage hybride",
+    "production hybride",
     "post prod",
     "étalonnage HDR",
     "Jenial",

@@ -39,7 +39,7 @@ export const capacity = defineType({
       options: {
         list: [
           { title: "Prépa prod", value: "prepa-prod" },
-          { title: "Tournage hybride", value: "tournage-hybride" },
+          { title: "Production hybride", value: "tournage-hybride" },
           { title: "Post prod", value: "post-prod" },
           { title: "Transverse", value: "transverse" },
         ],

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const NAV_ITEMS: { label: string; href: string }[] = [
-  { label: "Studio", href: "/#capacities" },
+  { label: "Studio", href: "/#pionniers" },
   { label: "Capacités", href: "/#capacities" },
   { label: "Études", href: "/#cases" },
   { label: "Logiciels", href: "/#logiciels" },

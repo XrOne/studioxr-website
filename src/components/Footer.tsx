@@ -8,7 +8,7 @@ interface FooterProps {
 }
 
 export default function Footer({
-  contactEmail = "contact@studioxr.one",
+  contactEmail = "contact@jenial.fr",
   linkedinUrl = "#",
   calendlyUrl = "#",
 }: FooterProps) {
@@ -68,8 +68,12 @@ export default function Footer({
             <Link href="#" className="footer-link" style={footerLinkStyle}>
               Équipe
             </Link>
-            <Link href="#" className="footer-link" style={footerLinkStyle}>
-              Heritage XR
+            <Link
+              href="/#pionniers"
+              className="footer-link"
+              style={footerLinkStyle}
+            >
+              Héritage XR-ONE
             </Link>
             <Link href="#" className="footer-link" style={footerLinkStyle}>
               Journal
@@ -178,7 +182,7 @@ export default function Footer({
           items={[
             "Pionniers depuis 2014",
             "L'IA n'écrit pas l'histoire",
-            "Le plateau reste roi",
+            "Le récit reste roi",
             "Plus juste. Plus humain.",
           ]}
         />

@@ -317,7 +317,7 @@ export default function Logiciels() {
             </a>
             {/* TODO[forme-supabase] : remplacer par /api/lead-cinemia */}
             <a
-              href="mailto:contact@studioxr.one?subject=Demande%20d%C3%A9mo%20Cinemia%20%E2%80%94%20pr%C3%A9-production"
+              href="mailto:contact@jenial.fr?subject=Demande%20d%C3%A9mo%20Cinemia%20%E2%80%94%20pr%C3%A9-production"
               style={{
                 color: "var(--anse)",
                 fontFamily:

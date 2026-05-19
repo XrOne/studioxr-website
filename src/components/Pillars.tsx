@@ -22,10 +22,10 @@ const PILLARS: Pillar[] = [
   },
   {
     num: "02",
-    tag: "TOURNAGE HYBRIDE",
+    tag: "PRODUCTION HYBRIDE",
     title: "Augmenter sans perturber.",
     intro:
-      "Plans IA dans vos rushes. Outils par corps de métier. Le plateau reste roi.",
+      "Plans IA dans vos rushes. Outils par corps de métier. Le récit reste roi.",
     bullets: [
       "Plans IA insertion rushes",
       "Apps par corps de métier",

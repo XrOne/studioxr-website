@@ -54,7 +54,7 @@ export default async function ManifestePage() {
         }))
       : FALLBACK_ENGAGEMENTS;
 
-  const contactEmail = settings?.contactEmail || "contact@studioxr.one";
+  const contactEmail = settings?.contactEmail || "contact@jenial.fr";
 
   const manifestoVideo = settings?.manifestoVideo;
   const manifestoEnabled = manifestoVideo?.isEnabled === true;
