@@ -21,7 +21,7 @@ export const settings = defineType({
       name: "contactEmail",
       title: "Email de contact",
       type: "string",
-      initialValue: "contact@studioxr.one",
+      initialValue: "contact@jenial.fr",
     }),
     defineField({
       name: "calendlyUrl",

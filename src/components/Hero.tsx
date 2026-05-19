@@ -45,8 +45,7 @@ export default function Hero() {
             <span aria-hidden="true">↳ </span>JENIAL · STUDIO GENAI CINÉMA · ONZE ANS À DIRIGER LES OUTILS
           </span>
           <span className="mono" style={{ color: "var(--muted)" }}>
-            CRÉACANNES <span aria-hidden="true">→</span>
-            <span className="sr-only"> à </span> PARIS · 11 ANS DE TOURNAGE HYBRIDE
+            DE CANNES À PARIS · 11 ANS DE PRODUCTION HYBRIDE
           </span>
         </div>
 
@@ -88,13 +87,11 @@ export default function Hero() {
               lineHeight: 1.5,
             }}
           >
-            Studio audiovisuel pionnier. On accompagne réalisateurs,
-            producteurs et régies de l&apos;écriture au pixel final —{" "}
+            Studio GenAI cinéma. On accompagne réalisateurs et producteurs
+            du développement à la post-production — pour avancer plus vite,{" "}
             <strong style={{ color: "var(--fg)" }}>
-              et on conçoit nos propres outils IA pour le faire
+              sans laisser la machine décider à la place du cinéaste.
             </strong>
-            . La R&amp;D vient des productions, pas l&apos;inverse. Sans
-            buzzword. Avec méthode.
           </p>
           <div
             style={{

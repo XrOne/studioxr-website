@@ -11,7 +11,7 @@ interface CapacitiesProps {
 
 const PHASE_LABEL: Record<string, string> = {
   "prepa-prod": "prépa prod",
-  "tournage-hybride": "tournage hybride",
+  "tournage-hybride": "production hybride",
   "post-prod": "post prod",
   transverse: "transverse",
 };

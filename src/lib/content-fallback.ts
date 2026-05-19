@@ -202,7 +202,7 @@ export const FALLBACK_CASE_STUDIES: CaseStudyFallback[] = [
     slug: "declics-2",
     client: "Declics 2",
     production: "production Inevitable",
-    tag: "Tournage hybride · prod Inevitable · 2025",
+    tag: "Production hybride · prod Inevitable · 2025",
     category: "tournage-hybride",
     order: 1,
     shortDescription:
@@ -339,6 +339,6 @@ export const FALLBACK_ENGAGEMENTS: EngagementFallback[] = [
 export const FALLBACK_SETTINGS: SettingsFallback = {
   siteTitle: "Jenial",
   tagline: "Du script au pixel.",
-  contactEmail: "contact@studioxr.one",
+  contactEmail: "contact@jenial.fr",
   engagements: FALLBACK_ENGAGEMENTS,
 };

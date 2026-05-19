@@ -5,7 +5,7 @@ interface MarqueeProps {
 const DEFAULT_ITEMS = [
   "Pionniers depuis 2014",
   "Du brief au pixel",
-  "Tournage hybride",
+  "Production hybride",
   "IA dirigée par les chefs de poste",
 ];
 

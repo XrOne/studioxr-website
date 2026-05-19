@@ -33,7 +33,7 @@ export const caseStudy = defineType({
       name: "tag",
       title: "Tag court",
       type: "string",
-      description: 'Ex : "Tournage hybride · 2025"',
+      description: 'Ex : "Production hybride · 2025"',
     }),
     defineField({
       name: "category",
@@ -41,7 +41,7 @@ export const caseStudy = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Tournage hybride", value: "tournage-hybride" },
+          { title: "Production hybride", value: "tournage-hybride" },
           { title: "Prépa prod", value: "prepa-prod" },
           { title: "Projet XR-ONE", value: "projet-xr-one" },
           { title: "Corporate", value: "corporate" },

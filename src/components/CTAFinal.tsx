@@ -4,7 +4,7 @@ interface CTAFinalProps {
 }
 
 export default function CTAFinal({
-  contactEmail = "contact@studioxr.one",
+  contactEmail = "contact@jenial.fr",
   variant = "light",
 }: CTAFinalProps) {
   const dark = variant === "dark";
