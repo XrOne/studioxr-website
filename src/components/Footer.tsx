@@ -9,9 +9,15 @@ interface FooterProps {
 
 export default function Footer({
   contactEmail = "contact@jenial.fr",
-  linkedinUrl = "#",
-  calendlyUrl = "#",
+  linkedinUrl,
+  calendlyUrl,
 }: FooterProps) {
+  // Les liens sociaux ne sont rendus que si une vraie URL est configurée
+  // (jamais "#"). Les pages absentes (Équipe, Journal) ne sont pas listées
+  // tant qu'elles n'existent pas — pas de href="#" pour préserver la
+  // confiance B2B.
+  const hasLinkedin = !!linkedinUrl && linkedinUrl !== "#";
+  const hasCalendly = !!calendlyUrl && calendlyUrl !== "#";
   return (
     <footer
       style={{
@@ -65,18 +71,12 @@ export default function Footer({
             >
               Manifeste
             </Link>
-            <Link href="#" className="footer-link" style={footerLinkStyle}>
-              Équipe
-            </Link>
             <Link
               href="/#pionniers"
               className="footer-link"
               style={footerLinkStyle}
             >
               Héritage XR-ONE
-            </Link>
-            <Link href="#" className="footer-link" style={footerLinkStyle}>
-              Journal
             </Link>
           </div>
           <div>
@@ -129,22 +129,26 @@ export default function Footer({
             <a href={`mailto:${contactEmail}`} style={footerLinkStyle}>
               {contactEmail}
             </a>
-            <a
-              href={linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={footerLinkStyle}
-            >
-              LinkedIn
-            </a>
-            <a
-              href={calendlyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={footerLinkStyle}
-            >
-              Calendly
-            </a>
+            {hasLinkedin && (
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={footerLinkStyle}
+              >
+                LinkedIn
+              </a>
+            )}
+            {hasCalendly && (
+              <a
+                href={calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={footerLinkStyle}
+              >
+                Calendly
+              </a>
+            )}
           </div>
         </div>
 
@@ -170,9 +174,15 @@ export default function Footer({
             © 2026 · STUDIO JENIAL · HÉRITAGE XR-ONE DEPUIS 2014
           </span>
           <div style={{ display: "flex", gap: 24 }}>
-            <a href="#" style={footerSmallStyle}>Mentions</a>
-            <a href="#" style={footerSmallStyle}>RGPD</a>
-            <a href="#" style={footerSmallStyle}>CGU</a>
+            <Link href="/mentions-legales" style={footerSmallStyle}>
+              Mentions
+            </Link>
+            <Link href="/confidentialite" style={footerSmallStyle}>
+              RGPD
+            </Link>
+            <Link href="/cgu" style={footerSmallStyle}>
+              CGU
+            </Link>
           </div>
         </div>
       </div>
